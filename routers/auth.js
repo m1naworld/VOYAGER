@@ -106,7 +106,7 @@ router.get('/naver', passport.authenticate('naver', {
             console.log(token)
             res.cookie('Authorization', accessToken, {httpOnly: true, maxAge:  12 * 60 * 60 * 1000})
             // res.header('Authorization', accessToken);
-            // res.redirect('/')
+            res.send(token)
         }catch(error){
             console.log(error)
             res.status(401).send("user를 찾을 수 없습니다.")
