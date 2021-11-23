@@ -1,0 +1,43 @@
+{
+  "name": "jellyphant",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "server": "nodemon --exec babel-node servers/server.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@babel/cli": "^7.16.0",
+    "@babel/core": "^7.16.0",
+    "@babel/node": "^7.16.0",
+    "@babel/preset-env": "^7.16.0",
+    "bcrypt": "^5.0.1",
+    "cookie-parser": "^1.4.6",
+    "dotenv": "^10.0.0",
+    "express": "^4.17.1",
+    "express-jwt": "^6.1.0",
+    "express-session": "^1.17.2",
+    "jsonwebtoken": "^8.5.1",
+    "logger": "^0.0.1",
+    "mongoose": "^6.0.12",
+    "morgan": "^1.10.0",
+    "nodemon": "^2.0.14",
+    "passport": "^0.5.0",
+    "passport-jwt": "^4.0.0",
+    "passport-jwt-cookiecombo": "^1.0.5",
+    "passport-kakao": "^1.0.1",
+    "passport-local": "^1.0.0",
+    "passport-naver": "^1.0.6",
+    "redis": "^3.1.2",
+    "server": "^1.0.36"
+  },
+  "presets": [
+    "@babel/preset-env"
+  ],
+  "devDependencies": {
+    "cors": "^2.8.5"
+  }
+}
