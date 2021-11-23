@@ -31,7 +31,7 @@ router.post('/login', async(req, res, next) => {
 
                 //중복저장 해결해야함
                 const response = { token , rToken};
-                res.cookie('user',token)
+                res.cookie('Authorization',token)
                 const tokensave = new Rtoken({userid : user._id, token:response.rToken})
                 tokensave.save(
                 //     (err,doc)=> {
@@ -42,7 +42,7 @@ router.post('/login', async(req, res, next) => {
 
                 // console.log(tokenList);
                 console.log(user)
-                return res.json(response);
+                return res.status(200).json(response);
             });
         } catch (error) {
             return next(error);
@@ -73,59 +73,8 @@ router.get('/refresh',(req,res)=> {
     // token스키마에서 참조된 userid 도큐먼트중 값이 있다면 발급 -> 이거는 만료시간을 확인 못함 
     console.log(req.cookies.user)
     console.log(response)
-    res.send("success")
+    res.status(200).send("success")
 })
-
-
-module.exports = router;
-
-// passport 예제 카카오로 로그인 회원가입 구현
-// 액세스토큰 예제 따라하기
-// 앞에 만든 jwt랑 비교해서 집어넣기
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// router.get('/login/naver', passport.authenticate('naver'));
-// router.get('/naver', passport.authenticate('naver', {
-//     failureRedirect : '/login',
-//     session: false}),
-//     async (req, res, error) => {
-//         try {
-//             const user = req.user
-//             console.log(user)
-//             const accessToken = jwt.sign({ id: user.snsId}, process.env.JWT_SECRET, { expiresIn: '1d', issuer: 'm1na'})
-//             const token = {access_token : accessToken}
-//             console.log(token)
-//             res.cookie('Authorization', accessToken, {httpOnly: true, maxAge:  12 * 60 * 60 * 1000})
-//             res.header('Authorization', accessToken);
-//             res.redirect('/')
-//         }catch(error){
-//             res.redirect('/auth/login')
-//         // error(res, 200, '/', token)
-        
-//         }
-//     })
-
-
-    
-
-
 
 router.post('/kakaoo', kakao, async (req, res, error) => {
     try {
@@ -135,11 +84,39 @@ router.post('/kakaoo', kakao, async (req, res, error) => {
         const refreshToken = jwt.sign({ _id: user._id}, process.env.JWT_SECRET, { expiresIn: '14d', issuer: 'm1na'})
         const token = {access_token : accessToken}
         console.log(token)
-        res.cookie('Authorization', accessToken, {httpOnly: true, maxAge: 60 * 60 * 1000})
-        res.status(200).json({"ac":accessToken, "re": refreshToken})
+        res.cookie('Authorization', accessToken)
+        res.status(200).json({accessToken, refreshToken})
     }catch(error){
         console.log(error)
-        res.redirect('auth/login')}
+        res.status(401).send("user를 찾을 수 없습니다.")
+    }
 })
+
+
+
+router.get('/login/naver', passport.authenticate('naver'));
+router.get('/naver', passport.authenticate('naver', {
+    failureRedirect : '/login',
+    session: false}),
+    async (req, res, error) => {
+        try {
+            const user = req.user
+            console.log(user)
+            const accessToken = jwt.sign({ id: user.snsId}, process.env.JWT_SECRET, { expiresIn: '1d', issuer: 'm1na'})
+            const token = {access_token : accessToken}
+            console.log(token)
+            res.cookie('Authorization', accessToken, {httpOnly: true, maxAge:  12 * 60 * 60 * 1000})
+            res.header('Authorization', accessToken);
+            res.redirect('/')
+        }catch(error){
+            res.redirect('/auth/login')
+        // error(res, 200, '/', token)
+        
+        }
+    })
+
+
+    
+
 
 module.exports = router 

@@ -25,7 +25,7 @@ app.use(express.json({ extended : false} ));
 app.use(morgan('dev'));
 app.use(cookieParser(process.env.COOKIE_SECRET));
 
-app.use('/auth', router) // 민아
+app.use('/BDBED56AB94C1CDF3880049215E077FF/auth', router) // 민아
 app.use('/add',add_router)
 
 //passport.js 사용
@@ -35,15 +35,5 @@ app.use('/add',add_router)
 // app.use('/auth', routes); //경덕
 
 
-// import {emotion} from './models/emotion';
-
-// import {jwtMiddleware} from '../servers/controllers/jwtsignin'
-
-// app.get('/api/users/auth', jwtMiddleware, async(req, res) => {
-//     res.status(200).json({
-//         isAuth:true
-//         // id: req.cookies.user
-//     })
-// } )
 // 서버연결
 app.listen(PORT, () => console.log(`Server is runngin on ${PORT}`))
