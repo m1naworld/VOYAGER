@@ -93,7 +93,6 @@ router.post('/kakaoo', kakao, async (req, res, error) => {
 })
 
 
-
 router.get('/login/naver', passport.authenticate('naver'));
 router.get('/naver', passport.authenticate('naver', {
     failureRedirect : '/login',

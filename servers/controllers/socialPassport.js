@@ -42,7 +42,7 @@ export const passportNaver = (app) => {
     passport.use('naver', new NaverStrategy({
         clientID: process.env.NAVER_KEY,
         clientSecret: process.env.NAVER_SECRET,
-        callbackURL: "http://raymondubuntu.ddns.net/auth/naver", 
+        callbackURL: process.env.NAVER_CALLBACK_a, 
     }, async(accessToken, refreshToken, profile, done) => {
         console.log(`accessToken: ${accessToken}`);
         console.log(`refreshToken: ${refreshToken}`);
