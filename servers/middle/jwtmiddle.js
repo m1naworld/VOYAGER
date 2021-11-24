@@ -1,19 +1,20 @@
 import jwt, { decode } from 'jsonwebtoken';
-import { localUser } from '../models/userSchema';
-
+import { localUser } from '../models/localUser';
+import { socialUser} from '../models/socialUser';
 
 const cookie = require('cookie')
-export const jwtMiddleware = (req, res, next) => {
+export const jwtMiddleware = async (req, res, next) => {
     console.log(req.headers.cookie)
     // 클라이언트 쿠키에서 token 가져옴 
     const cookies = cookie.parse(req.headers.cookie);
-    const token = cookies.user
-    // console.log(token)
-    // const token = req.headers['Authorization']
-    // console.log(req)
+    const accesstoken = req.cookies.Authorization
+    const refreshtoken = await User.findOne({
+        snsId: req.body.snsId
+    }).refresh
+    console.log(refreshtoken)
 
     // token decode
-    jwt.verify(token, process.env.JWT_SECRET, (error, decoded) => {
+    jwt.verify(accesstoken, process.env.JWT_SECRET, (error, decoded) => {
         if(error) {
             console.log("token decode실패")
 

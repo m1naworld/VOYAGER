@@ -1,15 +1,14 @@
 import express from 'express';
 import jwt from 'jsonwebtoken';
-import userontroller, { kakao } from '../servers/controllers/userController';
+import { kakao } from '../servers/controllers/socialController';
+import {socialUser} from '../servers/models/socialUser' ;
 //경덕
-import { jwtMiddleware } from '../servers/middle/jwtmiddle';
-import { localUser } from '../servers/models/userSchema';
-import { Rtoken } from '../servers/models/tokenSchema';
-import { response } from 'express';
-const {register} = require("../servers/controllers/register");
+// import { jwtMiddleware } from '../servers/middle/jwtmiddle';
+import {localUser} from '../servers/models/localUser'
+import  {register} from "../servers/controllers/register";
 
 
-const passport = require('passport')
+import passport from 'passport';
 const router = express.Router()
 
 router.post('/join', register);
@@ -24,21 +23,25 @@ router.post('/login', async(req, res, next) => {
             }
             req.login(user, { session: false }, async(error) => {
                 if (error) return next(error)
-                const body = { _id: user._id };            
-                const token = jwt.sign({ user: body }, process.env.JWT_SECRET,{expiresIn:10});   
-                const rToken = jwt.sign({ user: body }, 'r_Key',{expiresIn:300});
-
+                const accessToken = jwt.sign({ id: user.snsId }, process.env.JWT_SECRET,{ expiresIn: '3h', issuer: 'm1na'} );   
+                const refreshToken = jwt.sign({}, process.env.JWT_SECRET, { expiresIn: '3h', issuer: 'm1na'});
 
                 //중복저장 해결해야함
-                const response = { token , rToken};
-                res.cookie('Authorization',token)
-                const tokensave = new Rtoken({userid : user._id, token:response.rToken})
-                tokensave.save(
-                //     (err,doc)=> {
-                //     if (err) return res.json({success:false,err});
-                //     res.status(204).json({token:doc, success:true})
-                // }
-                )
+                const response = { accessToken , refreshToken};
+
+                const myquery = { snsId : user.snsId};
+                const newvalues = { $set: {refresh : refreshToken}};
+                const refresh = await localUser.findOneAndUpdate(myquery, newvalues, {returnOriginal:false}).setOptions({ runValidators: true }).exec() ; 
+                console.log(refresh)
+                res.cookie('Authorization',accessToken)
+
+                // const tokensave = new Rtoken({userid : user._id, token:response.rToken})
+                // tokensave.save(
+                // //     (err,doc)=> {
+                // //     if (err) return res.json({success:false,err});
+                // //     res.status(204).json({token:doc, success:true})
+                // // }
+                // )
 
                 // console.log(tokenList);
                 console.log(user)
@@ -50,40 +53,47 @@ router.post('/login', async(req, res, next) => {
     })(req, res, next);
 });
 
-router.get('/user', jwtMiddleware, (req, res) => {
-    res.status(200).json({
-        message: 'You made it to the secure route',
-        user: req.cookies['user'],
-        token: req.cookies['user']
-    })
-});
-router.get('/logout', (req, res) => {
+// router.get('/user', jwtMiddleware, (req, res) => {
+//     res.status(200).json({
+//         message: 'You made it to the secure route',
+//         user: req.cookies['user'],
+//         token: req.cookies['user']
+//     })
+// });
+// router.get('/logout', (req, res) => {
 
-    // 쿠키를 지웁니다.
-    req.logout()
+//     // 쿠키를 지웁니다.
+//     req.logout()
 
-    return res.clearCookie("user").json({ logoutSuccess: true });
-});
+//     return res.clearCookie("user").json({ logoutSuccess: true });
+// });
 
 
-router.get('/refresh',(req,res)=> {
-    // db에 있는 refresh 토큰 불러오기, req.cookies.user랑 대조, 유효시간 있고 정보 맞으면 액세스 발급.
-    // jwt.verify로 user.email 추출, db의 refresh token도 verify 후 유효시간, 정보 맞아떨어지면 액세스 발급,
-    // 만료된 access의 user_id랑, refresh의 user_id 랑 맞으면 액세스 발급
-    // token스키마에서 참조된 userid 도큐먼트중 값이 있다면 발급 -> 이거는 만료시간을 확인 못함 
-    console.log(req.cookies.user)
-    console.log(response)
-    res.status(200).send("success")
-})
+// router.get('/refresh',(req,res)=> {
 
-router.post('/kakaoo', kakao, async (req, res, error) => {
+//     // db에 있는 refresh 토큰 불러오기, req.cookies.user랑 대조, 유효시간 있고 정보 맞으면 액세스 발급.
+//     // jwt.verify로 user.email 추출, db의 refresh token도 verify 후 유효시간, 정보 맞아떨어지면 액세스 발급,
+//     // 만료된 access의 user_id랑, refresh의 user_id 랑 맞으면 액세스 발급
+//     // token스키마에서 참조된 userid 도큐먼트중 값이 있다면 발급 -> 이거는 만료시간을 확인 못함 
+//     console.log(req.cookies.user)
+//     console.log(response)
+//     res.status(200).send("success")
+// })
+
+router.post('/access', kakao, async (req, res) => {
     try {
         const user = req.body
         console.log(user)
-        const accessToken = jwt.sign({ _id: user._id}, process.env.JWT_SECRET, { expiresIn: '1d', issuer: 'm1na'})
-        const refreshToken = jwt.sign({ _id: user._id}, process.env.JWT_SECRET, { expiresIn: '14d', issuer: 'm1na'})
+        const accessToken = jwt.sign({ id: user.snsId}, process.env.JWT_SECRET, { expiresIn: '3h', issuer: 'm1na'})
+        const refreshToken = jwt.sign({}, process.env.JWT_SECRET, { expiresIn: '7d', issuer: 'm1na'})
         const token = {access_token : accessToken}
         console.log(token)
+        const myquery = { snsId : user.snsId, provider: user.provider};
+        const newvalues = { $set: {refresh : refreshToken}};
+        // 조회 조건문/ 변경 혹은 추가할 필드와 필드값 / True로 할경우 문서 쿼리 기준과 불일치한 새 문서 생성 / True로 입력할 경우 조회를 충족하는 모든 문서 업데이트, false 하나의 문서만 업데이트 
+        const refresh = await socialUser.findOneAndUpdate(myquery, newvalues, {returnOriginal:false}).setOptions({ runValidators: true }).exec() ; 
+        console.log(refresh)
+        console.log("refresh DB 저장 성공!")
         res.cookie('Authorization', accessToken)
         res.status(200).json({accessToken, refreshToken})
     }catch(error){
@@ -93,30 +103,30 @@ router.post('/kakaoo', kakao, async (req, res, error) => {
 })
 
 
-router.get('/login/naver', passport.authenticate('naver'));
-router.get('/naver', passport.authenticate('naver', {
-    failureRedirect : '/login',
-    session: false}),
-    async (req, res, error) => {
-        try {
-            const user = req.user
-            console.log(user)
-            const accessToken = jwt.sign({ id: user.snsId}, process.env.JWT_SECRET, { expiresIn: '1d', issuer: 'm1na'})
-            const token = {access_token : accessToken}
-            console.log(token)
-            res.cookie('Authorization', accessToken, {httpOnly: true, maxAge:  12 * 60 * 60 * 1000})
-            // res.header('Authorization', accessToken);
-            res.send(token)
-        }catch(error){
-            console.log(error)
-            res.status(401).send("user를 찾을 수 없습니다.")
-        // error(res, 200, '/', token)
-        
-        }
-    })
+// router.post('/naver', async(req, res) => {
+//     try {
+//         const user = req.body
+//         console.log(user)
+//         const accessToken = jwt.sign({ id: user.snsId}, process.env.JWT_SECRET, { expiresIn: '3h', issuer: 'm1na'})
+//         const refreshToken = jwt.sign({ id: user.snId}, process.env.JWT_SECRET, { expiresIn: '7d', issuer: 'm1na'})
+//         const token = {access_token : accessToken}
+//         console.log(token)
+//         const myquery = { snsId : user.snsId, provider: user.provider};
+//         const newvalues = { $set: {refresh : refreshToken}};
+//         // 조회 조건문/ 변경 혹은 추가할 필드와 필드값 / True로 할경우 문서 쿼리 기준과 불일치한 새 문서 생성 / True로 입력할 경우 조회를 충족하는 모든 문서 업데이트, false 하나의 문서만 업데이트 
+//         const refresh = await socialUser.findOneAndUpdate(myquery, newvalues, {upsert: true, returnOriginal:false}).setOptions({ runValidators: true }) ; 
+//         console.log("refresh DB 저장 성공!")
+
+//         res.cookie('Authorization', accessToken)
+//         res.status(200).json({accessToken, refreshToken})
+
+//     }catch(error){
+//         console.log(error)
+//         res.status(401).send("user를 찾을 수 없습니다.")
+//     }
+// })
 
 
-    
 
 
 module.exports = router 

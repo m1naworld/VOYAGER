@@ -1,12 +1,11 @@
 const mongoose = require("mongoose");
 
 const userSchema = mongoose.Schema({
-    email : {type: String},
+    snsId : {type: String},
     password : {type: String},
     name : {type: String},
     birth : {type: String},
-    socialOnly : {type: String, default:false},
-    token : {type : String}
+    refresh : {type : String}
 },{versionKey : false});
 
 

@@ -10,10 +10,10 @@ const userSchema = new mongoose.Schema({
     birth : {type : String},
     birthyear : {type: String},
     phone : {type: String},
-    // socialOnly : {type: Boolean}
+    refresh : {type: String}
 }, {versionKey: false});
 
-export const User = mongoose.model("User", userSchema);
+export const socialUser = mongoose.model("User", userSchema);
 
 // export default User;
 
