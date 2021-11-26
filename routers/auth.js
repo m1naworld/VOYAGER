@@ -1,11 +1,13 @@
 import express from 'express';
 import jwt from 'jsonwebtoken';
-import { kakao } from '../servers/controllers/socialController';
-import {socialUser} from '../servers/models/socialUser' ;
+import { social } from '../servers/controllers/socialController';
+// import {socialUser} from '../servers/models/socialUser' ;
 //경덕
-// import { jwtMiddleware } from '../servers/middle/jwtmiddle';
-import {localUser} from '../servers/models/localUser'
+import { jwtMiddleware } from '../servers/middle/jwtmiddle';
+// import {localUser} from '../servers/models/localUser';
+import {refresh} from '../servers/models/tokenSchema';
 import  {register} from "../servers/controllers/register";
+import { emailCheck } from '../servers/controllers/emailCheak';
 
 
 import passport from 'passport';
@@ -29,10 +31,15 @@ router.post('/login', async(req, res, next) => {
                 //중복저장 해결해야함
                 const response = { accessToken , refreshToken};
 
-                const myquery = { snsId : user.snsId};
-                const newvalues = { $set: {refresh : refreshToken}};
-                const refresh = await localUser.findOneAndUpdate(myquery, newvalues, {returnOriginal:false}).setOptions({ runValidators: true }).exec() ; 
-                console.log(refresh)
+                // const myquery = { snsId : user.snsId};
+                // const newvalues = { $set: {refresh : refreshToken}};
+                // const refresh = await localUser.findOneAndUpdate(myquery, newvalues, {returnOriginal:false}).setOptions({ runValidators: true }).exec() ; 
+                const newRefresh =  await refresh.create({
+                    snsId: user.snsId,
+                    token: refreshToken
+                })
+                // const refresh = await socialUser.findOneAndUpdate(myquery, newvalues, {returnOriginal:false}).setOptions({ runValidators: true }).exec() ; 
+                console.log(newRefresh)
                 res.cookie('Authorization',accessToken)
 
                 // const tokensave = new Rtoken({userid : user._id, token:response.rToken})
@@ -80,7 +87,7 @@ router.post('/login', async(req, res, next) => {
 //     res.status(200).send("success")
 // })
 
-router.post('/access', kakao, async (req, res) => {
+router.post('/access', social, async (req, res) => {
     try {
         const user = req.body
         console.log(user)
@@ -88,11 +95,16 @@ router.post('/access', kakao, async (req, res) => {
         const refreshToken = jwt.sign({}, process.env.JWT_SECRET, { expiresIn: '7d', issuer: 'm1na'})
         const token = {access_token : accessToken}
         console.log(token)
-        const myquery = { snsId : user.snsId, provider: user.provider};
-        const newvalues = { $set: {refresh : refreshToken}};
+        // const myquery = { snsId : user.snsId, provider: user.provider};
+        // const newvalues = { $set: {refresh : refreshToken}};
         // 조회 조건문/ 변경 혹은 추가할 필드와 필드값 / True로 할경우 문서 쿼리 기준과 불일치한 새 문서 생성 / True로 입력할 경우 조회를 충족하는 모든 문서 업데이트, false 하나의 문서만 업데이트 
-        const refresh = await socialUser.findOneAndUpdate(myquery, newvalues, {returnOriginal:false}).setOptions({ runValidators: true }).exec() ; 
-        console.log(refresh)
+        
+        const newRefresh =  await refresh.create({
+            snsId: user.snsId,
+            token: refreshToken
+        })
+        // const refresh = await socialUser.findOneAndUpdate(myquery, newvalues, {returnOriginal:false}).setOptions({ runValidators: true }).exec() ; 
+        console.log(newRefresh)
         console.log("refresh DB 저장 성공!")
         res.cookie('Authorization', accessToken)
         res.status(200).json({accessToken, refreshToken})
@@ -101,6 +113,15 @@ router.post('/access', kakao, async (req, res) => {
         res.status(401).send("user를 찾을 수 없습니다.")
     }
 })
+
+
+router.post('/t', jwtMiddleware, (req ,res) => {
+    res.status(200).send("success")
+
+})
+
+
+router.post('/check', emailCheck)
 
 
 // router.post('/naver', async(req, res) => {

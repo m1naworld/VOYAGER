@@ -1,29 +1,32 @@
-import {localUser} from "../models/localUser";
+import {User} from "../models/User";
 const bcrypt = require("bcrypt");
 import dotenv from "dotenv";
 dotenv.config();
 
 export const register = async (req, res) => {
     // req의 body 정보를 사용하려면 server.js에서 따로 설정을 해줘야함
-    let { snsId, password, name, birth } = req.body;
+    let { provider, email, password, name, birth, birthyear, phone } = req.body;
+    // let {snsId} = email
     console.log(req.body)
     try {
     //   email을 비교하여 user가 이미 존재하는지 확인
-    let users = await localUser.findOne({snsId})
+    let users = await User.findOne({email})
     if (users) {
         return res.status(400).json({ errors: [{ msg: "User already exists" }] });
-    };
-        
+    }  
     const salt = await bcrypt.genSalt(Number(process.env.SALT))
     console.log(typeof salt)
     password = await bcrypt.hash(password,salt);
     // user에 name, email, password 등 값 할당
-    users = new localUser({
-        snsId,
+    users = new User({
+        provider,
+        snsId : email,
+        email,
         password,
         name,
         birth,
-        refresh : "null"
+        birthyear, 
+        phone
     });
     console.log(users)
     // password를 암호화 하기

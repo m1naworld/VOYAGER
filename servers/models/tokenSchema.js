@@ -1,7 +1,9 @@
 const mongoose = require("mongoose");
 
 const tokenSchema = mongoose.Schema({
-    userid : {type: mongoose.SchemaTypes.ObjectId,  ref:'User'},
+    snsId : {type: mongoose.SchemaTypes.String,  ref:'User'},
     token: {type :String}
 },{versionKey : false});
-export const Rtoken = mongoose.model("token",tokenSchema);
+
+
+export const refresh = mongoose.model("token",tokenSchema);
