@@ -1,20 +1,73 @@
 import mongoose from "mongoose";
+import crypto from "crypto";
 
-const userSchema = new mongoose.Schema({
-    provider: {type: String, required: true},
-    snsId: {type: String, required: true, unique: true},
-    email : {type: String},
-    password : {type: String},
-    name : {type: String},
-    gender : {type : String},
-    age : {type: String},
-    birth : {type : String},
-    birthyear : {type: String},
-    phone : {type: String},
-    // refresh : {type: String}
-}, {versionKey: false});
+function hash(password) {
+  return crypto
+    .createHmac("sha256", process.env.SECRET_KEY)
+    .update(password)
+    .digest("hex");
+}
+
+const userSchema = new mongoose.Schema(
+  {
+    provider: { type: String, required: true },
+    snsId: { type: String, required: true, unique: true },
+    email: { type: String },
+    password: { type: String },
+    name: { type: String },
+    gender: { type: String },
+    age: { type: String },
+    birth: { type: String },
+    birthyear: { type: String },
+    phone: { type: String },
+  },
+  { versionKey: false }
+);
+
+// 이메일로 유저 찾기
+userSchema.statics.findByEmail = function (email) {
+  return this.findOne({ email: email });
+};
+
+// snsId로 유저 찾기
+userSchema.statics.findBySnsId = function (snsId) {
+  return this.findOne({ snsId: snsId });
+};
+
+// 저장된 유저가 없을 시 유저 디비 저장
+userSchema.statics.join = function ({
+  provider,
+  snsId,
+  email,
+  password,
+  name,
+  gender,
+  age,
+  birth,
+  birthyear,
+  phone,
+}) {
+  const user = new this({
+    provider,
+    snsId,
+    email,
+    password: hash(password),
+    name,
+    gender,
+    age,
+    birth,
+    birthyear,
+    phone,
+  });
+
+  return user.save();
+};
+
+userSchema.method.validatePassword = (password) => {
+  // 함수로 전달받은 password의 해시값과 데이터에 담겨있는 해시값을 비교
+  const hashed = hash(password);
+  return this.password === hashed;
+};
 
 export const User = mongoose.model("User", userSchema);
-
-// export default User;
-
+// module.exprots = mongoose.model("User", userSchema);
