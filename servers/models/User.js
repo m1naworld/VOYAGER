@@ -1,12 +1,12 @@
 import mongoose from "mongoose";
 import crypto from "crypto";
 
-function hash(password) {
-  return crypto
-    .createHmac("sha256", process.env.SECRET_KEY)
-    .update(password)
-    .digest("hex");
-}
+// function hash(password) {
+//   return crypto
+//     .createHmac("sha256", process.env.SECRET_KEY)
+//     .update(password)
+//     .digest("hex");
+// }
 
 const userSchema = new mongoose.Schema(
   {
@@ -26,12 +26,12 @@ const userSchema = new mongoose.Schema(
 
 // 이메일로 유저 찾기
 userSchema.statics.findByEmail = function (email) {
-  return this.findOne({ email: email });
+  return this.findOne({ email });
 };
 
 // snsId로 유저 찾기
 userSchema.statics.findBySnsId = function (snsId) {
-  return this.findOne({ snsId: snsId });
+  return this.findOne({ snsId });
 };
 
 // 저장된 유저가 없을 시 유저 디비 저장
@@ -39,7 +39,7 @@ userSchema.statics.join = function ({
   provider,
   snsId,
   email,
-  password,
+  // password,
   name,
   gender,
   age,
@@ -51,7 +51,7 @@ userSchema.statics.join = function ({
     provider,
     snsId,
     email,
-    password: hash(password),
+    // password: hash(password),
     name,
     gender,
     age,
@@ -63,11 +63,10 @@ userSchema.statics.join = function ({
   return user.save();
 };
 
-userSchema.method.validatePassword = (password) => {
-  // 함수로 전달받은 password의 해시값과 데이터에 담겨있는 해시값을 비교
-  const hashed = hash(password);
-  return this.password === hashed;
-};
+// userSchema.method.validatePassword = (password) => {
+//   // 함수로 전달받은 password의 해시값과 데이터에 담겨있는 해시값을 비교
+//   const hashed = hash(password);
+//   return this.password === hashed;
+// };
 
 export const User = mongoose.model("User", userSchema);
-// module.exprots = mongoose.model("User", userSchema);

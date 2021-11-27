@@ -1,14 +1,14 @@
 import express from "express";
 import jwt from "jsonwebtoken";
 import { social } from "../servers/controllers/socialController";
-import { User } from "../servers/models/User";
-//경덕
-import { jwtMiddleware } from "../servers/middle/jwtmiddle";
-import { refresh } from "../servers/models/tokenSchema";
+import { refresh } from "../servers/models/refreshToken";
 import { register } from "../servers/controllers/register";
 import { emailCheck } from "../servers/controllers/emailCheak";
 
 import passport from "passport";
+import { jwtVerify } from "../servers/middle/jwtVerify";
+import { tokenError } from "../servers/middle/jwtError";
+
 const router = express.Router();
 
 router.post("/join", register);
@@ -46,6 +46,7 @@ router.post("/login", async (req, res, next) => {
         // const refresh = await socialUser.findOneAndUpdate(myquery, newvalues, {returnOriginal:false}).setOptions({ runValidators: true }).exec() ;
         console.log(newRefresh);
         res.cookie("Authorization", accessToken);
+        // res.cookie("Authorization", refreshToken);
 
         // const tokensave = new Rtoken({userid : user._id, token:response.rToken})
         // tokensave.save(
@@ -65,13 +66,6 @@ router.post("/login", async (req, res, next) => {
   })(req, res, next);
 });
 
-// router.get('/user', jwtMiddleware, (req, res) => {
-//     res.status(200).json({
-//         message: 'You made it to the secure route',
-//         user: req.cookies['user'],
-//         token: req.cookies['user']
-//     })
-// });
 // router.get('/logout', (req, res) => {
 
 //     // 쿠키를 지웁니다.
@@ -90,45 +84,39 @@ router.post("/login", async (req, res, next) => {
 //     console.log(response)
 //     res.status(200).send("success")
 // })
+router.post("/check", emailCheck);
 
 router.post("/access", social, async (req, res) => {
   try {
-    const user = req.body;
-    console.log(user);
-    const accessToken = await jwt.sign(
-      { id: user.snsId },
-      process.env.JWT_SECRET,
-      { expiresIn: 10000, issuer: "m1na" }
-    );
-    const refreshToken = await jwt.sign({}, process.env.JWT_SECRET, {
-      expiresIn: "7d",
+    const snsId = req.body.snsId;
+    console.log(snsId);
+    const accessToken = jwt.sign({ id: snsId }, process.env.JWT_SECRET, {
+      expiresIn: "10000",
       issuer: "m1na",
     });
-    const token = { access_token: accessToken };
-    console.log("OO", accessToken);
-    // const myquery = { snsId : user.snsId, provider: user.provider};
-    // const newvalues = { $set: {refresh : refreshToken}};
-    // 조회 조건문/ 변경 혹은 추가할 필드와 필드값 / True로 할경우 문서 쿼리 기준과 불일치한 새 문서 생성 / True로 입력할 경우 조회를 충족하는 모든 문서 업데이트, false 하나의 문서만 업데이트
-
-    const newRefresh = await refresh.create({
-      snsId: user.snsId,
-      token: refreshToken,
+    const refreshToken = jwt.sign({}, process.env.JWT_SECRET, {
+      expiresIn: "1000000",
+      issuer: "m1na",
     });
-    // const refresh = await socialUser.findOneAndUpdate(myquery, newvalues, {returnOriginal:false}).setOptions({ runValidators: true }).exec() ;
+
+    const token = { access_token: accessToken };
+    console.log(token);
+
+    const newRefresh = await refresh.saveRefresh({ snsId, refreshToken });
     console.log(newRefresh);
     console.log("refresh DB 저장 성공!");
-    res.cookie("Authorization", accessToken);
-    res.status(200).json({ accessToken, refreshToken });
+    res.cookie("Authorization", accessToken, { httpOnly: true });
+    res.cookie("reAuthorization", refreshToken, { httpOnly: true });
+    return res.status(200).json({ accessToken, refreshToken });
   } catch (error) {
     console.log(error);
-    res.status(401).send("user를 찾을 수 없습니다.");
+    return res.status(401).send("user를 찾을 수 없습니다.");
   }
 });
 
-router.get("/user", jwtMiddleware, (req, res) => {
-  return res.status(200).send("success");
-});
+router.get("/user", tokenError, jwtVerify);
 
-router.post("/check", emailCheck);
+// 미들웨어
+router.get("/logout");
 
 module.exports = router;
