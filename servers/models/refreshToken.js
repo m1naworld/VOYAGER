@@ -13,9 +13,12 @@ const tokenSchema = mongoose.Schema(
   { versionKey: false }
 );
 
-// snsId를 통해 refresh 토큰 찾기
-tokenSchema.statics.findByRefresh = function (refreshToken) {
-  return this.findOne({ refreshToken });
+tokenSchema.statics.findBysnsId = function ({ snsId }) {
+  return this.findOne({ snsId });
+};
+
+tokenSchema.statics.findByRefresh = function ({ refreshtoken }) {
+  return this.findOne({ refreshToken: refreshtoken });
 };
 
 tokenSchema.statics.saveRefresh = function ({ snsId, refreshToken }) {
@@ -25,6 +28,14 @@ tokenSchema.statics.saveRefresh = function ({ snsId, refreshToken }) {
   });
 
   return refresh.save();
+};
+
+tokenSchema.statics.deleteRefresh = function ({ refreshtoken }) {
+  return this.remove({ refreshToken: refreshtoken });
+};
+
+tokenSchema.statics.deleteSnsId = function ({ snsId }) {
+  return this.remove({ snsId });
 };
 
 export const refresh = mongoose.model("token", tokenSchema);

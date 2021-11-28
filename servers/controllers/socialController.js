@@ -4,11 +4,11 @@ export const social = async (req, res, done) => {
   try {
     let { provider, snsId, email, name, gender, age, birth, birthyear, phone } =
       req.body;
-
+    email ?? email;
     // email이 있을 경우
     if (email !== undefined) {
       // 이메일이 중복되면 안되므로 email을 통해 user를 찾음
-      const emailUser = await User.findByEmail(email);
+      const emailUser = await User.findByEmail({ email });
       if (emailUser) {
         // kakao와 naver 이메일 겹치지 않도록
         if (provider === emailUser.provider) {
@@ -34,7 +34,7 @@ export const social = async (req, res, done) => {
     }
     // 이메일이 없을 경우
     else if (email === undefined) {
-      const onlySnsIdUser = await User.findBySnsId(snsId);
+      const onlySnsIdUser = await User.findBySnsId({ snsId });
       if (onlySnsIdUser) {
         console.log(`onlySnsIdUser: ${onlySnsIdUser}`);
         return done(null, onlySnsIdUser);

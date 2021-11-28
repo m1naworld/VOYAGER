@@ -10,6 +10,7 @@ export const emailCheck = async (req, res) => {
     });
 
     if (exUser) {
+      console.log(exUser);
       return res
         .status(400)
         .json({ error: "이메일이 중복되었습니다", check: false });
@@ -17,5 +18,6 @@ export const emailCheck = async (req, res) => {
     return res.status(200).json({ check: true });
   } catch (error) {
     console.log(error);
+    return res.status(400).json({ error: error });
   }
 };

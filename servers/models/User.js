@@ -20,17 +20,18 @@ const userSchema = new mongoose.Schema(
     birth: { type: String },
     birthyear: { type: String },
     phone: { type: String },
+    joindate: { type: Date, default: Date.now },
   },
   { versionKey: false }
 );
 
 // 이메일로 유저 찾기
-userSchema.statics.findByEmail = function (email) {
+userSchema.statics.findByEmail = function ({ email }) {
   return this.findOne({ email });
 };
 
 // snsId로 유저 찾기
-userSchema.statics.findBySnsId = function (snsId) {
+userSchema.statics.findBySnsId = function ({ snsId }) {
   return this.findOne({ snsId });
 };
 

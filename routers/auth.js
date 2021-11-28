@@ -1,24 +1,27 @@
 import express from "express";
+import passport from "passport";
 import jwt from "jsonwebtoken";
 import { social } from "../servers/controllers/socialController";
 import { refresh } from "../servers/models/refreshToken";
 import { register } from "../servers/controllers/register";
 import { emailCheck } from "../servers/controllers/emailCheak";
-
-import passport from "passport";
 import { jwtVerify } from "../servers/middle/jwtVerify";
 import { tokenError } from "../servers/middle/jwtError";
+import { logOut } from "../servers/controllers/logout";
 
 const router = express.Router();
 
+// 회원가입
 router.post("/join", register);
 
+// 로컬 로그인
 router.post("/login", async (req, res, next) => {
   passport.authenticate("login", async (err, user) => {
     console.log(user, req.body);
     try {
       if (err || !user) {
         const error = new Error(err);
+        console.log("회원가입이 안된 유저");
         return next(error);
       }
       req.login(user, { session: false }, async (error) => {
@@ -26,39 +29,32 @@ router.post("/login", async (req, res, next) => {
         const accessToken = jwt.sign(
           { id: user.snsId },
           process.env.JWT_SECRET,
-          { expiresIn: "3h", issuer: "m1na" }
+          {
+            expiresIn: process.env.ACCESS_EXPIRE,
+            issuer: "m1na",
+          }
         );
         const refreshToken = jwt.sign({}, process.env.JWT_SECRET, {
-          expiresIn: "3h",
+          expiresIn: process.env.REFRESH_EXPIRE,
           issuer: "m1na",
         });
 
-        //중복저장 해결해야함
-        const response = { accessToken, refreshToken };
+        const token = { access_token: accessToken };
+        console.log(token);
 
-        // const myquery = { snsId : user.snsId};
-        // const newvalues = { $set: {refresh : refreshToken}};
-        // const refresh = await localUser.findOneAndUpdate(myquery, newvalues, {returnOriginal:false}).setOptions({ runValidators: true }).exec() ;
-        const newRefresh = await refresh.create({
-          snsId: user.snsId,
-          token: refreshToken,
-        });
-        // const refresh = await socialUser.findOneAndUpdate(myquery, newvalues, {returnOriginal:false}).setOptions({ runValidators: true }).exec() ;
+        const snsId = user.snsId;
+        const existRefresh = await refresh.findBysnsId({ snsId });
+        if (existRefresh) {
+          await refresh.deleteSnsId({ snsId });
+          console.log("refreshDB snsId 중복 제거");
+        }
+        const newRefresh = await refresh.saveRefresh({ snsId, refreshToken });
         console.log(newRefresh);
-        res.cookie("Authorization", accessToken);
-        // res.cookie("Authorization", refreshToken);
+        console.log("refresh DB 저장 성공!");
 
-        // const tokensave = new Rtoken({userid : user._id, token:response.rToken})
-        // tokensave.save(
-        // //     (err,doc)=> {
-        // //     if (err) return res.json({success:false,err});
-        // //     res.status(204).json({token:doc, success:true})
-        // // }
-        // )
-
-        // console.log(tokenList);
-        console.log(user);
-        return res.status(200).json(response);
+        res.cookie("Authorization", accessToken, { httpOnly: true });
+        res.cookie("reAuthorization", refreshToken, { httpOnly: true });
+        return res.status(200).json({ accessToken, refreshToken });
       });
     } catch (error) {
       return next(error);
@@ -66,57 +62,50 @@ router.post("/login", async (req, res, next) => {
   })(req, res, next);
 });
 
-// router.get('/logout', (req, res) => {
-
-//     // 쿠키를 지웁니다.
-//     req.logout()
-
-//     return res.clearCookie("user").json({ logoutSuccess: true });
-// });
-
-// router.get('/refresh',(req,res)=> {
-
-//     // db에 있는 refresh 토큰 불러오기, req.cookies.user랑 대조, 유효시간 있고 정보 맞으면 액세스 발급.
-//     // jwt.verify로 user.email 추출, db의 refresh token도 verify 후 유효시간, 정보 맞아떨어지면 액세스 발급,
-//     // 만료된 access의 user_id랑, refresh의 user_id 랑 맞으면 액세스 발급
-//     // token스키마에서 참조된 userid 도큐먼트중 값이 있다면 발급 -> 이거는 만료시간을 확인 못함
-//     console.log(req.cookies.user)
-//     console.log(response)
-//     res.status(200).send("success")
-// })
-router.post("/check", emailCheck);
-
+// 소셜 토큰 발급
 router.post("/access", social, async (req, res) => {
   try {
+    console.log(req.body.email);
     const snsId = req.body.snsId;
-    console.log(snsId);
     const accessToken = jwt.sign({ id: snsId }, process.env.JWT_SECRET, {
-      expiresIn: "10000",
+      expiresIn: process.env.ACCESS_EXPIRE,
       issuer: "m1na",
     });
-    const refreshToken = jwt.sign({}, process.env.JWT_SECRET, {
-      expiresIn: "1000000",
+    const refreshToken = jwt.sign({}, process.env.JWT_REFRESH_SECRET, {
+      expiresIn: process.env.REFRESH_EXPIRE,
       issuer: "m1na",
     });
 
     const token = { access_token: accessToken };
     console.log(token);
 
+    const existRefresh = await refresh.findBysnsId({ snsId });
+    if (existRefresh) {
+      await refresh.deleteSnsId({ snsId });
+      console.log("refreshDB snsId 중복 제거");
+    }
     const newRefresh = await refresh.saveRefresh({ snsId, refreshToken });
     console.log(newRefresh);
     console.log("refresh DB 저장 성공!");
+
     res.cookie("Authorization", accessToken, { httpOnly: true });
     res.cookie("reAuthorization", refreshToken, { httpOnly: true });
     return res.status(200).json({ accessToken, refreshToken });
   } catch (error) {
     console.log(error);
-    return res.status(401).send("user를 찾을 수 없습니다.");
+    return res
+      .status(401)
+      .json({ inAuth: false, error: "user를 찾을 수 없습니다." });
   }
 });
 
+// 토큰 검증
 router.get("/user", tokenError, jwtVerify);
 
-// 미들웨어
-router.get("/logout");
+// 로그아웃
+router.get("/logout", logOut);
+
+// 이메일 중복 체크
+router.post("/check", emailCheck);
 
 module.exports = router;
