@@ -1,5 +1,7 @@
 import mongoose from "mongoose";
-import crypto from "crypto";
+import moment from "moment";
+require("moment-timezone");
+// import crypto from "crypto";
 
 // function hash(password) {
 //   return crypto
@@ -7,6 +9,9 @@ import crypto from "crypto";
 //     .update(password)
 //     .digest("hex");
 // }
+
+moment.tz.setDefault("Asia/Seoul");
+const joindate = moment().format("YYYY-MM-DD HH:mm:ss");
 
 const userSchema = new mongoose.Schema(
   {
@@ -20,7 +25,7 @@ const userSchema = new mongoose.Schema(
     birth: { type: String },
     birthyear: { type: String },
     phone: { type: String },
-    joindate: { type: Date, default: Date.now },
+    joindate: { type: String, default: joindate },
   },
   { versionKey: false }
 );
