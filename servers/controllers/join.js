@@ -3,7 +3,7 @@ const bcrypt = require("bcrypt");
 import dotenv from "dotenv";
 dotenv.config();
 
-export const register = async (req, res) => {
+export const join = async (req, res) => {
   // req의 body 정보를 사용하려면 server.js에서 따로 설정을 해줘야함
   let { provider, email, password, name, birth, birthyear, phone } = req.body;
   // let {snsId} = email

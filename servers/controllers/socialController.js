@@ -4,7 +4,6 @@ export const social = async (req, res, done) => {
   try {
     let { provider, snsId, email, name, gender, age, birth, birthyear, phone } =
       req.body;
-    email ?? email;
     // email이 있을 경우
     if (email !== undefined) {
       // 이메일이 중복되면 안되므로 email을 통해 user를 찾음

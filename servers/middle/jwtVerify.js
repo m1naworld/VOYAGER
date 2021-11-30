@@ -36,7 +36,10 @@ export const jwtVerify = async (req, res) => {
                   { expiresIn: process.env.ACCESS_EXPIRE, issuer: "m1na" }
                 );
                 console.log(`new accessToken : ${accessToken}`);
-                res.cookie("Authorization", accessToken);
+                res.cookie("Authorization", accessToken, {
+                  httpOnly: true,
+                  expires: new Date(Date.now() + 1000 * 60 * 60 * 3),
+                });
                 console.log("access 재갱신 성공");
                 return res
                   .status(200)
@@ -61,6 +64,7 @@ export const jwtVerify = async (req, res) => {
             refreshtoken,
             process.env.JWT_REFRESH_SECRET,
             async (error, decoded) => {
+              console.log(decoded);
               if (error) {
                 await refresh.deleteRefresh({ refreshtoken });
                 refreshToken = jwt.sign({}, process.env.JWT_REFRESH_SECRET, {
@@ -69,7 +73,10 @@ export const jwtVerify = async (req, res) => {
                 });
                 console.log(refreshToken);
                 await refresh.saveRefresh({ snsId, refreshToken });
-                res.cookie("reAuthorization", refreshToken, { httpOnly: true });
+                res.cookie("reAuthorization", refreshToken, {
+                  httpOnly: true,
+                  expires: new Date(Date.now() + 1000 * 60 * 60 * 24),
+                });
                 console.log("refresh 갱신 성공 ");
                 return res
                   .status(200)

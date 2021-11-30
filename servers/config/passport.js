@@ -1,7 +1,7 @@
 const passport = require("passport");
 const passportJWT = require("passport-jwt");
 const LocalStrategy = require("passport-local").Strategy;
-import { User } from "../servers/models/User";
+import { User } from "../models/User";
 const bycrypt = require("bcrypt");
 require("dotenv").config();
 const JWTStrategy = passportJWT.Strategy;

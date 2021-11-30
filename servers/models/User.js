@@ -11,7 +11,7 @@ require("moment-timezone");
 // }
 
 moment.tz.setDefault("Asia/Seoul");
-const joindate = moment().format("YYYY-MM-DD HH:mm:ss");
+const registerDate = moment().format("YYYY-MM-DD HH:mm:ss");
 
 const userSchema = new mongoose.Schema(
   {
@@ -25,7 +25,7 @@ const userSchema = new mongoose.Schema(
     birth: { type: String },
     birthyear: { type: String },
     phone: { type: String },
-    joindate: { type: String, default: joindate },
+    registerdate: { type: String, default: registerDate },
   },
   { versionKey: false }
 );

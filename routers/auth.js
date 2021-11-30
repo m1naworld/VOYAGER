@@ -3,7 +3,7 @@ import passport from "passport";
 import jwt from "jsonwebtoken";
 import { social } from "../servers/controllers/socialController";
 import { refresh } from "../servers/models/refreshToken";
-import { register } from "../servers/controllers/register";
+import { join } from "../servers/controllers/join";
 import { emailCheck } from "../servers/controllers/emailCheak";
 import { jwtVerify } from "../servers/middle/jwtVerify";
 import { tokenError } from "../servers/middle/jwtError";
@@ -12,7 +12,7 @@ import { logOut } from "../servers/controllers/logout";
 const router = express.Router();
 
 // 회원가입
-router.post("/join", register);
+router.post("/join", join);
 
 // 로컬 로그인
 router.post("/login", async (req, res, next) => {
@@ -88,8 +88,14 @@ router.post("/access", social, async (req, res) => {
     console.log(newRefresh);
     console.log("refresh DB 저장 성공!");
 
-    res.cookie("Authorization", accessToken, { httpOnly: true });
-    res.cookie("reAuthorization", refreshToken, { httpOnly: true });
+    res.cookie("Authorization", accessToken, {
+      httpOnly: true,
+      expires: new Date(Date.now() + 1000 * 60 * 60 * 3),
+    });
+    res.cookie("reAuthorization", refreshToken, {
+      httpOnly: true,
+      expires: new Date(Date.now() + 1000 * 60 * 60 * 24 * 5),
+    });
     return res.status(200).json({ accessToken, refreshToken });
   } catch (error) {
     console.log(error);
