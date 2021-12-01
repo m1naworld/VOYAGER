@@ -1,0 +1,19 @@
+#naver {
+  background: #03c75a;
+  border: none;
+  width: 240px;
+  border-radius: 12px;
+  font-size: 20px;
+  color: #ffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 11px 10px 28px -5px rgba(0, 0, 0, 0.46);
+  white-space: nowrap;
+  img {
+    width: 28px;
+    height: 28px;
+    color: #000000 90%;
+    margin-right: 12px;
+  }
+}

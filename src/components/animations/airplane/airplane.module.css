@@ -1,0 +1,138 @@
+.airplane__body {
+  overflow: hidden;
+}
+
+.section {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background: #034071;
+  z-index: -1;
+}
+
+.section .runway {
+  position: relateve;
+  width: 400px;
+  height: 100vh;
+  background: #1378bc;
+  border-left: 20px solid rgba(0, 0, 0, 0.25);
+  border-right: 20px solid rgba(0, 0, 0, 0.25);
+  transition: transform 1s;
+  transition-delay: 1s;
+  transform-origin: top;
+}
+
+.section .runway::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 15px;
+  height: 100%;
+  background: repeating-linear-gradient(
+    transparent 0%,
+    transparent 50%,
+    #fff 50%,
+    #fff 100%
+  );
+  background-size: 20px 320px;
+  animation: animateRunway 0.5s linear infinite;
+}
+.active .runway {
+  transform: scaleX(0.7) scaleY(0);
+  transition-delay: 0s;
+  transform-origin: bottom;
+}
+
+.active .runway::before {
+  animation: animateRunway 0.1s linear infinite;
+}
+
+@keyframes animateRunway {
+  0% {
+    background-position-y: 0px;
+  }
+  100% {
+    background-position-y: 640px;
+  }
+}
+
+.plane {
+  position: absolute;
+  bottom: 100px;
+  max-width: 250px;
+  pointer-events: none;
+  filter: drop-shadow(10px 10px 0 rgba(0, 0, 0, 0.5));
+  transition: 2s;
+}
+
+.active .plane {
+  max-width: 500px;
+  filter: drop-shadow(200px 200px 0 rgba(0, 0, 0, 0));
+}
+
+.clouds {
+  position: absolute;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 2s;
+  transition-delay: 0s;
+}
+
+.active .clouds {
+  opacity: 1;
+  transition-delay: 1s;
+}
+
+.clouds img {
+  position: absolute;
+  left: -30%;
+  width: 1400px;
+  animation: animateClouds 1s linear infinite;
+  animation-delay: calc(-1.5s * var(--i));
+}
+
+.clouds2 {
+  right: 0;
+  transform: rotate(180deg);
+}
+
+.clouds2 img {
+  animation: animateClouds2 1.3s linear infinite;
+  animation-delay: calc(-1s * var(--i));
+}
+.active {
+  opacity: 1;
+  animation: FadeIn 1s ease-in-out forwards;
+  animation-delay: 1.8s;
+}
+
+@keyframes FadeIn {
+  to {
+    opacity: 0.7;
+  }
+}
+
+@keyframes animateClouds {
+  0% {
+    transform: translateY(-130%);
+  }
+  100% {
+    transform: translateY(130%);
+  }
+}
+
+@keyframes animateClouds2 {
+  0% {
+    transform: translateY(130%);
+  }
+  100% {
+    transform: translateY(-130%);
+  }
+}
