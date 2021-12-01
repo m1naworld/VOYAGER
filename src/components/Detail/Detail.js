@@ -1,8 +1,9 @@
 import { useCallback, useEffect, useRef, useState } from "react";
+import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-
 import styles from "./Detail.module.scss";
 import Pal from "./Pal";
+
 function Detail() {
   const stars = useRef();
   const moon = useRef();
@@ -10,14 +11,8 @@ function Detail() {
   const mountains_front = useRef();
   const text = useRef();
   const btn = useRef();
-  const header = useRef();
 
   const [testOpen, setTestOpen] = useState(false);
-
-  // const body = useRef();
-  // const st = useScroll(body);
-
-  console.log(window.scrollY);
 
   const scrollEvent = useCallback(() => {
     let value = window.scrollY;
@@ -28,45 +23,16 @@ function Detail() {
     text.current.style.marginRight = value * 6 + "px";
     text.current.style.marginTop = value * 1.5 + "px";
     btn.current.style.marginTop = value * 1.5 + "px";
-    header.current.style.top = value * 0.8 + "px";
   }, []);
+
   useEffect(() => {
     window.addEventListener("scroll", scrollEvent);
     return () => {
       window.removeEventListener("scroll", scrollEvent);
     };
   }, [scrollEvent]);
-  console.log("RENDER");
   return (
-    // <div className={styles.detail__body} ref={body}>
     <>
-      <header className={styles.Detail__header} ref={header}>
-        <Link to="/" className={styles.logo}>
-          Logo
-        </Link>
-        <ul className={styles.ul}>
-          <li>
-            <Link to="#" className={`${styles.link} ${styles.active}`}>
-              Home
-            </Link>
-          </li>
-          <li>
-            <Link to="#" className={styles.link}>
-              About
-            </Link>
-          </li>
-          <li>
-            <Link to="#" className={styles.link}>
-              Work
-            </Link>
-          </li>
-          <li>
-            <Link to="#" className={styles.link}>
-              Contact
-            </Link>
-          </li>
-        </ul>
-      </header>
       <section className={styles.mainSection}>
         <img
           src="image/parallax/stars.png"

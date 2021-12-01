@@ -12,11 +12,13 @@ function Home() {
   useEffect(() => {
     if (!login) {
       navigate("/");
+    } else if (login) {
+      navigate("/detail");
     }
   }, [login, navigate]);
   return (
     <>
-      <Detail />
+      <Airplane />
       {start ? <Login /> : ""}
     </>
   );

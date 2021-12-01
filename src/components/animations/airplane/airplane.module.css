@@ -1,6 +1,10 @@
 .airplane__body {
   overflow: hidden;
 }
+/* .airplane__body__rotate {
+  animation: ShipRotate 2s ease-in-out forwards;
+  animation-delay: 2s;
+} */
 
 .section {
   display: flex;
@@ -61,15 +65,15 @@
 
 .plane {
   position: absolute;
-  bottom: 100px;
-  max-width: 250px;
+  bottom: -200px;
+  max-width: 800px;
   pointer-events: none;
   filter: drop-shadow(10px 10px 0 rgba(0, 0, 0, 0.5));
   transition: 2s;
 }
 
 .active .plane {
-  max-width: 500px;
+  max-width: 1000px;
   filter: drop-shadow(200px 200px 0 rgba(0, 0, 0, 0));
 }
 
@@ -109,8 +113,8 @@
 }
 .active {
   opacity: 1;
-  animation: FadeIn 1s ease-in-out forwards;
-  animation-delay: 1.8s;
+  animation: ShipRotate 2s ease-in-out forwards;
+  animation-delay: 1s;
 }
 
 @keyframes FadeIn {
@@ -134,5 +138,14 @@
   }
   100% {
     transform: translateY(-130%);
+  }
+}
+
+@keyframes ShipRotate {
+  from {
+    transform: rotateZ(0);
+  }
+  to {
+    transform: rotateZ(45deg);
   }
 }

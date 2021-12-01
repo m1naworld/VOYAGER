@@ -16,7 +16,13 @@ function Airplane() {
   };
 
   return (
-    <div className={styles.airplane__body}>
+    <div
+      className={
+        toggle
+          ? `${styles.airplane__body} ${styles.airplane__body__rotate}`
+          : styles.airplane__body
+      }
+    >
       <section
         className={
           toggle ? `${styles.active} ${styles.section}` : styles.section
@@ -37,7 +43,7 @@ function Airplane() {
         </div>
         <div className={styles.runway}></div>
         <img
-          src="image/airplane/air.png"
+          src="image/airplane/ship.png"
           alt="airplane"
           className={styles.plane}
         />

@@ -32,6 +32,7 @@ function App() {
           return err.response;
         }
       });
+
     // dispatch(toggleLogin(res.data.inAuth));
   }, [dispatch]);
   useEffect(() => {
