@@ -19,6 +19,7 @@ const userSchema = new mongoose.Schema(
     snsId: { type: String, required: true, unique: true },
     email: { type: String },
     password: { type: String },
+    nickname: { type: String },
     name: { type: String },
     gender: { type: String },
     age: { type: String },
@@ -26,6 +27,12 @@ const userSchema = new mongoose.Schema(
     birthyear: { type: String },
     phone: { type: String },
     registerdate: { type: String, default: registerDate },
+    // dailyQnum: {
+    //   type: mongoose.SchemaTypes.String,
+    //   ref: "refresh",
+    //   default: 0,
+    //   required: true,
+    // },
   },
   { versionKey: false }
 );
@@ -38,6 +45,10 @@ userSchema.statics.findByEmail = function ({ email }) {
 // snsId로 유저 찾기
 userSchema.statics.findBySnsId = function ({ snsId }) {
   return this.findOne({ snsId });
+};
+
+userSchema.statics.findBydailyQnum = function ({ dailyQnum }) {
+  return this.findOne({ dailyQnum });
 };
 
 // 저장된 유저가 없을 시 유저 디비 저장
@@ -68,6 +79,10 @@ userSchema.statics.join = function ({
 
   return user.save();
 };
+
+// userSchema.statics.update = function ({ dailyQnum }) {
+//   return this.update({ dailyQnum: dailyQnum }, { $inc: { dailyQnum: 1 } });
+// };
 
 // userSchema.method.validatePassword = (password) => {
 //   // 함수로 전달받은 password의 해시값과 데이터에 담겨있는 해시값을 비교

@@ -11,7 +11,6 @@ const routers = express.Router();
 // routers.post("/survey", surveyRegister);
 
 routers.post("/dailyquestion", addDaily);
-routers.route("/");
 routers.get("/", (req, res) => {
   return res.json("success: 성공!");
 });

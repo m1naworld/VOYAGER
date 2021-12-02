@@ -3,8 +3,7 @@ const mongoose = require("mongoose");
 const tokenSchema = mongoose.Schema(
   {
     snsId: {
-      type: mongoose.SchemaTypes.String,
-      ref: "User",
+      type: String,
       required: true,
       unique: true,
     },

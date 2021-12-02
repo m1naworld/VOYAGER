@@ -2,6 +2,7 @@ import "./db";
 import express from "express";
 import router from "../routers/auth";
 import routers from "../routers/register";
+import send from "../routers/send";
 import morgan from "morgan";
 import passport from "passport";
 import cookieParser from "cookie-parser";
@@ -22,6 +23,7 @@ app.use(cookieParser(process.env.COOKIE_SECRET));
 
 app.use("/auth", router);
 app.use("/register", routers);
+app.use("/send", send);
 
 app.get("/", (req, res) => {
   res.send("success");

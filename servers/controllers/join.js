@@ -23,6 +23,7 @@ export const join = async (req, res) => {
       snsId: email,
       email,
       password,
+      nickname: name,
       name,
       birth,
       birthyear,

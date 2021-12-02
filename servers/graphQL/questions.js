@@ -9,6 +9,7 @@ import {
   GraphQLNonNull,
 } from "graphql";
 import { graphqlHTTP } from "express-graphql";
+import { daily } from "../models/dailyQuestion";
 
 const app = express();
 const PORT = 2000;
@@ -60,7 +61,7 @@ const question = [
 // Query는 우리가 보내는 Query타입을 의미 => 정해진 타입으로 서버와 클라이언트끼리 통신
 export const schema = buildSchema(`
   type datas {
-    label: Int, 
+    label: Int,
     Q: String
   }
 
@@ -68,19 +69,47 @@ export const schema = buildSchema(`
     emotion: String
     data: [datas]
   }
-  
+
   type Query {
-    question(label: label): emotions
+    questions: [emotions]
+
   }
 
   `);
 
-//수정
-// export const root = {
-//   question(label:): {
+// export const dailyquestion = buildSchema(`
 
-//   } => {
-//     return question;
+// type question {
+//   index: Int
+//   qs: String
+// }
+
+// type datas {
+//   label: Int
+//   data: [question]
+// }
+
+// type dailys {
+//   daily: [datas]
+// }
+
+// type Query {
+//   show(label: label) : dailys
+// }
+// `);
+
+// quetions(label: Int): dailys
+//수정
+
+export const root = {
+  questions: () => {
+    return question;
+  },
+};
+
+// export const root = {
+//   questions: () => {
+//     return question.emotion;
 //   },
 // };
 

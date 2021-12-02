@@ -89,10 +89,10 @@ export const jwtVerify = async (req, res) => {
         }
         if (!user) {
           console.log("유저 없음");
-          res
+          return res
             .status(404)
             .json({ isAuth: false, error: "token에 해당하는 유저가 없음" });
-          return res.redirect("/auth/logout");
+          // .redirect("/auth/logout");
         }
         if (error) {
           console.log("db 오류 ");
