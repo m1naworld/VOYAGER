@@ -1,4 +1,3 @@
-import { typeFromAST } from "graphql";
 import { dailyquestion } from "../models/dailyQuestion";
 
 export const addDaily = async (req, res) => {
@@ -16,20 +15,25 @@ export const addDaily = async (req, res) => {
 };
 
 export const findDaily = async (req, res) => {
-  const count = await dailyquestion.count();
-  console.log(count);
+  try {
+    const count = await dailyquestion.count();
 
-  const fixedDay = new Date("2021-12-1");
-  fixedDay.setHours(0, 0, 0, 0);
-  console.log(fixedDay);
+    const fixedDay = new Date("2021-11-29");
+    fixedDay.setHours(0, 0, 0, 0);
 
-  const today = new Date();
-  console.log(today);
+    const today = new Date();
 
-  const label = parseInt(((today - fixedDay) / (1000 * 3600 * 24)) % count);
-  console.log(label);
-  const daily = await dailyquestion.findDailyQ({ label });
+    const label = parseInt(((today - fixedDay) / (1000 * 3600 * 24)) % count);
 
-  // console.log(daily);
-  return res.status(200).json({ data: daily.data });
+    const daily = await dailyquestion.findDailyQ({ label });
+
+    return res.status(200).json({ data: daily.data });
+  } catch (error) {
+    console.log("dailyQuestion Controller 오류");
+    return res.status(400).send("dailyQuestion Controller 오류");
+  }
 };
+
+// export const answer = async (req, res)=> {
+//   // dailyAreq.body
+// }

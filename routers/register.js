@@ -1,8 +1,8 @@
 import express from "express";
 import { surveyRegister } from "../servers/controllers/DBsurveyController";
 import { addDaily } from "../servers/controllers/dailyQuestionsController";
-
-const routers = express.Router();
+import { addDailyAnswer } from "../servers/controllers/calendarController";
+const register = express.Router();
 
 // routers
 //   .route("/survey")
@@ -10,9 +10,11 @@ const routers = express.Router();
 //   .post(surveyRegister);
 // routers.post("/survey", surveyRegister);
 
-routers.post("/dailyquestion", addDaily);
-routers.get("/", (req, res) => {
+register.post("/dailyquestion", addDaily);
+register.get("/", (req, res) => {
   return res.json("success: 성공!");
 });
 
-module.exports = routers;
+register.post("/addCalendar", addDailyAnswer);
+
+module.exports = register;

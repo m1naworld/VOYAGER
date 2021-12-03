@@ -3,7 +3,7 @@ import mongoose from "mongoose";
 const dailyQuestionSchema = new mongoose.Schema(
   {
     label: Number,
-    data: [Object],
+    data: { type: Object, label: Number, data: [Object] },
   },
   { versionKey: false }
 );

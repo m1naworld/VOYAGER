@@ -27,12 +27,6 @@ const userSchema = new mongoose.Schema(
     birthyear: { type: String },
     phone: { type: String },
     registerdate: { type: String, default: registerDate },
-    // dailyQnum: {
-    //   type: mongoose.SchemaTypes.String,
-    //   ref: "refresh",
-    //   default: 0,
-    //   required: true,
-    // },
   },
   { versionKey: false }
 );
@@ -45,10 +39,6 @@ userSchema.statics.findByEmail = function ({ email }) {
 // snsId로 유저 찾기
 userSchema.statics.findBySnsId = function ({ snsId }) {
   return this.findOne({ snsId });
-};
-
-userSchema.statics.findBydailyQnum = function ({ dailyQnum }) {
-  return this.findOne({ dailyQnum });
 };
 
 // 저장된 유저가 없을 시 유저 디비 저장

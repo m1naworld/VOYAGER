@@ -54,6 +54,7 @@ router.post("/login", async (req, res, next) => {
 
         res.cookie("Authorization", accessToken, { httpOnly: true });
         res.cookie("reAuthorization", refreshToken, { httpOnly: true });
+
         return res.status(200).json({ accessToken, refreshToken });
       });
     } catch (error) {
@@ -65,6 +66,7 @@ router.post("/login", async (req, res, next) => {
 // 소셜 토큰 발급
 router.post("/access", social, async (req, res) => {
   try {
+    console.log(req.body);
     console.log(req.body.email);
     const snsId = req.body.snsId;
     const accessToken = jwt.sign({ id: snsId }, process.env.JWT_SECRET, {
@@ -96,6 +98,7 @@ router.post("/access", social, async (req, res) => {
       httpOnly: true,
       expires: new Date(Date.now() + 1000 * 60 * 60 * 24 * 5),
     });
+
     return res.status(200).json({ accessToken, refreshToken });
   } catch (error) {
     console.log(error);
