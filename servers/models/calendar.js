@@ -4,22 +4,27 @@ import moment from "moment";
 require("moment-timezone");
 moment.tz.setDefault("Asia/Seoul");
 
-const registerDate = moment().format("YYYY-MM-DD HH:mm:ss");
+const registerDate = moment().format("YYYY-MM-DD");
 
 const calendarSchema = new mongoose.Schema(
   {
-    // snsId: { type: String, required: true, unique: true },
+    // snsId: {
+    //   type: mongoose.Schema.Types.ObjecctId,
+    //   ref: "User",
+    //   required: true,
+    //   unique: true,
+    // },
     data: {
       type: Object,
-      date: { type: String, default: registerDate },
-      colors: { type: String },
-      diary: { type: String },
-      dailyA: {
-        type: Object,
-        // label: { type: mongoose.SchemaTypes.ObjectId, ref: "dailyquestion " },
-        label: Number,
-        data: [Object],
+      date: {
+        type: String,
+        default: registerDate,
+        required: true,
+        unique: true,
       },
+      colors: String,
+      diary: String,
+      dailyA: { type: Object, label: Number, data: { Object } },
     },
   },
   { versionKey: false }
@@ -30,10 +35,13 @@ calendarSchema.statics.findUser = function ({ snsId }) {
 };
 
 calendarSchema.statics.register = function ({ dailyA }) {
-  const calendar = new this({ data: dailyA });
+  const calendar = new this({
+    data: { dailyA: dailyA },
+  });
   return calendar.save();
 };
 
 // calendarSchema.statics.findDate = function ({data.date})
+// label: { type: mongoose.SchemaTypes.ObjectId, ref: "dailyquestion " },
 
 export const calendar = mongoose.model("calendar", calendarSchema);
