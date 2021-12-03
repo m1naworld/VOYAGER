@@ -8,12 +8,7 @@ const registerDate = moment().format("YYYY-MM-DD");
 
 const calendarSchema = new mongoose.Schema(
   {
-    // snsId: {
-    //   type: mongoose.Schema.Types.ObjecctId,
-    //   ref: "User",
-    //   required: true,
-    //   unique: true,
-    // },
+    snsId: { type: String, required: true, unique: true },
     data: {
       type: Object,
       date: {
@@ -24,21 +19,39 @@ const calendarSchema = new mongoose.Schema(
       },
       colors: String,
       diary: String,
-      dailyA: { type: Object, label: Number, data: { Object } },
+      dailyA: {
+        // type: Object,
+        // label: { type: mongoose.SchemaType.label, ref: "dailyquestion" },
+        data: { Object },
+      },
     },
   },
   { versionKey: false }
 );
-
-calendarSchema.statics.findUser = function ({ snsId }) {
-  return this.findOne({ snsId });
-};
 
 calendarSchema.statics.register = function ({ dailyA }) {
   const calendar = new this({
     data: { dailyA: dailyA },
   });
   return calendar.save();
+};
+
+calendarSchema.statics.registerSnsId = function ({ snsId }) {
+  const create = new this({ snsId });
+  return create.save();
+};
+
+calendarSchema.statics.findUser = function ({ snsId }) {
+  return this.findOne({ snsId });
+};
+
+// calendar 참조 ObjectId 가져와서 User DB에 넣기
+calendarSchema.statics.registerData = function ({ snsId, dailyA }) {
+  return this.findOneAndUpdate({
+    snsId,
+    $push: { data: { dailyA } },
+    upsert: true,
+  });
 };
 
 // calendarSchema.statics.findDate = function ({data.date})

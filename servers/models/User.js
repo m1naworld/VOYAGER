@@ -1,15 +1,6 @@
 import mongoose from "mongoose";
 import moment from "moment";
 require("moment-timezone");
-// import crypto from "crypto";
-
-// function hash(password) {
-//   return crypto
-//     .createHmac("sha256", process.env.SECRET_KEY)
-//     .update(password)
-//     .digest("hex");
-// }
-
 moment.tz.setDefault("Asia/Seoul");
 const registerDate = moment().format("YYYY-MM-DD HH:mm:ss");
 
@@ -27,6 +18,10 @@ const userSchema = new mongoose.Schema(
     birthyear: { type: String },
     phone: { type: String },
     registerdate: { type: String, default: registerDate },
+    userCalendar: {
+      type: mongoose.SchemaTypes.ObjectId,
+      ref: "calendar",
+    },
   },
   { versionKey: false }
 );
@@ -46,38 +41,28 @@ userSchema.statics.join = function ({
   provider,
   snsId,
   email,
-  // password,
   name,
   gender,
   age,
   birth,
   birthyear,
   phone,
+  userCalendar,
 }) {
   const user = new this({
     provider,
     snsId,
     email,
-    // password: hash(password),
     name,
     gender,
     age,
     birth,
     birthyear,
     phone,
+    userCalendar,
   });
 
   return user.save();
 };
-
-// userSchema.statics.update = function ({ dailyQnum }) {
-//   return this.update({ dailyQnum: dailyQnum }, { $inc: { dailyQnum: 1 } });
-// };
-
-// userSchema.method.validatePassword = (password) => {
-//   // 함수로 전달받은 password의 해시값과 데이터에 담겨있는 해시값을 비교
-//   const hashed = hash(password);
-//   return this.password === hashed;
-// };
 
 export const User = mongoose.model("User", userSchema);

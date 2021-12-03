@@ -8,7 +8,7 @@ import { emailCheck } from "../servers/controllers/emailCheak";
 import { jwtVerify } from "../servers/middle/jwtVerify";
 import { tokenError } from "../servers/middle/jwtError";
 import { logOut } from "../servers/controllers/logout";
-
+import { User } from "../servers/models/User";
 const router = express.Router();
 
 // 회원가입
@@ -99,6 +99,13 @@ router.post("/access", social, async (req, res) => {
       expires: new Date(Date.now() + 1000 * 60 * 60 * 24 * 5),
     });
 
+    const a = await User.findBySnsId({ snsId });
+    if (a.userCalendar === undefined) {
+      console.log("aaaaaaaaaaaaaaa 언디파인");
+    } else {
+      console.log("언디파인 아님");
+    }
+    console.log(a.calendar);
     return res.status(200).json({ accessToken, refreshToken });
   } catch (error) {
     console.log(error);

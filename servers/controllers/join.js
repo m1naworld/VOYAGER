@@ -1,4 +1,5 @@
 import { User } from "../models/User";
+import { calendar } from "../models/calendar";
 const bcrypt = require("bcrypt");
 import dotenv from "dotenv";
 dotenv.config();
@@ -32,6 +33,9 @@ export const join = async (req, res) => {
     console.log(users);
     // password를 암호화 하기
     await users.save(); // db에 user 저장
+    const snsId = users.snsId;
+    const newCalendar = await calendar.registerSnsId({ snsId });
+    console.log(`new ${newCalendar}`);
     res.send("Success");
   } catch (error) {
     console.error(error.message);

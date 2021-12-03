@@ -1,5 +1,5 @@
 import { User } from "../models/User";
-
+import { calendar } from "../models/calendar";
 export const social = async (req, res, done) => {
   try {
     let { provider, snsId, email, name, gender, age, birth, birthyear, phone } =
@@ -17,17 +17,28 @@ export const social = async (req, res, done) => {
         console.log("이미 있는 아이디입니다.");
         return res.send("이미 있는 아이디입니다."); // 중복확인
       }
+
+      const newCalendar = await calendar.registerSnsId({ snsId });
+      console.log(`new ${newCalendar}`);
+
+      const checkCalendar = await calendar.findUser({ snsId });
+      console.log(`new ${checkCalendar}`);
+
+      const userCalendar = checkCalendar._id;
+      console.log(userCalendar);
+
       const newUser = await User.join({
         provider,
         snsId,
         email,
-        nickname: undefined,
+        nickname: name,
         name,
         gender,
         age,
         birth,
         birthyear,
         phone,
+        userCalendar,
       });
       console.log(`newUser: ${newUser}`);
       return done(null, newUser);
@@ -39,19 +50,30 @@ export const social = async (req, res, done) => {
         console.log(`onlySnsIdUser: ${onlySnsIdUser}`);
         return done(null, onlySnsIdUser);
       }
+      const newCalendar = await calendar.registerSnsId({ snsId });
+      console.log(`new ${newCalendar}`);
+
+      const checkCalendar = await calendar.findUser({ snsId });
+      console.log(`new ${checkCalendar}`);
+
+      const userCalendar = checkCalendar._id;
+
       const newUser = await User.join({
         provider,
         snsId,
         email,
-        nickname: undefined,
+        nickname: name,
         name,
         gender,
         age,
         birth,
         birthyear,
         phone,
+        userCalendar,
       });
       console.log(`newUser: ${newUser}`);
+      // const newCalendar = await calendar.registerSnsId({ snsId });
+      // console.log(`new ${newCalendar}`);
       return done(null, newUser);
     }
   } catch (error) {
