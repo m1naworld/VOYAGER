@@ -1,23 +1,46 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef } from "react";
 import styled, { keyframes } from "styled-components";
 import CalendarSurvey from "../survey/calendar/CalendarSurvey";
 import "./Pal.scss";
+import {
+  MdOutlineArrowBackIosNew,
+  MdOutlineArrowForwardIos,
+} from "react-icons/md";
+
+import { useSelector } from "react-redux";
 
 const Container = styled.div`
   width: 100%;
   overflow: hidden;
+  @media screen and (max-width: 420px) {
+    width: 100vw;
+    display: flex;
+    flex-direction: column;
+  }
 `;
-const Button = styled.button`
+const ButtonLeft = styled(MdOutlineArrowBackIosNew)`
   all: unset;
-  border: 1px solid coral;
-  padding: 0.5em 2em;
-  color: coral;
-  border-radius: 10px;
+  fill: white;
+  height: 3em;
   position: absolute;
+  transition: all 0.3s ease-in-out;
   &:hover {
     transition: all 0.3s ease-in-out;
-    background-color: coral;
     color: #fff;
+    opacity: 0.6;
+  }
+`;
+
+const ButtonRight = styled(MdOutlineArrowForwardIos)`
+  all: unset;
+  fill: white;
+  height: 3em;
+  position: absolute;
+  transition: all 0.3s ease-in-out;
+  &:hover {
+    transition: all 0.3s ease-in-out;
+    color: #fff;
+    opacity: 0.6;
   }
 `;
 
@@ -139,6 +162,18 @@ const SliderContainer = styled.div`
   .qs {
     font-size: 1rem;
   }
+
+  @media screen and (max-width: 420px) {
+    display: flex;
+    flex-direction: column;
+    .slide {
+      top: -3rem;
+    }
+    .qs {
+      top: 10rem;
+      width: 80%;
+    }
+  }
 `;
 
 const TOTAL_SLIDES = 2;
@@ -161,6 +196,10 @@ export default function Slider({ toggle }) {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [slidePosition, setSlidePosition] = useState(null);
   const slideRef = useRef(null);
+  const dataList = useSelector(
+    (state) => state.dailyQuestions.DailyQuestions.qs
+  );
+
   const nextSlide = () => {
     if (currentSlide >= TOTAL_SLIDES) {
       setCurrentSlide(0);
@@ -182,7 +221,7 @@ export default function Slider({ toggle }) {
     <Container>
       <div className="wrapper">
         <SliderContainer ref={slideRef}>
-          {data.map((m) => (
+          {dataList.map((m) => (
             <CalendarSurvey
               key={m.index}
               data={m}
@@ -192,12 +231,14 @@ export default function Slider({ toggle }) {
             />
           ))}
         </SliderContainer>
-        <Button style={{ left: "2%", zIndex: 1000 }} onClick={prevSlide}>
-          Previous Slide
-        </Button>
-        <Button style={{ right: "2%", zIndex: 1000 }} onClick={nextSlide}>
-          Next Slide
-        </Button>
+        <ButtonLeft
+          style={{ left: "2%", zIndex: 1000 }}
+          onClick={prevSlide}
+        ></ButtonLeft>
+        <ButtonRight
+          style={{ right: "2%", zIndex: 1000 }}
+          onClick={nextSlide}
+        ></ButtonRight>
       </div>
       <button onClick={() => toggle(false)}>CLOSE SURVEY</button>
     </Container>

@@ -4,9 +4,7 @@ const initialState = {
   isLoggedIn: false,
   isLoading: true,
   isStart: false,
-  user: {
-    id: "",
-  },
+  user: {},
   cookie: {
     accessToken: "",
     refreshToken: "",
@@ -21,7 +19,7 @@ export const ToggleSlice = createSlice({
       state.isLoggedIn = action.payload;
     },
     editUser: (state, action) => {
-      state.user.id = action.payload;
+      state.user = action.payload;
     },
     checkLoading: (state, action) => {
       state.isLoading = action.payload;

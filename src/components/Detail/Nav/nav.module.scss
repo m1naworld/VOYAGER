@@ -4,12 +4,12 @@
   left: 0;
   top: 0;
   z-index: 10000;
-  transform: translateX(-300px);
+  transform: translateX(-70%);
+  width: 20%;
   height: 100%;
-  width: 400px;
   transition: all 800ms cubic-bezier(0.8, 0, 0.33, 1);
   border-radius: 0% 0% 100% 50%;
-
+  position: fixed;
   &.nav_open {
     transform: translateX(0);
     border-radius: 0% 0% 0% 0%;
@@ -110,5 +110,11 @@
     &:hover {
       color: #222;
     }
+  }
+}
+@media screen and (max-width: 420px) {
+  .nav {
+    transform: translateX(-80%);
+    width: 100%;
   }
 }

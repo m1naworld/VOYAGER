@@ -5,9 +5,9 @@ const CalendarSurvey = ({ data, slideIndex, maxIndex, slidePosition }) => {
   let nextIndex;
 
   if (slideIndex === 0) {
-    prevIndex = 2;
+    prevIndex = maxIndex;
     nextIndex = 1;
-  } else if (slideIndex === 2) {
+  } else if (slideIndex === maxIndex) {
     prevIndex = 1;
     nextIndex = 0;
   } else {
@@ -28,12 +28,13 @@ const CalendarSurvey = ({ data, slideIndex, maxIndex, slidePosition }) => {
             : "slide"
         }
       >
-        <span>{data.qs}</span>
+        <span style={{ font: "IM_Hyemin-Bold" }}>{data.qs}</span>
       </div>
       <textarea
         type="text"
         rows="5"
         cols="30"
+        onChange={(v) => console.log(v.target.value)}
         className={slideIndex === data.index ? "qs slide now" : "qs slide hide"}
       />
     </>

@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
+import { getDailyQs } from "../../redux/reducer/DailyQsReducer";
 import styles from "./Detail.module.scss";
 import Pal from "./Pal";
 
@@ -13,6 +14,12 @@ function Detail() {
   const btn = useRef();
 
   const [testOpen, setTestOpen] = useState(false);
+  const dispatch = useDispatch();
+
+  const data = useCallback(async () => {
+    const qs = await dispatch(getDailyQs());
+    return qs;
+  }, [dispatch]);
 
   const scrollEvent = useCallback(() => {
     let value = window.scrollY;
@@ -26,11 +33,12 @@ function Detail() {
   }, []);
 
   useEffect(() => {
+    data();
     window.addEventListener("scroll", scrollEvent);
     return () => {
       window.removeEventListener("scroll", scrollEvent);
     };
-  }, [scrollEvent]);
+  }, [scrollEvent, data]);
   return (
     <>
       <section className={styles.mainSection}>

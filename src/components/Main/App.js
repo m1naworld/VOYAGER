@@ -13,13 +13,11 @@ function App() {
       .get("/auth/user", { timeout: 3000 })
       .then((res) => {
         dispatch(toggleLogin(true));
-        console.log(res);
         return res;
       })
       .catch(async (err) => {
         if (err.code === "ECONNABORTED") {
           dispatch(toggleLogin(false));
-          console.log(err.response);
           return "TIMEOUT ERROR";
         }
         if (err.response.status === 401) {
@@ -32,12 +30,10 @@ function App() {
           return err.response;
         }
       });
-
-    // dispatch(toggleLogin(res.data.inAuth));
+    dispatch(checkLoading(false));
   }, [dispatch]);
   useEffect(() => {
     checkToken();
-    dispatch(checkLoading(false));
   }, [checkToken, dispatch]);
   return loading ? <Spinner /> : <Router />;
 }

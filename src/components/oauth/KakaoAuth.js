@@ -37,28 +37,23 @@ function KakaoAuth() {
           properties: { nickname: name },
         } = data;
         // birth = `${birth.substring(0, 2)}-${birth.substring(2, 4)}`;
-
+        const userDate = { snsId, email, name, gender, age, birth };
         const result = await axios.post("/auth/access", {
           provider: "kakao",
-          snsId,
-          email,
-          name,
-          gender,
-          age,
-          birth,
+          ...userDate,
         });
         console.log(result);
 
         if (result.status === 200) {
-          console.log(email);
-          dispatch(editUser(snsId));
+          dispatch(editUser(userDate));
           dispatch(toggleLogin(true));
           history("/");
         }
       } catch (err) {
-        if (err.response.data.error_code === "KOE320") {
-          history(-1);
-        }
+        console.log(err);
+        // if (err.response.data.error_code === "KOE320") {
+        history(-1);
+        // }
         history("/join");
       }
     },

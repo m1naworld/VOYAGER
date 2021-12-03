@@ -23,6 +23,13 @@ module.exports = function (app) {
     })
   );
   app.use(
+    "/send",
+    createProxyMiddleware({
+      target: process.env.REACT_APP_SERVER_URL,
+      changeOrigin: true,
+    })
+  );
+  app.use(
     "/token",
     createProxyMiddleware({
       target: "https://nid.naver.com/oauth2.0/",

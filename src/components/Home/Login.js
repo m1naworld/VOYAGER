@@ -10,7 +10,6 @@ import { ErrorMessage } from "@hookform/error-message";
 
 function Login() {
   const navigate = useNavigate();
-
   const {
     handleSubmit,
     register,

@@ -1,0 +1,277 @@
+$bg: #01191d;
+$green: #18f4a3;
+$fireMain: #ff0000;
+$fireSub: #fffe00;
+
+.section {
+  width: 300px;
+  height: 300px;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  overflow: hidden;
+  border: 5px solid #0b787f;
+  border-radius: 30% 30% 30% 30%;
+  background: linear-gradient(#202363, #138eb3);
+}
+.ship__container {
+  position: relative;
+  height: 100%;
+  animation: TotheMoon 3s ease-in-out forwards;
+  animation-delay: 3s;
+}
+
+.ship__ship {
+  position: absolute;
+  width: 100px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+.ship__fire {
+  top: 64%;
+  z-index: -4;
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  margin-top: 20px;
+  transform: rotate(180deg);
+  transition: all 0.2s alternate ease-in-out;
+  animation: launcher infinite 0.3s ease-in-out;
+}
+.ship__right {
+  left: 49.5%;
+}
+.ship__left {
+  left: 44%;
+}
+
+.ship__torch {
+  top: 65%;
+  z-index: -4;
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  margin-top: 20px;
+  border-radius: 80% 0 55% 50% / 55% 0 80% 50%;
+  background-color: $fireMain;
+  transform: rotate(135deg);
+  animation: flicker infinite 1s alternate ease-in-out;
+  &:after {
+    content: "";
+    top: 5px;
+    position: absolute;
+    width: 15px;
+    height: 15px;
+    border-radius: 80% 0 55% 50% / 55% 0 80% 50%;
+    background-color: $fireSub;
+  }
+}
+
+.ship__hook {
+  top: 60%;
+  z-index: -4;
+  position: absolute;
+  width: 20px;
+  height: 100%;
+  margin-top: 20px;
+  background: linear-gradient(179deg, #ff0000, #fffe00);
+  background-size: 400% 400%;
+  border-radius: 50% 50% 0 0;
+  animation: gradient 4s ease-in-out alternate forwards;
+}
+
+.smoke {
+  position: absolute;
+  width: 400%;
+  height: 400%;
+  bottom: -250%;
+  left: 50%;
+  background-color: #e8e6ef;
+  transform: translateX(-50%) scale(0.25);
+}
+
+.smoke_bubble {
+  position: absolute;
+  background-color: #e8e6ef;
+  border-radius: 50%;
+  animation: smoke infinite 7s alternate ease-in-out;
+}
+
+.smoke_bubble:nth-child(1) {
+  left: 1%;
+  top: -22%;
+  width: 20%;
+  height: 20%;
+  animation-duration: 5s;
+}
+.smoke_bubble:nth-child(2) {
+  right: 1%;
+  top: -22%;
+  width: 20%;
+  height: 20%;
+  animation-duration: 5s;
+}
+.smoke_bubble:nth-child(3) {
+  left: -6%;
+  top: -28%;
+  width: 15%;
+  height: 15%;
+  animation-duration: 3s;
+}
+.smoke_bubble:nth-child(4) {
+  right: -6%;
+  top: -28%;
+  width: 15%;
+  height: 15%;
+  animation-duration: 3s;
+}
+.smoke_bubble:nth-child(5) {
+  left: 12%;
+  top: -11%;
+  width: 20%;
+  height: 20%;
+  animation-duration: 6s;
+}
+.smoke_bubble:nth-child(6) {
+  right: 12%;
+  top: -11%;
+  width: 20%;
+  height: 20%;
+  animation-duration: 6s;
+}
+.smoke_bubble:nth-child(7) {
+  left: 28%;
+  top: -7%;
+  width: 14%;
+  height: 14%;
+  animation-duration: 3s;
+}
+.smoke_bubble:nth-child(8) {
+  right: 28%;
+  top: -7%;
+  width: 14%;
+  height: 14%;
+  animation-duration: 3s;
+}
+.smoke_bubble:nth-child(9) {
+  left: 35%;
+  top: -6%;
+  width: 19%;
+  height: 19%;
+  animation-duration: 5s;
+}
+.smoke_bubble:nth-child(10) {
+  right: 35%;
+  top: -6%;
+  width: 19%;
+  height: 19%;
+  animation-duration: 5s;
+}
+.smoke_bubble:nth-child(11) {
+  left: -9%;
+  top: -19%;
+  width: 30%;
+  height: 30%;
+  animation: none;
+}
+
+.smoke_bubble:nth-child(12) {
+  right: -9%;
+  top: -19%;
+  width: 30%;
+  height: 30%;
+  animation: none;
+}
+
+@keyframes smoke {
+  0% {
+    transform: scale(1.2);
+  }
+  50% {
+    transform: scale(0.8);
+  }
+  100% {
+    transform: scale(1.2);
+  }
+}
+
+@keyframes launcher {
+  0% {
+    height: 20px;
+    filter: drop-shadow(0 0 15px $fireMain);
+  }
+
+  25% {
+    filter: drop-shadow(0 0 15px #ff0000);
+  }
+
+  50% {
+    filter: drop-shadow(0 0 15px #ff9900);
+  }
+
+  75% {
+    filter: drop-shadow(0 0 15px #ffcc00);
+  }
+
+  100% {
+    height: 100px;
+    filter: drop-shadow(0 0 15px #fffe00);
+  }
+}
+
+@keyframes launch {
+  from {
+    height: 20px;
+  }
+  to {
+    height: 100px;
+  }
+}
+
+@keyframes flicker {
+  0% {
+    transform: rotate(135deg) scale(0.8);
+    box-shadow: 0 0 17px 10px $fireMain;
+  }
+
+  25% {
+    box-shadow: 0 0 17px 5px $fireMain;
+  }
+
+  50% {
+    box-shadow: 0 0 17px 7px $fireMain;
+  }
+
+  75% {
+    box-shadow: 0 0 17px 5px $fireMain;
+  }
+
+  100% {
+    box-shadow: 0 0 17px 10px $fireMain;
+  }
+}
+
+@keyframes gradient {
+  0% {
+    height: 10px;
+    background-position: 51% 0%;
+  }
+  50% {
+    background-position: 50% 100%;
+  }
+  100% {
+    height: 1000px;
+    background-position: 51% 0%;
+  }
+}
+
+@keyframes TotheMoon {
+  from {
+    transform: translate(0, 0);
+  }
+  to {
+    transform: translate(0, -100%);
+  }
+}

@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import classes from "./nav.module.scss";
 
@@ -18,6 +18,10 @@ const Nav = () => {
       console.log(err);
     }
   }, []);
+  useEffect(() => {
+    const b = document.querySelector("body");
+    // b.style.overflow = "hidden";
+  }, [toggle]);
 
   return (
     <nav
@@ -52,6 +56,27 @@ const Nav = () => {
           toggle ? `${classes.nav_links} ${classes.fade_in}` : classes.nav_links
         }
       >
+        <div
+          style={{
+            width: "100px",
+            height: "100px",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            // border: "1px solid coral",
+            background: "linear-gradient(#202363, #138eb3)",
+            borderRadius: "50%",
+          }}
+        >
+          <img
+            src="image/parallax/moon2.png"
+            alt="moon"
+            style={{
+              width: "70px",
+              height: "70px",
+            }}
+          />
+        </div>
         <Link to="" className={classes.link}>
           Home
         </Link>
