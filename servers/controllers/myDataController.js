@@ -31,16 +31,20 @@ export const myDaily = async (req, res) => {
     const idx = data.findIndex((m) => m.date.getTime() === date.getTime());
     console.log(idx);
     if (idx === -1) {
-      const a = await mydaily.registerDaily({ snsId, date, question, answer });
-      console.log(a);
-    } else {
-      data[idx].answer = answer;
+      const newPush = await mydaily.registerDaily({
+        snsId,
+        date,
+        question,
+        answer,
+      });
+      newPush.data.sort();
+      newPush.save();
+      return res.status(200).json({ message: "myDaily 등록 성공" });
     }
-    data.sort();
+    data[idx].answer = answer;
     user.data = data;
     user.save();
-
-    return res.status(200);
+    return res.status(200).json({ message: "myDaily 수정 성공" });
   } catch (error) {
     console.log(error);
     res.status(400).json({ message: "myDaily 오류" });
@@ -59,18 +63,19 @@ export const myDiary = async (req, res) => {
     const idx = data.findIndex((m) => m.date.getTime() === date.getTime());
     console.log(idx);
     if (idx === -1) {
-      const a = await mydiary.registerDiary({ snsId, date, diary });
-      console.log(a);
-      //   return res.status(200).json({ register: true, message: "myDiary 등록" });
-    } else {
-      data[idx].diary = diary;
+      const newPush = await mydiary.registerDiary({ snsId, date, diary });
+      newPush.data.sort();
+      newPush.save();
+      return res
+        .status(200)
+        .json({ register: true, message: "myDiary 등록 성공" });
     }
-    data.sort();
+    data[idx].diary = diary;
     user.data = data;
     user.save();
     return res
       .status(200)
-      .json({ register: true, message: "myDiary 등록 성공" });
+      .json({ register: true, message: "myDiary 수정 성공" });
   } catch (error) {
     console.log(error);
     return res.status(400).json({ message: "myDiary 오류" });

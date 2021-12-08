@@ -5,14 +5,16 @@ const myDailySchema = new mongoose.Schema(
     snsId: { type: String, required: true, unique: true },
     data: [
       {
-        date: Date,
-        daily: {
-          question: {
-            type: mongoose.SchemaTypes.ObjectId,
-            ref: "dailyquestion",
+        date: { type: Date },
+        daily: [
+          {
+            question: {
+              type: mongoose.SchemaTypes.ObjectId,
+              ref: "dailyquestion",
+            },
+            answer: { type: Object },
           },
-          answer: [{ type: Object }],
-        },
+        ],
       },
     ],
   },
@@ -30,13 +32,15 @@ myDailySchema.statics.registerDaily = function ({
   question,
   answer,
 }) {
-  return this.findOneAndUpdate({
-    snsId,
-    $push: {
-      data: { date: date, daily: { question, answer } },
+  return this.findOneAndUpdate(
+    { snsId },
+    {
+      $push: {
+        data: { date, daily: { question, answer } },
+      },
     },
-    new: true,
-  });
+    { new: true }
+  );
 };
 
 export const mydaily = mongoose.model("mydaily", myDailySchema);
