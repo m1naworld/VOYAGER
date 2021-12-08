@@ -1,5 +1,6 @@
 import { dailyquestion } from "../models/dailyQuestion";
 
+// dailyquestion 주관식 질문 DB저장 함수
 export const addDaily = async (req, res) => {
   const datas = req.body[0].label;
   console.log(datas);
@@ -14,6 +15,7 @@ export const addDaily = async (req, res) => {
   return res.status(200).json({ success: true });
 };
 
+// dailyquestion 주관식 프론트로 보내는 함수
 export const findDaily = async (req, res) => {
   try {
     const count = await dailyquestion.count();
@@ -26,14 +28,10 @@ export const findDaily = async (req, res) => {
     const label = parseInt(((today - fixedDay) / (1000 * 3600 * 24)) % count);
 
     const daily = await dailyquestion.findDailyQ({ label });
-
-    return res.status(200).json({ data: daily.data });
+    console.log(daily);
+    return res.status(200).json({ question: daily });
   } catch (error) {
     console.log("dailyQuestion Controller 오류");
     return res.status(400).send("dailyQuestion Controller 오류");
   }
 };
-
-// export const answer = async (req, res)=> {
-//   // dailyAreq.body
-// }

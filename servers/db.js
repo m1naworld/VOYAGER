@@ -1,8 +1,8 @@
 // env 파일읽기
 import dotenv from "dotenv";
-dotenv.config();
-
 import mongoose from "mongoose";
+
+dotenv.config();
 
 // 하나의 데이터 베이스 연결시 유효한 코드
 mongoose.connect(process.env.DB_URL);

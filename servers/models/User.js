@@ -1,8 +1,9 @@
 import mongoose from "mongoose";
+
 import moment from "moment";
 require("moment-timezone");
 moment.tz.setDefault("Asia/Seoul");
-const registerDate = moment().format("YYYY-MM-DD HH:mm:ss");
+const registerDate = moment().format("YYYY-MM-DD");
 
 const userSchema = new mongoose.Schema(
   {

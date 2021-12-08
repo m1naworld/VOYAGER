@@ -1,5 +1,6 @@
 import { User } from "../models/User";
-import { calendar } from "../models/calendar";
+import { mycalendar } from "../models/myCalendar";
+
 export const social = async (req, res, done) => {
   try {
     let { provider, snsId, email, name, gender, age, birth, birthyear, phone } =
@@ -17,13 +18,15 @@ export const social = async (req, res, done) => {
         console.log("이미 있는 아이디입니다.");
         return res.send("이미 있는 아이디입니다."); // 중복확인
       }
-
-      const newCalendar = await calendar.registerSnsId({ snsId });
+      // 회원가입과 동시에 calendar db 생성 및 user db와 연결
+      // calendar db 생성 및 snsId 저장
+      const newCalendar = await mycalendar.registerSnsId({ snsId });
       console.log(`new ${newCalendar}`);
 
-      const checkCalendar = await calendar.findUser({ snsId });
+      // addCalendar(snsId);
+      // snsId를 통해 calendar db ObjectId를 user와 연결
+      const checkCalendar = await mycalendar.findOne({ snsId });
       console.log(`new ${checkCalendar}`);
-
       const userCalendar = checkCalendar._id;
       console.log(userCalendar);
 
@@ -50,12 +53,11 @@ export const social = async (req, res, done) => {
         console.log(`onlySnsIdUser: ${onlySnsIdUser}`);
         return done(null, onlySnsIdUser);
       }
-      const newCalendar = await calendar.registerSnsId({ snsId });
+      const newCalendar = await mycalendar.registerSnsId({ snsId });
       console.log(`new ${newCalendar}`);
 
-      const checkCalendar = await calendar.findUser({ snsId });
+      const checkCalendar = await mycalendar.findOne({ snsId });
       console.log(`new ${checkCalendar}`);
-
       const userCalendar = checkCalendar._id;
 
       const newUser = await User.join({
@@ -72,8 +74,6 @@ export const social = async (req, res, done) => {
         userCalendar,
       });
       console.log(`newUser: ${newUser}`);
-      // const newCalendar = await calendar.registerSnsId({ snsId });
-      // console.log(`new ${newCalendar}`);
       return done(null, newUser);
     }
   } catch (error) {
@@ -81,5 +81,3 @@ export const social = async (req, res, done) => {
     return done(error);
   }
 };
-
-// MongoServerError:일때 회원가입되어있습니다.

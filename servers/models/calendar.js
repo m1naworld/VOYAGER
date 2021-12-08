@@ -1,60 +1,100 @@
-import mongoose from "mongoose";
+import mongoose, { mongo } from "mongoose";
 import moment from "moment";
 
 require("moment-timezone");
 moment.tz.setDefault("Asia/Seoul");
+const date = moment().format("YYYY-MM-DD");
 
-const registerDate = moment().format("YYYY-MM-DD");
+// const dailySchema = new mongoose.Schema({
+//   question: { type: mongoose.SchemaTypes.ObjectId, ref: "dailyquestion" },
+//   answer: { type: Object },
+// });
+
+// const dataSchema = new mongoose.Schema({
+//   date: { type: String, required: true, default: date },
+//   colors: String,
+//   diary: String,
+//   daily: [dailySchema],
+// });
+
+// const calendarSchema = new mongoose.Schema(
+//   {
+//     snsId: { type: String, required: true, unique: true },
+//     data: { Object },
+//   },
+//   { versionKey: false }
+// );
 
 const calendarSchema = new mongoose.Schema(
   {
     snsId: { type: String, required: true, unique: true },
     data: {
-      type: Object,
       date: {
-        type: String,
-        default: registerDate,
+        type: Date,
         required: true,
         unique: true,
       },
       colors: String,
       diary: String,
-      dailyA: {
-        // type: Object,
-        // label: { type: mongoose.SchemaType.label, ref: "dailyquestion" },
-        data: { Object },
+      daily: {
+        question: {
+          type: mongoose.SchemaTypes.ObjectId,
+          ref: "dailyquestion",
+        },
+        answer: { type: Object },
       },
     },
   },
   { versionKey: false }
 );
 
-calendarSchema.statics.register = function ({ dailyA }) {
-  const calendar = new this({
-    data: { dailyA: dailyA },
-  });
-  return calendar.save();
-};
-
+// snsId 저장
 calendarSchema.statics.registerSnsId = function ({ snsId }) {
   const create = new this({ snsId });
   return create.save();
 };
 
+// snsId로 user 찾기
 calendarSchema.statics.findUser = function ({ snsId }) {
   return this.findOne({ snsId });
 };
 
-// calendar 참조 ObjectId 가져와서 User DB에 넣기
-calendarSchema.statics.registerData = function ({ snsId, dailyA }) {
-  return this.findOneAndUpdate({
-    snsId,
-    $push: { data: { dailyA } },
-    upsert: true,
-  });
-};
+// calendarSchema.statics.registerDaily = function ({ snsId, question, answer }) {
+//   return this.findOneAndUpdate({
+//     snsId,
+//     $set: {
+//       data: { daily: { question, answer } },
+//     },
+//     new: true,
+//     upsert: true,
+//   });
+// };
 
-// calendarSchema.statics.findDate = function ({data.date})
-// label: { type: mongoose.SchemaTypes.ObjectId, ref: "dailyquestion " },
+// calendarSchema.statics.addDiary = function (snsId, question, answer) {
+//   // const me = this.findOne({ snsId });
+//   const newdaily = calendar[0].data.push({ daily: [{ question, answer }] });
+//   return newdaily.save();
+// };
+
+// calendarSchema.statics.registerDiary = function ({ snsId, date, diary }) {
+//   return this.updateOne({
+//     snsId,
+//     $push: { data: { date, diary } },
+//     new: true,
+//     upsert: true,
+//   });
+// };
+
+// calendarSchema.statics.registerDiary = function ({ snsId, date, diary }) {
+//   return this.updateOne(
+//     { snsId },
+//     { $push: { data: { diary } } },
+//     { new: true, insert: true }
+//   );
+// };
+
+// calendarSchema.statics.registerDiary = function({ snsId, date diary})
+// // calendarSchema.statics.findDate = function ({data.date})
+// // label: { type: mongoose.SchemaTypes.ObjectId, ref: "dailyquestion " },
 
 export const calendar = mongoose.model("calendar", calendarSchema);

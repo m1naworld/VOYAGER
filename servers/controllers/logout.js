@@ -14,7 +14,7 @@ export const logOut = async (req, res) => {
     if (refreshed) {
       await refresh.deleteRefresh({ refreshtoken });
     }
-    return res.status(401).json({ inAuth: false, message: "LogOut" });
+    return res.status(200).json({ inAuth: false, message: "LogOut" });
   } catch (error) {
     console.log(error);
   }

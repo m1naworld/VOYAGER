@@ -18,10 +18,21 @@ export const join = async (req, res) => {
     const salt = await bcrypt.genSalt(Number(process.env.SALT));
     console.log(typeof salt);
     password = await bcrypt.hash(password, salt);
+
+    const snsId = email;
+    const newCalendar = await calendar.registerSnsId({ snsId });
+    console.log(`new ${newCalendar}`);
+
+    // snsId를 통해 calendar db ObjectId를 user와 연결
+    const checkCalendar = await calendar.findUser({ snsId });
+    console.log(`new ${checkCalendar}`);
+    const userCalendar = checkCalendar._id;
+    console.log(userCalendar);
+
     // user에 name, email, password 등 값 할당
     users = new User({
       provider,
-      snsId: email,
+      snsId,
       email,
       password,
       nickname: name,
@@ -29,13 +40,11 @@ export const join = async (req, res) => {
       birth,
       birthyear,
       phone,
+      userCalendar,
     });
     console.log(users);
     // password를 암호화 하기
     await users.save(); // db에 user 저장
-    const snsId = users.snsId;
-    const newCalendar = await calendar.registerSnsId({ snsId });
-    console.log(`new ${newCalendar}`);
     res.send("Success");
   } catch (error) {
     console.error(error.message);
