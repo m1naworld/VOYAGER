@@ -4,11 +4,11 @@ import jwt from "jsonwebtoken";
 import { social } from "../servers/controllers/socialController";
 import { refresh } from "../servers/models/refreshToken";
 import { join } from "../servers/controllers/join";
-import { emailCheck } from "../servers/controllers/emailCheak";
+import { emailCheck } from "../servers/controllers/Cheak";
 import { jwtVerify } from "../servers/middle/jwtVerify";
 import { tokenError } from "../servers/middle/jwtError";
 import { logOut } from "../servers/controllers/logout";
-import { User } from "../servers/models/User";
+
 const router = express.Router();
 
 // 회원가입
@@ -63,7 +63,7 @@ router.post("/login", async (req, res, next) => {
   })(req, res, next);
 });
 
-// 소셜 토큰 발급
+// 소셜 로그인 토큰 발급
 router.post("/access", social, async (req, res) => {
   try {
     console.log(req.body);
@@ -99,13 +99,6 @@ router.post("/access", social, async (req, res) => {
       expires: new Date(Date.now() + 1000 * 60 * 60 * 24 * 5),
     });
 
-    const a = await User.findBySnsId({ snsId });
-    if (a.userCalendar === undefined) {
-      console.log("aaaaaaaaaaaaaaa 언디파인");
-    } else {
-      console.log("언디파인 아님");
-    }
-    console.log(a.calendar);
     return res.status(200).json({ accessToken, refreshToken });
   } catch (error) {
     console.log(error);

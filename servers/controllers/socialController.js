@@ -1,5 +1,6 @@
 import { User } from "../models/User";
 import { mycalendar } from "../models/myCalendar";
+import { addCalendar } from "./myCalendarController";
 
 export const social = async (req, res, done) => {
   try {
@@ -23,12 +24,13 @@ export const social = async (req, res, done) => {
       const newCalendar = await mycalendar.registerSnsId({ snsId });
       console.log(`new ${newCalendar}`);
 
-      // addCalendar(snsId);
       // snsId를 통해 calendar db ObjectId를 user와 연결
       const checkCalendar = await mycalendar.findOne({ snsId });
       console.log(`new ${checkCalendar}`);
       const userCalendar = checkCalendar._id;
       console.log(userCalendar);
+
+      addCalendar(snsId);
 
       const newUser = await User.join({
         provider,
@@ -57,6 +59,9 @@ export const social = async (req, res, done) => {
       console.log(`new ${newCalendar}`);
 
       const checkCalendar = await mycalendar.findOne({ snsId });
+
+      addCalendar(snsId);
+
       console.log(`new ${checkCalendar}`);
       const userCalendar = checkCalendar._id;
 

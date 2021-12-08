@@ -1,4 +1,5 @@
 import { User } from "../models/User";
+import jwt from "jsonwebtoken";
 
 export const emailCheck = async (req, res) => {
   console.log(req.body);
@@ -20,4 +21,11 @@ export const emailCheck = async (req, res) => {
     console.log(error);
     return res.status(400).json({ error: error });
   }
+};
+
+export const snsIdCheck = (req, res, next) => {
+  const accesstoken = req.cookies.Authorization;
+  const decoded = jwt.verify(accesstoken, process.env.JWT_SECRET);
+  req.snsId = decoded.id;
+  next();
 };
