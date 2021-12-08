@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 
 const myDiarySchema = new mongoose.Schema(
   {
-    snsId: { type: String, required: true },
+    snsId: { type: String, required: true, unique: true },
     data: [
       {
         date: Date,

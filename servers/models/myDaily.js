@@ -5,7 +5,7 @@ const myDailySchema = new mongoose.Schema(
     snsId: { type: String, required: true, unique: true },
     data: [
       {
-        date: { type: Date },
+        date: Date,
         daily: [
           {
             question: {
@@ -26,17 +26,12 @@ myDailySchema.statics.registerSnsId = function ({ snsId }) {
   return create.save();
 };
 
-myDailySchema.statics.registerDaily = function ({
-  snsId,
-  date,
-  question,
-  answer,
-}) {
+myDailySchema.statics.registerDaily = function ({ snsId, date, daily }) {
   return this.findOneAndUpdate(
     { snsId },
     {
       $push: {
-        data: { date, daily: { question, answer } },
+        data: { date, daily },
       },
     },
     { new: true }

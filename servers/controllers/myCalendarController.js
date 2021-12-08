@@ -6,6 +6,7 @@ import { mydiary } from "../models/myDiary";
 export const addCalendar = async (snsId) => {
   await mycolor.registerSnsId({ snsId });
   await mydiary.registerSnsId({ snsId });
+  await mydaily.registerSnsId({ snsId });
 
   let color = await mycolor.findOne({ snsId });
   let diary = await mydiary.findOne({ snsId });
