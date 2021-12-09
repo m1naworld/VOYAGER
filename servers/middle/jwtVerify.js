@@ -9,7 +9,6 @@ export const jwtVerify = async (req, res) => {
     const refreshtoken = req.cookies.reAuthorization;
     console.log({ accesstoken: accesstoken });
     console.log({ refreshtoken: refreshtoken });
-
     // DB에 저장된 refresh 가져오기
     const refreshed = await refresh.findByRefresh({ refreshtoken });
     console.log({ refreshed: refreshed });

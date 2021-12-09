@@ -41,6 +41,7 @@ router.post("/login", async (req, res, next) => {
 
         const token = { access_token: accessToken };
         console.log(token);
+
         const snsId = user.snsId;
         const existRefresh = await refresh.findBysnsId({ snsId });
         if (existRefresh) {
@@ -97,7 +98,7 @@ router.post("/access", social, async (req, res) => {
       httpOnly: true,
       expires: new Date(Date.now() + 1000 * 60 * 60 * 24 * 5),
     });
-    res.locals.mina = 
+
     return res.status(200).json({ accessToken, refreshToken });
   } catch (error) {
     console.log(error);

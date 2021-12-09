@@ -3,17 +3,14 @@ import mongoose from "mongoose";
 const myDailySchema = new mongoose.Schema(
   {
     snsId: { type: String, required: true, unique: true },
-    owner: { type: mongoose.SchemaTypes.ObjectId, required: true },
     data: [
       {
         date: Date,
-        daily: {
-          question: {
-            type: mongoose.SchemaTypes.ObjectId,
-            ref: "dailyquestion",
-          },
-          answer: { type: Object },
+        question: {
+          type: mongoose.SchemaTypes.ObjectId,
+          ref: "dailyquestion",
         },
+        answer: [{ Object }],
       },
     ],
   },
@@ -25,12 +22,17 @@ myDailySchema.statics.registerSnsId = function ({ snsId, id }) {
   return create.save();
 };
 
-myDailySchema.statics.registerDaily = function ({ snsId, date, daily }) {
+myDailySchema.statics.registerDaily = function ({
+  snsId,
+  date,
+  question,
+  answer,
+}) {
   return this.findOneAndUpdate(
     { snsId },
     {
       $push: {
-        data: { date, daily },
+        data: { date, question, answer },
       },
     },
     { new: true }

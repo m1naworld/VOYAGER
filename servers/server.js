@@ -8,7 +8,6 @@ import morgan from "morgan";
 import passport from "passport";
 import cookieParser from "cookie-parser";
 import cors from "cors";
-import { localsMiddleware } from "./middle/aa";
 
 const app = express();
 const PORT = 4000;
@@ -22,7 +21,6 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(morgan("dev"));
 app.use(cookieParser(process.env.COOKIE_SECRET));
-app.use(localsMiddleware);
 
 app.use("/auth", router);
 app.use("/register", register);

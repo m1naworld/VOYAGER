@@ -3,10 +3,12 @@ import mongoose from "mongoose";
 const myColorSchema = new mongoose.Schema(
   {
     snsId: { type: String, required: true, unique: true },
-    data: {
-      date: Date,
-      color: String,
-    },
+    data: [
+      {
+        date: Date,
+        color: String,
+      },
+    ],
   },
   { versionKey: false }
 );

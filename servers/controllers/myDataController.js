@@ -22,26 +22,23 @@ export const myDaily = async (req, res) => {
     const date = new Date(req.body.date);
     const question = req.body.question;
     const answer = req.body.answer;
-    const daily = { question, answer };
     const user = await mydaily.findOne({ snsId });
     const data = user.data;
-    const idx = data.findIndex((m) => m.date.getTime() === date.getTime());
-    console.log(idx);
-    if (idx === -1) {
-      const newPush = await mydaily.registerDaily({
-        snsId,
-        date,
-        daily,
-      });
-      newPush.data.sort();
-      newPush.save();
-      return res.status(200).json({ message: "myDaily 등록 성공" });
-    }
-    data[idx].daily = daily;
-    user.data = data;
-    console.log(user.data);
-    user.save();
-    return res.status(200).json({ message: "myDaily 수정 성공" });
+    // const idx = data.findIndex((m) => m.date.getTime() === date.getTime());
+    // console.log(idx);
+    // if (idx === -1) {
+    const newPush = await mydaily.registerDaily({
+      snsId,
+      date,
+      question,
+      answer,
+    });
+    // newPush.data.sort();
+    // newPush.save();
+    console.log(newPush);
+    return res.status(200).json({ message: "myDaily 등록 성공" });
+    // }
+    // return res.status(200).json({ message: "myDaily 수정 성공" });
   } catch (error) {
     console.log(error);
     res.status(400).json({ message: "myDaily 오류" });

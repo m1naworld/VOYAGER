@@ -24,8 +24,12 @@ export const emailCheck = async (req, res) => {
 };
 
 export const snsIdCheck = (req, res, next) => {
-  const accesstoken = req.cookies.Authorization;
-  const decoded = jwt.verify(accesstoken, process.env.JWT_SECRET);
-  req.snsId = decoded.id;
-  next();
+  try {
+    const accesstoken = req.cookies.Authorization;
+    const decoded = jwt.verify(accesstoken, process.env.JWT_SECRET);
+    req.snsId = decoded.id;
+    next();
+  } catch (error) {
+    return res.status(400).json({ inAuth: false, message: "snsIdCheck 실패" });
+  }
 };
