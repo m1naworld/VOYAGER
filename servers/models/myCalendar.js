@@ -1,16 +1,11 @@
 import mongoose from "mongoose";
-import { mycolor } from "../models/myColor";
-import { mydaily } from "../models/myDaily";
-import { mydiary } from "../models/myDiary";
 
 const myCalendarSchema = new mongoose.Schema(
   {
     snsId: { type: String, required: true, unique: true },
-    data: {
-      color: { type: mongoose.SchemaTypes.ObjectId, ref: "mycolor" },
-      diary: { type: mongoose.SchemaTypes.ObjectId, ref: "mydiary" },
-      daily: { type: mongoose.SchemaTypes.ObjectId, ref: "mydaily" },
-    },
+    color: { type: mongoose.SchemaTypes.ObjectId, ref: "mycolor" },
+    diary: { type: mongoose.SchemaTypes.ObjectId, ref: "mydiary" },
+    daily: { type: mongoose.SchemaTypes.ObjectId, ref: "mydaily" },
   },
   { versionKey: false }
 );
@@ -28,7 +23,7 @@ myCalendarSchema.statics.registerData = function ({
 }) {
   return this.findOneAndUpdate(
     { snsId },
-    { $push: { data: { color, diary, daily } } },
+    { $push: { color, diary, daily } },
     { new: true }
   );
 };

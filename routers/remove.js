@@ -6,8 +6,7 @@ import {
 } from "../servers/controllers/removeController";
 
 const remove = express.Router();
-
+// 회원탈퇴시 라우터 추가예정
 remove.post("/myDiary", snsIdCheck, deleteMyDiary);
-remove.post("/myDaily", snsIdCheck, deleteMyDaily);
 
 module.exports = remove;

@@ -1,5 +1,4 @@
 import mongoose from "mongoose";
-
 import moment from "moment";
 require("moment-timezone");
 moment.tz.setDefault("Asia/Seoul");
@@ -21,7 +20,7 @@ const userSchema = new mongoose.Schema(
     registerdate: { type: String, default: registerDate },
     userCalendar: {
       type: mongoose.SchemaTypes.ObjectId,
-      ref: "calendar",
+      ref: "mycalendar",
     },
   },
   { versionKey: false }

@@ -6,15 +6,13 @@ const myDailySchema = new mongoose.Schema(
     data: [
       {
         date: Date,
-        daily: [
-          {
-            question: {
-              type: mongoose.SchemaTypes.ObjectId,
-              ref: "dailyquestion",
-            },
-            answer: { type: Object },
+        daily: {
+          question: {
+            type: mongoose.SchemaTypes.ObjectId,
+            ref: "dailyquestion",
           },
-        ],
+          answer: { type: Object },
+        },
       },
     ],
   },
