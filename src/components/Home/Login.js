@@ -30,11 +30,16 @@ function Login() {
   return (
     <main className={styles.login}>
       <section>
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <label htmlFor="email">Email</label>
+        <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
+          {/* <label htmlFor="email">Email</label> */}
           <input
+            placeholder="Email"
             {...register("email", {
-              required: "Required",
+              required: (
+                <h1 style={{ fontSize: "0.5rem", color: "red" }}>
+                  This field required.
+                </h1>
+              ),
               pattern: {
                 value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
                 message: "invalid email address",
@@ -42,11 +47,16 @@ function Login() {
             })}
           />
           <ErrorMessage errors={errors} name="email" />
-          <label htmlFor="password">Password</label>
+          {/* <label htmlFor="password">Password</label> */}
           <input
+            placeholder="Password"
             type="password"
             {...register("password", {
-              required: "This field required.",
+              required: (
+                <h1 style={{ fontSize: "0.5rem", color: "red" }}>
+                  This field required.
+                </h1>
+              ),
               minLength: {
                 value: 5,
                 message: "Minlength : 5",
@@ -55,12 +65,18 @@ function Login() {
           />
           <ErrorMessage errors={errors} name="password" />
           <button type="submit">Submit</button>
-          <input onClick={checkVerify} type="button" value="verify" />
-          <span>
-            Don't have Account? <Link to="/join">&rarr;</Link>
-          </span>
+          <hr style={{ color: "black", width: "100%", margin: "10px 0" }} />
+
+          {/* <div
+            style={{
+              display: "flex",
+              width: "100%",
+              justifyContent: "space-between",
+            }}
+          > */}
           <KakaoButton />
           <NaverButton />
+          {/* </div> */}
         </form>
       </section>
     </main>

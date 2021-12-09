@@ -23,6 +23,13 @@ module.exports = function (app) {
     })
   );
   app.use(
+    "/add",
+    createProxyMiddleware({
+      target: process.env.REACT_APP_SERVER_URL,
+      changeOrigin: true,
+    })
+  );
+  app.use(
     "/send",
     createProxyMiddleware({
       target: process.env.REACT_APP_SERVER_URL,

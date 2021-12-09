@@ -30,7 +30,7 @@ function NaverButton() {
       <button ref={btn} id="naverIdLogin" style={{ display: "none" }}></button>
       <button id="naver" onClick={callNaver}>
         <img src="image/naver.png" alt="naver" />
-        Login with Naver
+        {/* Login with Naver */}
       </button>
     </>
   );

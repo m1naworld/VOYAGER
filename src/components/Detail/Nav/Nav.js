@@ -2,9 +2,12 @@ import axios from "axios";
 import { useCallback, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import classes from "./nav.module.scss";
+import { toggleLogin } from "../../../redux/reducer/ToggleReducer";
+import { useDispatch } from "react-redux";
 
 const Nav = () => {
   const [toggle, setToggle] = useState(false);
+  const dispatch = useDispatch();
 
   const handleClick = useCallback(() => {
     setToggle(!toggle);
@@ -14,6 +17,7 @@ const Nav = () => {
     try {
       const res = await axios.get("/auth/logout");
       console.log(res);
+      dispatch(toggleLogin(false));
     } catch (err) {
       console.log(err);
     }
@@ -56,27 +60,6 @@ const Nav = () => {
           toggle ? `${classes.nav_links} ${classes.fade_in}` : classes.nav_links
         }
       >
-        <div
-          style={{
-            width: "100px",
-            height: "100px",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            // border: "1px solid coral",
-            background: "linear-gradient(#202363, #138eb3)",
-            borderRadius: "50%",
-          }}
-        >
-          <img
-            src="image/parallax/moon2.png"
-            alt="moon"
-            style={{
-              width: "70px",
-              height: "70px",
-            }}
-          />
-        </div>
         <Link to="" className={classes.link}>
           Home
         </Link>
@@ -89,9 +72,45 @@ const Nav = () => {
         <Link to="" className={classes.link}>
           About
         </Link>
-        <Link to="" className={classes.link} onClick={handleLogout}>
+        <Link to="/logout" className={classes.link} onClick={handleLogout}>
           Logout
         </Link>
+        <button
+          onClick={async () => {
+            try {
+              const data = await axios.get("/send/calendar");
+              console.log(data);
+            } catch (err) {
+              console.log(err);
+            }
+          }}
+        >
+          123123123
+        </button>
+        <button
+          onClick={async () => {
+            await axios.post("/register/addDiary", {
+              date: "2021-12-12",
+              diary: "123123",
+            });
+            await axios.post("/register/addColor", {
+              date: "2021-12-11",
+              color: "#fff",
+            });
+            const result = await axios.post("/register/addDaily", {
+              date: "2021-12-12",
+              question: { _id: "61a9b358d51383431a002fb9" },
+              answer: [
+                { index: 1, qs: "34343" },
+                { index: 2, qs: "dsdsdsd" },
+                { index: 3, qs: "qwekqwelk" },
+              ],
+            });
+            console.log(result);
+          }}
+        >
+          post
+        </button>
       </div>
     </nav>
   );

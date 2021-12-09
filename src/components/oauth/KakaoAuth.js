@@ -4,12 +4,13 @@ import qs from "qs";
 import axios from "axios";
 import { useDispatch } from "react-redux";
 import { editUser, toggleLogin } from "../../redux/reducer/ToggleReducer";
+import Spinner from "../animations/Spinner/Spinner";
 
 const { Kakao } = window;
 function KakaoAuth() {
   const param = new URLSearchParams(window.location.search).get("code");
   const dispatch = useDispatch();
-  const history = useNavigate();
+  const navigate = useNavigate();
   const postParam = useCallback(
     async (param) => {
       try {
@@ -47,23 +48,21 @@ function KakaoAuth() {
         if (result.status === 200) {
           dispatch(editUser(userDate));
           dispatch(toggleLogin(true));
-          history("/");
+          navigate("/");
         }
       } catch (err) {
         console.log(err);
         // if (err.response.data.error_code === "KOE320") {
-        history(-1);
         // }
-        history("/join");
+        navigate("/join");
       }
     },
-    [history, dispatch]
+    [navigate, dispatch]
   );
   useEffect(() => {
     postParam(param);
   }, [postParam, param]);
-
-  return <h1>123123</h1>;
+  return <Spinner />;
 }
 
 export default KakaoAuth;

@@ -19,6 +19,14 @@
   font-weight: normal;
   font-style: normal;
 }
-body {
-  background: linear-gradient(#202363, #138eb3);
+
+@font-face {
+  font-family: "NanumSquare";
+  src: url("./fonts/NanumSquare_acB.ttf");
+  font-weight: normal;
+  font-style: normal;
+}
+
+* {
+  font-family: "NanumSquare";
 }

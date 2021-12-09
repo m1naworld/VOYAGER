@@ -1,8 +1,23 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
+import { addAnswer } from "../../../redux/reducer/DailyQsReducer";
 
-const CalendarSurvey = ({ data, slideIndex, maxIndex, slidePosition }) => {
+const CalendarSurvey = ({
+  data,
+  slideIndex,
+  maxIndex,
+  slidePosition,
+  toggle,
+}) => {
   let prevIndex;
   let nextIndex;
+
+  const dispatch = useDispatch();
+
+  const [postData, setPostData] = useState({
+    index: data.index,
+    answer: "",
+  });
 
   if (slideIndex === 0) {
     prevIndex = maxIndex;
@@ -14,6 +29,13 @@ const CalendarSurvey = ({ data, slideIndex, maxIndex, slidePosition }) => {
     prevIndex = slideIndex - 1;
     nextIndex = slideIndex + 1;
   }
+
+  useEffect(() => {
+    if (toggle) {
+      console.log(toggle);
+      dispatch(addAnswer(postData));
+    }
+  }, [toggle, dispatch, postData]);
 
   return (
     <>
@@ -28,13 +50,15 @@ const CalendarSurvey = ({ data, slideIndex, maxIndex, slidePosition }) => {
             : "slide"
         }
       >
-        <span style={{ font: "IM_Hyemin-Bold" }}>{data.qs}</span>
+        <span style={{ font: "IM_Hyemin-Bold", color: "white" }}>
+          {data.qs}
+        </span>
       </div>
       <textarea
         type="text"
         rows="5"
         cols="30"
-        onChange={(v) => console.log(v.target.value)}
+        onChange={(v) => setPostData({ ...postData, answer: v.target.value })}
         className={slideIndex === data.index ? "qs slide now" : "qs slide hide"}
       />
     </>

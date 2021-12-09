@@ -1,9 +1,14 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
-import { getDailyQs } from "../../redux/reducer/DailyQsReducer";
+import { getDailyQs, postDailyQs } from "../../redux/reducer/DailyQsReducer";
+import {
+  getCalendar,
+  getCalendarList,
+} from "../../redux/reducer/CalendarReducer";
 import styles from "./Detail.module.scss";
 import Pal from "./Pal";
+import { useSelector } from "react-redux";
 
 function Detail() {
   const stars = useRef();
@@ -14,12 +19,24 @@ function Detail() {
   const btn = useRef();
 
   const [testOpen, setTestOpen] = useState(false);
+  const [fetch, setFetch] = useState(false);
+
   const dispatch = useDispatch();
+
+  // const dd = useSelector(getCalendarList);
+
+  const postDailyQsData = useSelector((state) => {
+    const { answer, id } = state.dailyQuestions;
+    const data = { date: "2021-12-09", question: { _id: id }, answer };
+    console.log(data);
+    return data;
+  });
 
   const data = useCallback(async () => {
     const qs = await dispatch(getDailyQs());
+    const calendar = await dispatch(getCalendar());
     return qs;
-  }, [dispatch]);
+  }, []);
 
   const scrollEvent = useCallback(() => {
     let value = window.scrollY;
@@ -27,18 +44,21 @@ function Detail() {
     moon.current.style.top = value * 1 + "px";
     mountains_behind.current.style.top = value * 0.5 + "px";
     mountains_front.current.style.top = value * 0 + "px";
-    text.current.style.marginRight = value * 6 + "px";
-    text.current.style.marginTop = value * 1.5 + "px";
     btn.current.style.marginTop = value * 1.5 + "px";
   }, []);
 
   useEffect(() => {
+    if (fetch) {
+      console.log(fetch);
+      dispatch(postDailyQs(postDailyQsData));
+      setFetch(false);
+    }
     data();
     window.addEventListener("scroll", scrollEvent);
     return () => {
       window.removeEventListener("scroll", scrollEvent);
     };
-  }, [scrollEvent, data]);
+  }, [scrollEvent, fetch]);
   return (
     <>
       <section className={styles.mainSection}>
@@ -60,9 +80,9 @@ function Detail() {
           alt="mountains_behind"
           ref={mountains_behind}
         />
-        <h2 id={styles["text"]} ref={text}>
+        {/* <h2 id={styles["text"]} ref={text}>
           Moon Light
-        </h2>
+        </h2> */}
         <Link to="#" id={styles["btn"]} ref={btn}>
           Explore
         </Link>
@@ -75,7 +95,7 @@ function Detail() {
       </section>
       <div className={styles.sec} id="sec">
         {testOpen ? (
-          <Pal toggle={setTestOpen} />
+          <Pal toggle={setTestOpen} fetch={fetch} setFetch={setFetch} />
         ) : (
           <button onClick={() => setTestOpen(true)}>OPEN SURVEY</button>
         )}

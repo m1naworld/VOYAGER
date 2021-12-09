@@ -162,6 +162,13 @@ const SliderContainer = styled.div`
   .qs {
     font-size: 1rem;
   }
+  button {
+    color: white;
+    position: absolute;
+    left: 50%;
+    top: 15rem;
+    transform: translate(-50%, -50%);
+  }
 
   @media screen and (max-width: 420px) {
     display: flex;
@@ -192,13 +199,12 @@ const data = [
   },
 ];
 
-export default function Slider({ toggle }) {
+export default function Slider({ toggle, fetch, setFetch }) {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [slidePosition, setSlidePosition] = useState(null);
+
   const slideRef = useRef(null);
-  const dataList = useSelector(
-    (state) => state.dailyQuestions.DailyQuestions.qs
-  );
+  const dataList = useSelector((state) => state.dailyQuestions.qs);
 
   const nextSlide = () => {
     if (currentSlide >= TOTAL_SLIDES) {
@@ -228,6 +234,7 @@ export default function Slider({ toggle }) {
               slideIndex={currentSlide}
               slidePosition={slidePosition}
               maxIndex={TOTAL_SLIDES}
+              toggle={fetch}
             />
           ))}
         </SliderContainer>
@@ -241,6 +248,7 @@ export default function Slider({ toggle }) {
         ></ButtonRight>
       </div>
       <button onClick={() => toggle(false)}>CLOSE SURVEY</button>
+      <button onClick={() => setFetch(!fetch)}>send</button>
     </Container>
   );
 }

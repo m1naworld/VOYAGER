@@ -16,7 +16,7 @@ function KakaoButton({ ...res }) {
   return (
     <button id="btn" onClick={loginWithKakao}>
       <img id="kakao" src="image/kakao.png" alt="kakao" />
-      Login with Kakao
+      {/* Login with Kakao */}
     </button>
   );
 }
