@@ -23,17 +23,20 @@ export const addCalendar = async (snsId) => {
 
 export const sendCalendar = async (req, res) => {
   try {
+    const date = new Date("2022-01-01");
     const snsId = req.snsId;
     const user = await User.findBySnsId({ snsId }).populate("userCalendar");
     console.log(user);
     const userCalendar = await user.userCalendar.populate("color");
+
+    console.log(userCalendar.color);
     await user.userCalendar.populate("daily");
     await user.userCalendar.populate("diary");
     // console.log(userCalendar.color.data.color);
-    console.log(userCalendar.daily.data[0].daily);
+    console.log(userCalendar.daily.data);
     // userCalendar.daily.data.daily.populate("question");
     // console.log(userCalendar.diary);
-    // console.log(userCalendar.diary.data[0].diary);
+    // console.log (userCalendar.diary.data[0].diary);
     // const c = await mycalendar.findOne({ snsId });
 
     // console.log(c);

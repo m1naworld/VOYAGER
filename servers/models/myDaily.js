@@ -3,6 +3,7 @@ import mongoose from "mongoose";
 const myDailySchema = new mongoose.Schema(
   {
     snsId: { type: String, required: true, unique: true },
+    owner: { type: mongoose.SchemaTypes.ObjectId, required: true },
     data: [
       {
         date: Date,
@@ -19,8 +20,8 @@ const myDailySchema = new mongoose.Schema(
   { versionKey: false }
 );
 
-myDailySchema.statics.registerSnsId = function ({ snsId }) {
-  const create = new this({ snsId });
+myDailySchema.statics.registerSnsId = function ({ snsId, id }) {
+  const create = new this({ snsId, owner: id });
   return create.save();
 };
 
