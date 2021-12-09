@@ -10,7 +10,7 @@ const myDailySchema = new mongoose.Schema(
           type: mongoose.SchemaTypes.ObjectId,
           ref: "dailyquestion",
         },
-        answer: [{ Object }],
+        answer: [Object],
       },
     ],
   },
