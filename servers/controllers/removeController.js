@@ -9,7 +9,6 @@ export const deleteMyDiary = async (req, res) => {
   try {
     const snsId = req.snsId;
     const date = new Date(req.body.date);
-
     const user = await mydiary.findOne({ snsId });
     const data = user.data;
     console.log(data);
@@ -32,21 +31,16 @@ export const dropOut = async (req, res) => {
   try {
     const snsId = req.snsId;
     console.log(snsId);
-    if (snsId !== undefined) {
-      await mydiary.findOneAndDelete({ snsId });
-      await mydaily.findOneAndDelete({ snsId });
-      await mycolor.findOneAndDelete({ snsId });
-      await mycalendar.findOneAndDelete({ snsId });
-      await User.findOneAndDelete({ snsId });
-      await refresh.findOneAndDelete({ snsId });
-      console.log("탈퇴 성공 ㅠㅠ");
-      return res
-        .status(200)
-        .json({ delete: true, message: " 회원탈퇴 성공ㅠㅠ" });
-    }
+    await mydiary.findOneAndDelete({ snsId });
+    await mydaily.findOneAndDelete({ snsId });
+    await mycolor.findOneAndDelete({ snsId });
+    await mycalendar.findOneAndDelete({ snsId });
+    await User.findOneAndDelete({ snsId });
+    await refresh.findOneAndDelete({ snsId });
+    console.log("탈퇴 성공 ㅠㅠ");
     return res
-      .status(400)
-      .json({ delete: false, message: "토큰없어서 회원탈퇴 실패" });
+      .status(200)
+      .json({ delete: true, message: " 회원탈퇴 성공ㅠㅠ" });
   } catch (error) {
     console.log(error);
     return res

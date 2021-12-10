@@ -63,53 +63,27 @@ export const sendSurveyQuestion = async (req, res) => {
   try {
     const id = "61b2e801c28e04f06cbd668a";
     const emotion = await survey.findById(id);
-    console.log(emotion);
     const arr = emotion.emotions;
-    console.log(arr);
 
     const question = [];
-    const happy = [];
-    const sad = [];
-    const joy = [];
-    const anger = [];
-
-    // for(let a in arr){
-    //   for (let j=0; j<3; j++){
-    //   let random = getRandomInt(0, 90);
-    //   let element = arr[a].data[random].qs;
-    //   question.push(element);
-    //   }
-    // }
-
-    for (let j = 0; j < 3; j++) {
-      let random = getRandomInt(0, 90);
-      let element = arr[0].data[random].qs;
-      happy.push(element);
+    let k = 1;
+    for (let a in arr) {
+      let num;
+      for (let j = 0; j < 3; j++) {
+        let random = getRandomInt(0, 90);
+        if (random === num) {
+          console.log("in");
+          --j;
+          continue;
+        }
+        let element = arr[a].data[random].qs;
+        num = random;
+        question.push({ label: k, qs: element });
+        k += 1;
+      }
     }
 
-    for (let j = 0; j < 3; j++) {
-      let random = getRandomInt(0, 90);
-      let element = arr[1].data[random].qs;
-      sad.push(element);
-    }
-
-    for (let j = 0; j < 3; j++) {
-      let random = getRandomInt(0, 90);
-      let element = arr[2].data[random].qs;
-      joy.push(element);
-    }
-
-    for (let j = 0; j < 3; j++) {
-      let random = getRandomInt(0, 90);
-      let element = arr[3].data[random].qs;
-      anger.push(element);
-    }
-    // }
-    return res
-      .status(200)
-      .json({ happy: happy, sad: sad, joy: joy, anger: anger });
-
-    // console.log(question);
+    return res.status(200).send(question);
   } catch (error) {
     console.log(error);
     return res

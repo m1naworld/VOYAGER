@@ -12,6 +12,8 @@ import cors from "cors";
 const app = express();
 const PORT = 4000;
 
+const api = express.Router();
+
 const passportConfig = require("./config/passport");
 app.use(passport.initialize());
 passportConfig();
@@ -22,11 +24,12 @@ app.use(express.json());
 app.use(morgan("dev"));
 app.use(cookieParser(process.env.COOKIE_SECRET));
 
-app.use("/auth", router);
-app.use("/register", register);
-app.use("/send", send);
-app.use("/delete", remove);
-app.get("/", (req, res) => {
+app.use("/api", api);
+api.use("/auth", router);
+api.use("/register", register);
+api.use("/send", send);
+api.use("/delete", remove);
+api.get("/", (req, res) => {
   console.log(res.locals.page);
   res.send("success");
 });

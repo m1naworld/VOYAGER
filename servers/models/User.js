@@ -65,4 +65,8 @@ userSchema.statics.join = function ({
   return user.save();
 };
 
+userSchema.statics.modify = function ({ snsId, nickname }) {
+  return this.findOneAndUpdate({ snsId, $addToSet: nickname, new: true });
+};
+
 export const User = mongoose.model("User", userSchema);

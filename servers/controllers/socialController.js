@@ -1,6 +1,6 @@
 import { User } from "../models/User";
 import { mycalendar } from "../models/myCalendar";
-import { addCalendar } from "./myCalendarController";
+import { addCalendar } from "./myDataController";
 
 export const social = async (req, res, done) => {
   try {
@@ -21,14 +21,12 @@ export const social = async (req, res, done) => {
       }
       // 회원가입과 동시에 calendar db 생성 및 user db와 연결
       // calendar db 생성 및 snsId 저장
-      const newCalendar = await mycalendar.registerSnsId({ snsId });
-      console.log(`new ${newCalendar}`);
+      await mycalendar.registerSnsId({ snsId });
 
       // snsId를 통해 calendar db ObjectId를 user와 연결
       const checkCalendar = await mycalendar.findOne({ snsId });
       console.log(`new ${checkCalendar}`);
       const userCalendar = checkCalendar._id;
-      console.log(userCalendar);
 
       addCalendar(snsId);
 
@@ -55,9 +53,7 @@ export const social = async (req, res, done) => {
         console.log(`onlySnsIdUser: ${onlySnsIdUser}`);
         return done(null, onlySnsIdUser);
       }
-      const newCalendar = await mycalendar.registerSnsId({ snsId });
-      console.log(`new ${newCalendar}`);
-
+      await mycalendar.registerSnsId({ snsId });
       const checkCalendar = await mycalendar.findOne({ snsId });
 
       addCalendar(snsId);

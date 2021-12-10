@@ -3,11 +3,11 @@ import passport from "passport";
 import jwt from "jsonwebtoken";
 import { social } from "../servers/controllers/socialController";
 import { refresh } from "../servers/models/refreshToken";
-import { join } from "../servers/controllers/join";
-import { emailCheck } from "../servers/controllers/Cheak";
+import { join } from "../servers/controllers/localJoinController";
+import { emailCheck } from "../servers/middle/Cheak";
 import { jwtVerify } from "../servers/middle/jwtVerify";
 import { tokenError } from "../servers/middle/jwtError";
-import { logOut } from "../servers/controllers/logout";
+import { logOut } from "../servers/controllers/logOutController";
 
 const router = express.Router();
 

@@ -1,5 +1,5 @@
 import express from "express";
-import { snsIdCheck } from "../servers/controllers/Cheak";
+import { snsIdCheck } from "../servers/middle/Cheak";
 import {
   deleteMyDiary,
   dropOut,

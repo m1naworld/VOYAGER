@@ -13,7 +13,7 @@ export const emailCheck = async (req, res) => {
     if (exUser) {
       console.log(exUser);
       return res
-        .status(400)
+        .status(200)
         .json({ error: "이메일이 중복되었습니다", check: false });
     }
     return res.status(200).json({ check: true });
@@ -28,7 +28,13 @@ export const snsIdCheck = (req, res, next) => {
     const accesstoken = req.cookies.Authorization;
     const decoded = jwt.verify(accesstoken, process.env.JWT_SECRET);
     req.snsId = decoded.id;
-    next();
+    if (req.snsId !== undefined) {
+      next();
+    } else {
+      return res
+        .status(400)
+        .json({ inAuth: false, message: "snsIdCheck 실패" });
+    }
   } catch (error) {
     return res.status(400).json({ inAuth: false, message: "snsIdCheck 실패" });
   }
