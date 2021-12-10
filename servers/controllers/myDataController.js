@@ -5,8 +5,7 @@ import { mydiary } from "../models/myDiary";
 export const myColor = async (req, res) => {
   try {
     const snsId = req.snsId;
-    console.log(req.body);
-    const date = new Date(req.body.date);
+    const date = new Date();
     const color = req.body.color;
     await mycolor.registerColor({ snsId, date, color });
     return res.status(200).json({ register: true, message: "myColor 등록" });
@@ -19,12 +18,15 @@ export const myColor = async (req, res) => {
 export const myDaily = async (req, res) => {
   try {
     const snsId = req.snsId;
-    const date = new Date(req.body.date);
+    const date = new Date().setHours(0, 0, 0, 0);
     const question = req.body.question;
     const answer = req.body.answer;
-    console.log(date);
-    console.log(question);
-    console.log(answer);
+
+    const exist = await mydaily.findOne({ "data.date": date });
+    if (exist) {
+      console.log("myDaily 이미 있음");
+      return res.end();
+    }
     const newPush = await mydaily.registerDaily({
       snsId,
       date,
@@ -44,7 +46,6 @@ export const myDiary = async (req, res) => {
     const snsId = req.snsId;
     const date = new Date(req.body.date);
     const diary = req.body.diary;
-
     const user = await mydiary.findOne({ snsId });
     const data = user.data;
     console.log(data.date);

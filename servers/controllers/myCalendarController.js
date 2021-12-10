@@ -29,7 +29,7 @@ export const sendCalendar = async (req, res) => {
     const userCalendar = await user.userCalendar.populate("color");
     await user.userCalendar.populate("daily");
     await user.userCalendar.populate("diary");
-
+    // await user.userCalendar.daily.data.populate("question");
     console.log(userCalendar);
     console.log(userCalendar.daily);
 

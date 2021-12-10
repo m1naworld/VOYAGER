@@ -1,12 +1,15 @@
 import express from "express";
-import { findDaily } from "../servers/controllers/dailyQuestionsController";
+import {
+  sendDailyQeustion,
+  sendSurveyQuestion,
+} from "../servers/controllers/questionsController";
 import { sendCalendar } from "../servers/controllers/myCalendarController";
 import { snsIdCheck } from "../servers/controllers/Cheak";
 
 const send = express.Router();
 
-send.get("/dailyQ", findDaily);
-
+send.get("/dailyQuestion", sendDailyQeustion);
+send.get("/surveyQuestion", sendSurveyQuestion);
 send.get("/calendar", snsIdCheck, sendCalendar);
 
 module.exports = send;

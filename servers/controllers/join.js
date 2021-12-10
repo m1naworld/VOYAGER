@@ -26,7 +26,7 @@ export const join = async (req, res) => {
     console.log(`new ${newCalendar}`);
 
     // snsId를 통해 calendar db ObjectId를 user와 연결
-    const checkCalendar = await mycalendar.findUser({ snsId });
+    const checkCalendar = await mycalendar.findOne({ snsId });
     const userCalendar = checkCalendar._id;
 
     addCalendar(snsId);
