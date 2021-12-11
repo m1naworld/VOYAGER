@@ -6,10 +6,12 @@ import {
 import { sendCalendar } from "../servers/controllers/myDataController";
 import { snsIdCheck } from "../servers/middle/Cheak";
 import { userInformation } from "../servers/controllers/userModifyController";
+
 const send = express.Router();
 
 send.get("/dailyQuestion", sendDailyQeustion);
 send.get("/surveyQuestion", sendSurveyQuestion);
 send.get("/calendar", snsIdCheck, sendCalendar);
 send.get("/user", snsIdCheck, userInformation);
+
 module.exports = send;

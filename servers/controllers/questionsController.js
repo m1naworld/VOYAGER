@@ -82,7 +82,6 @@ export const sendSurveyQuestion = async (req, res) => {
         k += 1;
       }
     }
-
     return res.status(200).send(question);
   } catch (error) {
     console.log(error);

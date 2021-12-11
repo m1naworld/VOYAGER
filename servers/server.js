@@ -23,7 +23,11 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(morgan("dev"));
 app.use(cookieParser(process.env.COOKIE_SECRET));
+app.use("/uploads", express.static("uploads"));
 
+app.get("/", (req, res) => {
+  res.send("ok");
+});
 app.use("/api", api);
 api.use("/auth", router);
 api.use("/register", register);

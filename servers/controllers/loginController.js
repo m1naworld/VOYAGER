@@ -1,6 +1,8 @@
 import { User } from "../models/User";
 import { mycalendar } from "../models/myCalendar";
 import { addCalendar } from "./myDataController";
+import { refresh } from "../models/refreshToken";
+
 import dotenv from "dotenv";
 dotenv.config();
 
@@ -23,8 +25,6 @@ export const join = async (req, res) => {
 
     const snsId = email;
     await mycalendar.registerSnsId({ snsId });
-
-    // snsId를 통해 calendar db ObjectId를 user와 연결
     const checkCalendar = await mycalendar.findOne({ snsId });
     const userCalendar = checkCalendar._id;
 
@@ -36,7 +36,6 @@ export const join = async (req, res) => {
       snsId,
       email,
       password,
-      nickname: name,
       name,
       birth,
       birthyear,
@@ -51,5 +50,25 @@ export const join = async (req, res) => {
   } catch (error) {
     console.error(error.message);
     res.status(500).send("Server Error");
+  }
+};
+
+export const logOut = async (req, res) => {
+  try {
+    const accesstoken = req.cookies.Authorization;
+    const refreshtoken = req.cookies.reAuthorization;
+    console.log({ accessToken: accesstoken });
+    console.log({ refreshToken: refreshtoken });
+    res.clearCookie("Authorization");
+    res.clearCookie("reAuthorization");
+
+    const refreshed = await refresh.findByRefresh({ refreshtoken });
+    console.log(refreshed);
+    if (refreshed) {
+      await refresh.deleteRefresh({ refreshtoken });
+    }
+    return res.status(200).json({ inAuth: false, message: "LogOut" });
+  } catch (error) {
+    console.log(error);
   }
 };

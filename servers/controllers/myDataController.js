@@ -93,7 +93,7 @@ export const addCalendar = async (snsId) => {
 export const sendCalendar = async (req, res) => {
   try {
     const snsId = req.snsId;
-    const date = new Date("2021-12-10");
+    // const date = new Date("2021-12-10");
     const user = await User.findBySnsId({ snsId }).populate("userCalendar");
     // const userCalendar = await user.userCalendar.populate({
     //   path: "color",

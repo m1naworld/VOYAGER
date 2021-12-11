@@ -14,10 +14,12 @@ export const social = async (req, res, done) => {
         // kakao와 naver 이메일 겹치지 않도록
         if (provider === emailUser.provider) {
           console.log(`emailUser: ${emailUser}`);
-          return done(null, emailUser);
+          return done(null, emailUser, { message: "로그인 성공" });
         }
         console.log("이미 있는 아이디입니다.");
-        return res.send("이미 있는 아이디입니다."); // 중복확인
+        return done(null, false, {
+          message: `${provider}로 이미 가입된 아이디입니다.`,
+        }); // 중복확인
       }
       // 회원가입과 동시에 calendar db 생성 및 user db와 연결
       // calendar db 생성 및 snsId 저장
@@ -34,7 +36,6 @@ export const social = async (req, res, done) => {
         provider,
         snsId,
         email,
-        nickname: name,
         name,
         gender,
         age,
@@ -44,14 +45,14 @@ export const social = async (req, res, done) => {
         userCalendar,
       });
       console.log(`newUser: ${newUser}`);
-      return done(null, newUser);
+      return done(null, newUser, { message: "회원가입 성공" });
     }
     // 이메일이 없을 경우
     else if (email === undefined) {
       const onlySnsIdUser = await User.findBySnsId({ snsId });
       if (onlySnsIdUser) {
         console.log(`onlySnsIdUser: ${onlySnsIdUser}`);
-        return done(null, onlySnsIdUser);
+        return done(null, onlySnsIdUser, { message: "로그인 성공" });
       }
       await mycalendar.registerSnsId({ snsId });
       const checkCalendar = await mycalendar.findOne({ snsId });
@@ -65,7 +66,6 @@ export const social = async (req, res, done) => {
         provider,
         snsId,
         email,
-        nickname: name,
         name,
         gender,
         age,
@@ -75,7 +75,7 @@ export const social = async (req, res, done) => {
         userCalendar,
       });
       console.log(`newUser: ${newUser}`);
-      return done(null, newUser);
+      return done(null, newUser, { message: "회원가입 성공" });
     }
   } catch (error) {
     console.log(error);

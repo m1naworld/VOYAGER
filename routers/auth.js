@@ -1,14 +1,14 @@
 import express from "express";
 import passport from "passport";
 import jwt from "jsonwebtoken";
-import { social } from "../servers/controllers/socialController";
-import { refresh } from "../servers/models/refreshToken";
-import { join } from "../servers/controllers/localJoinController";
+import { join, logOut } from "../servers/controllers/loginController";
 import { emailCheck } from "../servers/middle/Cheak";
+import { social } from "../servers/controllers/socialController";
 import { jwtVerify } from "../servers/middle/jwtVerify";
+import { refresh } from "../servers/models/refreshToken";
 import { tokenError } from "../servers/middle/jwtError";
-import { logOut } from "../servers/controllers/logOutController";
-
+import { userCheck } from "../servers/middle/Cheak";
+import { findEmail } from "../servers/controllers/userModifyController";
 const router = express.Router();
 
 // 회원가입
@@ -16,13 +16,13 @@ router.post("/join", join);
 
 // 로컬 로그인
 router.post("/login", async (req, res, next) => {
-  passport.authenticate("login", async (err, user) => {
-    console.log(user, req.body);
+  passport.authenticate("login", async (err, user, msg) => {
+    console.log(user, err, msg);
     try {
       if (err || !user) {
-        const error = new Error(err);
+        // const error = new Error(err);
         console.log("회원가입이 안된 유저");
-        return next(error);
+        return res.status(400).json(msg);
       }
       req.login(user, { session: false }, async (error) => {
         if (error) return next(error);
@@ -48,8 +48,7 @@ router.post("/login", async (req, res, next) => {
           await refresh.deleteSnsId({ snsId });
           console.log("refreshDB snsId 중복 제거");
         }
-        const newRefresh = await refresh.saveRefresh({ snsId, refreshToken });
-        console.log(newRefresh);
+        await refresh.saveRefresh({ snsId, refreshToken });
         console.log("refresh DB 저장 성공!");
 
         res.cookie("Authorization", accessToken, { httpOnly: true });
@@ -67,7 +66,6 @@ router.post("/login", async (req, res, next) => {
 router.post("/access", social, async (req, res) => {
   try {
     console.log(req.body);
-    console.log(req.body.email);
     const snsId = req.body.snsId;
     const accessToken = jwt.sign({ id: snsId }, process.env.JWT_SECRET, {
       expiresIn: process.env.ACCESS_EXPIRE,
@@ -86,8 +84,7 @@ router.post("/access", social, async (req, res) => {
       await refresh.deleteSnsId({ snsId });
       console.log("refreshDB snsId 중복 제거");
     }
-    const newRefresh = await refresh.saveRefresh({ snsId, refreshToken });
-    console.log(newRefresh);
+    await refresh.saveRefresh({ snsId, refreshToken });
     console.log("refresh DB 저장 성공!");
 
     res.cookie("Authorization", accessToken, {
@@ -111,10 +108,15 @@ router.post("/access", social, async (req, res) => {
 // 토큰 검증
 router.get("/user", tokenError, jwtVerify);
 
+// 비밀번호 변경시 userCheck
+router.get("/userCheck", userCheck);
+
 // 로그아웃
 router.get("/logout", logOut);
 
 // 이메일 중복 체크
 router.post("/check", emailCheck);
+
+router.post("/findEmail", findEmail);
 
 module.exports = router;

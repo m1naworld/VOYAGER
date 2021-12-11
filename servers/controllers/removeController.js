@@ -30,7 +30,6 @@ export const deleteMyDiary = async (req, res) => {
 export const dropOut = async (req, res) => {
   try {
     const snsId = req.snsId;
-    console.log(snsId);
     await mydiary.findOneAndDelete({ snsId });
     await mydaily.findOneAndDelete({ snsId });
     await mycolor.findOneAndDelete({ snsId });
