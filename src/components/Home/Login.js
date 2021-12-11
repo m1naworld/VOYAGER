@@ -7,22 +7,27 @@ import KakaoButton from "../button/KakaoButton";
 import NaverButton from "../button/NaverButton";
 import { useForm } from "react-hook-form";
 import { ErrorMessage } from "@hookform/error-message";
+import { useDispatch } from "react-redux";
+import { toggleLogin } from "../../redux/reducer/ToggleReducer";
 
 function Login() {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+
   const {
     handleSubmit,
     register,
     formState: { errors },
   } = useForm();
 
-  const checkVerify = useCallback((e) => {}, []);
-
   const onSubmit = async (data) => {
     try {
-      const result = await axios.post("/auth/login", data, { timeout: 3000 });
+      const result = await axios.post("/api/auth/login", data, {
+        timeout: 3000,
+      });
       if (result.status === 200) {
-        return navigate("/detail");
+        dispatch(toggleLogin(true));
+        navigate("/");
       }
     } catch (err) {}
   };
@@ -64,7 +69,7 @@ function Login() {
             })}
           />
           <ErrorMessage errors={errors} name="password" />
-          <button type="submit">Submit</button>
+          <button type="submit">로그인</button>
           <hr style={{ color: "black", width: "100%", margin: "10px 0" }} />
 
           {/* <div

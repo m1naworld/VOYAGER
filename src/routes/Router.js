@@ -14,17 +14,69 @@ import Profile from "../components/Detail/Profile";
 import Nav from "../components/Detail/Nav/Nav";
 import PrivateRouter from "./PrivateRouter";
 
-import { useSelector } from "react-redux";
-import Airplane from "../components/animations/airplane/Airplne";
-import Ship from "../components/animations/airplane/Ship";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router";
+
+import { changeNickname } from "../redux/reducer/ToggleReducer";
+
 import Home from "../components/Home/Home";
 import NavTest from "../components/Detail/Nav/NavTest";
+import DailyQuestion from "../components/DailyQuestion";
+import { useRef, useState } from "react";
+import axios from "axios";
+
+import classes from "./nickname.module.scss";
+
 const GoToMain = () => {
   return <Navigate to="/" />;
 };
 
-const GoToDetail = () => {
-  return <Navigate to="/detail" />;
+const GoToDetail = ({ loggedIn }) => {
+  const dispatch = useDispatch();
+  const [nick, setNick] = useState("");
+  const navigate = useNavigate();
+  let user = useSelector((state) => state.toggle.user);
+
+  const nickBtn = useRef();
+  const handleClick = async (e) => {
+    try {
+      const nickname = nickBtn.current.value;
+      const res = await axios.post("/api/register/user/modify", { nickname });
+      if (res.status === 200) {
+        dispatch(changeNickname(res.data.nickname));
+        navigate("home");
+      }
+      return res;
+    } catch (e) {
+      console.log(e);
+      return e;
+    }
+  };
+  if (!loggedIn) {
+    return <Navigate to="/" />;
+  }
+
+  return user.nickname === undefined || user.nickname === null ? (
+    <div className={classes.nickname__container}>
+      {/* <img src={`${process.env.PUBLIC_URL}image/spacegif.`} */}
+      <div className={classes.nickname__form}>
+        <label>닉네임을 설정해주세요</label>
+        <div>
+          <input
+            type="text"
+            value={nick}
+            onChange={(v) => setNick(v.target.value)}
+            ref={nickBtn}
+          />
+          <button onClick={handleClick}>DONE</button>
+        </div>
+        {/* <img src={`${process.env.PUBLIC_URL}image/astrnt.gif`} alt="astrnt" /> */}
+      </div>
+      <div className={classes.img__container}></div>
+    </div>
+  ) : (
+    <Navigate to="home" />
+  );
 };
 
 function Router() {
@@ -40,8 +92,9 @@ function Router() {
           <Route path="logout" element={<div>123123</div>} />
         </Route>
         <Route path="detail" element={<DetailRouter />}>
+          <Route path="" element={<GoToDetail loggedIn={loggedIn} />} />
           <Route
-            path=""
+            path="home"
             element={
               <PrivateRouter
                 component={Detail}
@@ -50,8 +103,10 @@ function Router() {
               />
             }
           />
+
           <Route path="profile" element={<Profile />} />
         </Route>
+        <Route path="dailyQuestion" element={<DailyQuestion />} />
         <Route path="oauth" element={<AuthRouter />}>
           <Route path="kakao" element={<KakaoAuth />} />
           <Route path="naver" element={<NaverAuth />} />
@@ -71,16 +126,16 @@ function AuthRouter() {
 
 function HomeRouter() {
   const login = useSelector((state) => state.toggle.isLoggedIn);
+
   if (!login) {
     return (
       <div
         style={{
           width: "100vw",
-          background: "teal",
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
-          padding: "0 5%",
+          padding: "0 5vw",
         }}
         onScroll={() => console.log("SCROLL")}
       >
@@ -99,6 +154,9 @@ function HomeRouter() {
 }
 
 function DetailRouter() {
+  let user = useSelector((state) => state.toggle.user);
+
+  console.log(user);
   return (
     <>
       <Nav />
@@ -121,11 +179,16 @@ function DetailRouter() {
         onClick={() => console.log("click")}
       >
         <img
-          src="image/parallax/moon2.png"
+          src={
+            process.env.REACT_APP_SERVER_URL +
+            "/" +
+            (user.img ?? process.env.REACT_APP_DEFAULT_IMG)
+          }
           alt="moon"
           style={{
-            width: "30px",
-            height: "30px",
+            width: "100%",
+            height: "100%",
+            borderRadius: "50%",
           }}
         />
       </Link>

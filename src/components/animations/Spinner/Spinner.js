@@ -6,7 +6,7 @@ const txt = text.split("");
 function Spinner() {
   return (
     <div className="body">
-      <Sec>
+      <Sec image={process.env.PUBLIC_URL + "/image/space.jpg"}>
         <div className="earth"></div>
         <div className="circle">
           {txt.map((m, idx) => (
@@ -60,7 +60,7 @@ const Sec = styled.section`
     transform: translate(-50%, -50%);
     width: 300px;
     height: 300px;
-    background: url("image/space.jpg");
+    background: ${(props) => `url(${props.image})`};
     background-size: cover;
     background-repeat: repeat-x;
     border-radius: 50%;

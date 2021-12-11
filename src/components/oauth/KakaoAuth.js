@@ -37,17 +37,27 @@ function KakaoAuth() {
           kakao_account: { email, gender, age_range: age, birthday: birth },
           properties: { nickname: name },
         } = data;
+        console.log(data);
         // birth = `${birth.substring(0, 2)}-${birth.substring(2, 4)}`;
         const userDate = { snsId, email, name, gender, age, birth };
-        const result = await axios.post("/auth/access", {
+        const result = await axios.post("/api/auth/access", {
           provider: "kakao",
           ...userDate,
         });
-        console.log(result);
 
         if (result.status === 200) {
-          dispatch(editUser(userDate));
-          dispatch(toggleLogin(true));
+          const res = await axios
+            .get("/api/auth/user", { timeout: 3000 })
+            .then(async (res) => {
+              const re = await axios.get("/api/send/user").then((res) => {
+                console.log(res);
+                dispatch(editUser(res.data.user));
+              });
+
+              dispatch(toggleLogin(true));
+              return res;
+            });
+          console.log(result);
           navigate("/");
         }
       } catch (err) {

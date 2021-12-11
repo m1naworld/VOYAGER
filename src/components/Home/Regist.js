@@ -6,6 +6,7 @@ import { useForm } from "react-hook-form";
 import { ErrorMessage } from "@hookform/error-message";
 import DatePick from "./DatePick";
 import { checkEmail } from "../../hooks/checkEmail";
+import classes from "./Regist.module.scss";
 
 let birthResult;
 
@@ -58,112 +59,135 @@ function Regist() {
       phone,
     };
     const res = await axios
-      .post("/auth/join", value)
+      .post("/api/auth/join", value)
       .then((res) => {
         console.log(res);
         navigate("/");
       })
       .catch((err) => console.log(err));
-    console.log(data);
-    console.log(res);
   };
 
   const handleClick = async () => {
     const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,3}$/i;
     if (emailRegex.test(emailRef.current)) {
       const result = await checkEmail(emailRef.current);
-      console.log(result);
       setEmailToggle(result.check);
-      return;
+      return result.check;
     }
   };
 
   return (
-    <main style={{ display: "flex", justifyContent: "center" }}>
-      <section>
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <label htmlFor="email">Email</label>
-          <input
-            {...register("email", {
-              required: "This field required.",
-              pattern: {
-                value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,3}$/i,
-                message: "invalid email address",
-              },
-              validate: {
-                checkUrl: (v) => emailToggle,
-              },
-            })}
-          />
-          <ErrorMessage errors={errors} name="email" as="h3" />
-          <button
-            onClick={handleClick}
-            // disabled={emailToggle}
+    <main className={classes.regist__main}>
+      <section className={classes.regist__section}>
+        <article className={classes.regist__article}>
+          <form
+            onSubmit={handleSubmit(onSubmit)}
+            className={classes.regist__form}
           >
-            중복체크
-          </button>
-          <label htmlFor="password">Password</label>
-          <input
-            {...register("password", {
-              required: "This field required.",
-              minLength: {
-                value: 5,
-                message: "Minlength : 5",
-              },
-            })}
-          />
-          <ErrorMessage errors={errors} name="password" as="h3" />
-          <label htmlFor="passwordConfirm">passwordConfirm</label>
-          <input
-            {...register("passwordConfirm", {
-              required: "This field required.",
-              minLength: {
-                value: 5,
-                message: "Minlength : 5",
-              },
-              validate: (value) =>
-                value === password.current || "Passwords do not Match",
-            })}
-          />
-          <ErrorMessage errors={errors} name="passwordConfirm" as="h3" />
-          <label htmlFor="name">Name</label>
-          <input
-            {...register("name", {
-              required: "This field required",
-            })}
-          />
-          <ErrorMessage errors={errors} name="name" as="h3" />
-          <label htmlFor="birth">Birth</label>
-          <input
-            value={birthResult ?? "Insert Birthday"}
-            onChange={(e) => console.log(e)}
-            onClick={() => setToggle(!toggle)}
-          />
+            <input
+              placeholder="Email"
+              {...register("email", {
+                required: "This field required.",
 
-          <DatePick
-            control={control}
-            view={toggle}
-            setView={setToggle}
-            setBirthday={setBirthday}
-          />
-          <ErrorMessage errors={errors} name="birth" as="error" />
-          <label htmlFor="phone">Phone-number</label>
-          <input
-            {...register("phone", {
-              required: "This field required",
-              pattern: {
-                value: /^\d{3}\d{3,4}\d{4}$/,
-                message: "invalid Phone number",
-              },
-            })}
-          />
-          <ErrorMessage errors={errors} name="phone" as="h3" />
-          <input type="submit" value="SUBMIT" />
-          <br />
-          <span>
-            Have a account? <Link to="/">&rarr;</Link>
-          </span>
-        </form>
+                pattern: {
+                  value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,3}$/i,
+                  message: "invalid email address",
+                },
+                validate: {
+                  checkUrl: async (v) => {
+                    let re = await checkEmail(v);
+                    re = re.check ?? true;
+                    return re || "이미있는이메일";
+                  },
+                },
+              })}
+            />
+            <ErrorMessage errors={errors} name="email" as="h3" />
+            {/* <button
+              className={classes.btn}
+              onClick={handleClick}
+              // disabled={emailToggle}
+            >
+              중복체크
+            </button> */}
+
+            <input
+              type="password"
+              placeholder="Password"
+              {...register("password", {
+                required: "This field required.",
+                minLength: {
+                  value: 5,
+                  message: "Minlength : 5",
+                },
+              })}
+            />
+            <ErrorMessage errors={errors} name="password" as="h3" />
+            <input
+              type="password"
+              placeholder="passwordConfirm"
+              {...register("passwordConfirm", {
+                required: "This field required.",
+                minLength: {
+                  value: 5,
+                  message: "Minlength : 5",
+                },
+                validate: (value) =>
+                  value === password.current || "Passwords do not Match",
+              })}
+            />
+            <ErrorMessage errors={errors} name="passwordConfirm" as="h3" />
+
+            <input
+              placeholder="Name"
+              {...register("name", {
+                required: "This field required",
+              })}
+            />
+            <ErrorMessage errors={errors} name="name" as="h3" />
+
+            <input
+              // disabled
+              className={classes.birth}
+              placeholder="Birthday"
+              value={birthResult ?? ""}
+              {...register("birthday", {
+                required: "This field required",
+              })}
+              onChange={(e) => console.log(e)}
+              onClick={() => setToggle(!toggle)}
+              onFocus={() => setToggle(!toggle)}
+            />
+            <ErrorMessage errors={errors} name="birthday" as="h3" />
+            <button className={classes.btn} onClick={() => setToggle(!toggle)}>
+              날짜선택
+            </button>
+
+            <DatePick
+              control={control}
+              view={toggle}
+              setView={setToggle}
+              setBirthday={setBirthday}
+            />
+            <ErrorMessage errors={errors} name="birth" as="error" />
+
+            <input
+              placeholder="Phone-number"
+              {...register("phone", {
+                required: "This field required",
+                pattern: {
+                  value: /^\d{3}\d{3,4}\d{4}$/,
+                  message: "invalid Phone number",
+                },
+              })}
+            />
+            <ErrorMessage errors={errors} name="phone" as="h3" />
+            <button type="submit" className={classes.btn}>
+              SUBMIT
+            </button>
+            <br />
+          </form>
+        </article>
       </section>
     </main>
   );

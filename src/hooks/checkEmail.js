@@ -3,7 +3,7 @@ import axios from "axios";
 export async function checkEmail(email) {
   try {
     const result = await axios.post(
-      "/auth/check",
+      "/api/auth/check",
       { email },
       { timeout: 30000 }
     );

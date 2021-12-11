@@ -15,7 +15,7 @@ const Nav = () => {
 
   const handleLogout = useCallback(async () => {
     try {
-      const res = await axios.get("/auth/logout");
+      const res = await axios.get("/api/auth/logout");
       console.log(res);
       dispatch(toggleLogin(false));
     } catch (err) {

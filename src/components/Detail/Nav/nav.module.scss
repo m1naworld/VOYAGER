@@ -24,6 +24,7 @@
     width: 30px;
     cursor: pointer;
     z-index: 2;
+    transition: all 800ms cubic-bezier(0.8, 0, 0.33, 1);
   }
 
   & .menu_btn .line {
@@ -116,5 +117,11 @@
   .nav {
     transform: translateX(-80%);
     width: 100%;
+    &.nav_open {
+      & .menu_btn {
+        right: 80%;
+        transition: all 800ms cubic-bezier(0.8, 0, 0.33, 1);
+      }
+    }
   }
 }

@@ -17,7 +17,7 @@ function NaverButton() {
       },
     });
     login.init();
-    login.logout();
+    // login.logout();
   }, []);
   const callNaver = () => {
     btn.current.lastChild.click();

@@ -2,13 +2,12 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import { getDailyQs, postDailyQs } from "../../redux/reducer/DailyQsReducer";
-import {
-  getCalendar,
-  getCalendarList,
-} from "../../redux/reducer/CalendarReducer";
+import { editUser } from "../../redux/reducer/ToggleReducer";
+import { getCalendar } from "../../redux/reducer/CalendarReducer";
 import styles from "./Detail.module.scss";
 import Pal from "./Pal";
 import { useSelector } from "react-redux";
+import axios from "axios";
 
 function Detail() {
   const stars = useRef();
@@ -17,7 +16,7 @@ function Detail() {
   const mountains_front = useRef();
   const text = useRef();
   const btn = useRef();
-
+  const nickBtn = useRef();
   const [testOpen, setTestOpen] = useState(false);
   const [fetch, setFetch] = useState(false);
 
@@ -27,55 +26,61 @@ function Detail() {
 
   const postDailyQsData = useSelector((state) => {
     const { answer, id } = state.dailyQuestions;
-    const data = { date: "2021-12-09", question: { _id: id }, answer };
-    console.log(data);
+    const data = { question: { _id: id }, answer };
     return data;
   });
 
   const data = useCallback(async () => {
     const qs = await dispatch(getDailyQs());
-    const calendar = await dispatch(getCalendar());
+    await dispatch(getCalendar());
     return qs;
   }, []);
 
   const scrollEvent = useCallback(() => {
     let value = window.scrollY;
-    stars.current.style.left = value * 0.25 + "px";
-    moon.current.style.top = value * 1 + "px";
-    mountains_behind.current.style.top = value * 0.5 + "px";
-    mountains_front.current.style.top = value * 0 + "px";
-    btn.current.style.marginTop = value * 1.5 + "px";
+    try {
+      stars.current.style.left = value * 0.25 + "px";
+      moon.current.style.top = value * 1 + "px";
+      mountains_behind.current.style.top = value * 0.5 + "px";
+      mountains_front.current.style.top = value * 0 + "px";
+      btn.current.style.marginTop = value * 1.5 + "px";
+    } catch (err) {
+      console.log(err);
+    }
   }, []);
 
   useEffect(() => {
+    data();
     if (fetch) {
-      console.log(fetch);
+      console.log(postDailyQsData);
       dispatch(postDailyQs(postDailyQsData));
       setFetch(false);
     }
-    data();
+
     window.addEventListener("scroll", scrollEvent);
     return () => {
       window.removeEventListener("scroll", scrollEvent);
     };
-  }, [scrollEvent, fetch]);
+  }, [fetch]);
   return (
     <>
       <section className={styles.mainSection}>
         <img
-          src="image/parallax/stars.png"
+          src={process.env.PUBLIC_URL + "/image/parallax/stars.png"}
           id={styles["stars"]}
           alt="stars"
           ref={stars}
         />
         <img
-          src="image/parallax/moon_fix.png"
+          src={process.env.PUBLIC_URL + "/image/parallax/moon_fix.png"}
           id={styles["moon"]}
           alt="moon"
           ref={moon}
         />
         <img
-          src="image/parallax/mountains_behind11.png"
+          src={
+            process.env.PUBLIC_URL + "/image/parallax/mountains_behind11.png"
+          }
           id={styles["mountains_behind"]}
           alt="mountains_behind"
           ref={mountains_behind}
@@ -83,11 +88,11 @@ function Detail() {
         {/* <h2 id={styles["text"]} ref={text}>
           Moon Light
         </h2> */}
-        <Link to="#" id={styles["btn"]} ref={btn}>
+        <Link to="/dailyQuestion" id={styles["btn"]} ref={btn}>
           Explore
         </Link>
         <img
-          src="image/parallax/mountains_behind2.png"
+          src={process.env.PUBLIC_URL + "/image/parallax/mountains_behind2.png"}
           id={styles["mountains_front"]}
           alt="mountains_front"
           ref={mountains_front}

@@ -16,8 +16,22 @@ const NavTest = () => {
 
   return (
     <nav className={classes.navbar__Items}>
-      <Link to="/">
-        <img src="image/logo.png" alt="logo" className={classes.navbar__logo} />
+      <Link
+        to="/"
+        style={{
+          display: "flex",
+          alignItems: "center",
+          textDecorationLine: "none",
+          underline: "none",
+          color: "#5ddae9",
+        }}
+      >
+        <img
+          src="image/logo2.png"
+          alt="logo"
+          className={classes.navbar__logo}
+        />
+        <span>VOYAGER</span>
       </Link>
 
       <div className={classes.navbar__menu_icon} onClick={handleClick}>
@@ -34,17 +48,30 @@ const NavTest = () => {
             : `${classes.navbar__menu}`
         }
       >
-        {MenuItems.map((m, idx) => {
-          return (
+        {MenuItems.map((m, idx) =>
+          m.title !== "SIGN UP" ? (
             <li key={idx}>
-              <Link className={classes[m.cName]} to={m.url}>
+              <a className={classes[m.cName]} href={m.url}>
+                {m.title}
+              </a>
+            </li>
+          ) : (
+            <li key={idx}>
+              <Link
+                className={
+                  clicked
+                    ? `${classes[m.cName]} ${classes.active}`
+                    : classes[m.cName]
+                }
+                to={m.url}
+              >
                 {m.title}
               </Link>
             </li>
-          );
-        })}
+          )
+        )}
       </ul>
-      <NavTestBtn onClick={() => navigate("join")}>Sign Up</NavTestBtn>
+      <NavTestBtn onClick={() => navigate("join")}>SIGN UP</NavTestBtn>
     </nav>
   );
 };

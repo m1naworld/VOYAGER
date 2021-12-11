@@ -1,4 +1,4 @@
-$primary: #3acbf7;
+$primary: #5ddae9;
 
 .btn {
   padding: 8px 20px;
@@ -8,7 +8,7 @@ $primary: #3acbf7;
   cursor: pointer;
   white-space: nowrap;
   &:hover {
-    padding: 8px 20px;
+    padding: 8px 5%;
     transition: all 0.3s ease-out;
     background: #fff;
     color: #6568f4;
@@ -30,10 +30,11 @@ $primary: #3acbf7;
 }
 
 .btn__medium {
-  padding: 8px 20px;
-  border-radius: 4px;
-  font-size: 18px;
-  color: #fff;
+  transition: all 0.3s ease-out;
+  padding: 8px 4%;
+  border-radius: 10px;
+  font-size: 15px;
+  color: black;
 }
 
 .btn__large {

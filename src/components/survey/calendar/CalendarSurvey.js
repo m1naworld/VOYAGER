@@ -32,7 +32,6 @@ const CalendarSurvey = ({
 
   useEffect(() => {
     if (toggle) {
-      console.log(toggle);
       dispatch(addAnswer(postData));
     }
   }, [toggle, dispatch, postData]);

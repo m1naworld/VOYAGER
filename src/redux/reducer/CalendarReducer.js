@@ -6,7 +6,7 @@ const initialState = {};
 export const getCalendar = createAsyncThunk(
   "Calendar/fetchCalendar",
   async () => {
-    const res = await axios.get("/send/calendar");
+    const res = await axios.get("/api/send/calendar");
     return res.data.calendar;
   }
 );

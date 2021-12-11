@@ -9,7 +9,7 @@ import "./App.css";
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
-      <Reset />
+      {/* <Reset /> */}
       <CookiesProvider>
         <App />
       </CookiesProvider>

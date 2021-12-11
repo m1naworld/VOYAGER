@@ -21,7 +21,7 @@ const Ship = () => {
           <div className={classes.ship__shipCon}>
             <img
               className={classes.ship__ship}
-              src="image/airplane/ship.png"
+              src={process.env.PUBLIC_URL + "/image/airplane/ship.png"}
               alt="airplane"
             />
             {step ? (
@@ -34,12 +34,12 @@ const Ship = () => {
               ></div> */}
                 <img
                   className={`${classes.ship__fire} ${classes.ship__left}`}
-                  src="image/airplane/fire2.png"
+                  src={process.env.PUBLIC_URL + "/image/airplane/fire2.png"}
                   alt="fire"
                 />
                 <img
                   className={`${classes.ship__fire} ${classes.ship__right}`}
-                  src="image/airplane/fire2.png"
+                  src={process.env.PUBLIC_URL + "/image/airplane/fire2.png"}
                   alt="fire"
                 />
               </>
@@ -75,7 +75,7 @@ const Ship = () => {
               <>
                 <img
                   className={classes.ship__logo}
-                  src="image/favicon.png"
+                  src={process.env.PUBLIC_URL + "/image/favicon.png"}
                   alt="favicon"
                 />
                 <button onClick={handleClick} className={classes.ship__btn}>

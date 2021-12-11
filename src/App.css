@@ -26,7 +26,14 @@
   font-weight: normal;
   font-style: normal;
 }
+@font-face {
+  font-family: "Aero";
+  src: url("./fonts/Aero\ Club\ Como.otf") format("woff");
+  font-weight: normal;
+  font-style: normal;
+}
 
 * {
-  font-family: "NanumSquare";
+  font-family: "Aero";
+  list-style: none;
 }

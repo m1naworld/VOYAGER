@@ -19,15 +19,12 @@ const initialState = {
 
 export const postList = createAsyncThunk("POST_LIST", async (state) => {
   console.log(state);
-  const res = await axios.post(
-    "http://192.168.0.129:3000/add/send",
-    state.data.오늘의감정
-  );
+  const res = await axios.post("/api/add/send", state.data.오늘의감정);
   return res;
 });
 
 export const getList = createAsyncThunk("GET_LIST", async () => {
-  const res = await axios.get("http://192.168.0.61:3001/add/send");
+  const res = await axios.get("/api/add/send");
   return res.data;
 });
 export const todayEmotionSlice = createSlice({

@@ -2,35 +2,7 @@ const { createProxyMiddleware } = require("http-proxy-middleware");
 
 module.exports = function (app) {
   app.use(
-    "/register",
-    createProxyMiddleware({
-      target: process.env.REACT_APP_SERVER_URL,
-      changeOrigin: true,
-    })
-  );
-  app.use(
-    "/auth",
-    createProxyMiddleware({
-      target: process.env.REACT_APP_SERVER_URL,
-      changeOrigin: true,
-    })
-  );
-  app.use(
-    "/login",
-    createProxyMiddleware({
-      target: process.env.REACT_APP_SERVER_URL,
-      changeOrigin: true,
-    })
-  );
-  app.use(
-    "/add",
-    createProxyMiddleware({
-      target: process.env.REACT_APP_SERVER_URL,
-      changeOrigin: true,
-    })
-  );
-  app.use(
-    "/send",
+    "/uploads",
     createProxyMiddleware({
       target: process.env.REACT_APP_SERVER_URL,
       changeOrigin: true,
@@ -40,6 +12,13 @@ module.exports = function (app) {
     "/token",
     createProxyMiddleware({
       target: "https://nid.naver.com/oauth2.0/",
+      changeOrigin: false,
+    })
+  );
+  app.use(
+    "/api",
+    createProxyMiddleware({
+      target: process.env.REACT_APP_SERVER_URL,
       changeOrigin: false,
     })
   );
