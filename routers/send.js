@@ -14,4 +14,4 @@ send.get("/surveyQuestion", sendSurveyQuestion);
 send.get("/calendar", snsIdCheck, sendCalendar);
 send.get("/user", snsIdCheck, userInformation);
 
-module.exports = send;
+export default send;

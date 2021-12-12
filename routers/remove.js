@@ -7,8 +7,9 @@ import {
 
 const remove = express.Router();
 
-remove.post("/myDiary", snsIdCheck, deleteMyDiary);
+remove.use(snsIdCheck);
+remove.post("/myDiary", deleteMyDiary);
 
-remove.get("/user", snsIdCheck, dropOut);
+remove.get("/user", dropOut);
 
-module.exports = remove;
+export default remove;
