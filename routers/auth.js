@@ -2,8 +2,8 @@ import express from "express";
 
 //middle
 import { jwtVerify } from "../servers/middle/jwtVerify";
-import { userCheck } from "../servers/middle/Cheak";
-import { emailCheck } from "../servers/middle/Cheak";
+import { userCheck } from "../servers/middle/Check";
+import { emailCheck } from "../servers/middle/Check";
 import { tokenError } from "../servers/middle/jwtError";
 
 //controller
@@ -36,8 +36,16 @@ router.get("/userCheck", userCheck);
 router.get("/logout", logOut);
 
 // 이메일 중복 체크
-router.post("/check", emailCheck);
+router.post("/check", emailCheck, (req, res) => {
+  const toggle = req.body.val ?? false;
+  if (!toggle) {
+    return res
+      .status(400)
+      .json({ error: "이메일이 중복되었습니다", check: false });
+  } // 이메일 발송 구현하기
+});
 
+// 이메일 찾기
 router.post("/findEmail", findEmail);
 
 module.exports = router;

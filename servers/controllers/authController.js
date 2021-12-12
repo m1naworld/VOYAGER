@@ -1,7 +1,7 @@
 import passport from "passport";
 import jwt from "jsonwebtoken";
-import { refresh } from "../models/refreshToken";
 
+import { refresh } from "../models/refreshToken";
 const issuer = "m1na";
 
 export const postLogin = async (req, res, next) => {
@@ -32,10 +32,14 @@ export const postLogin = async (req, res, next) => {
         }
         await refresh.saveRefresh({ snsId, refreshToken });
         console.log("refresh DB 저장 성공!");
-
-        res.cookie("Authorization", accessToken, { httpOnly: true });
-        res.cookie("reAuthorization", refreshToken, { httpOnly: true });
-
+        res.cookie("Authorization", accessToken, {
+          httpOnly: true,
+          expires: new Date(Date.now() + 1000 * 60 * 60 * 3),
+        });
+        res.cookie("reAuthorization", refreshToken, {
+          httpOnly: true,
+          expires: new Date(Date.now() + 1000 * 60 * 60 * 24 * 5),
+        });
         return res.status(200).json({ accessToken, refreshToken });
       });
     } catch (error) {
@@ -52,7 +56,7 @@ export const postSocialLogin = async (req, res) => {
       expiresIn: process.env.ACCESS_EXPIRE,
       issuer,
     });
-    const refreshToken = jwt.sign({}, process.env.JWT_REFRESH_SECRET, {
+    const refreshToken = jwt.sign({}, process.env.JWT_SECRET, {
       expiresIn: process.env.REFRESH_EXPIRE,
       issuer,
     });
@@ -64,7 +68,6 @@ export const postSocialLogin = async (req, res) => {
     }
     await refresh.saveRefresh({ snsId, refreshToken });
     console.log("refresh DB 저장 성공!");
-
     res.cookie("Authorization", accessToken, {
       httpOnly: true,
       expires: new Date(Date.now() + 1000 * 60 * 60 * 3),
@@ -73,7 +76,6 @@ export const postSocialLogin = async (req, res) => {
       httpOnly: true,
       expires: new Date(Date.now() + 1000 * 60 * 60 * 24 * 5),
     });
-
     return res.status(200).json({ accessToken, refreshToken });
   } catch (error) {
     console.log(error);

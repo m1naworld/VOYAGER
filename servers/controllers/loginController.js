@@ -11,7 +11,7 @@ const bcrypt = require("bcrypt");
 export const join = async (req, res) => {
   // req의 body 정보를 사용하려면 server.js에서 따로 설정을 해줘야함
   let { provider, email, password, name, birth, birthyear, phone } = req.body;
-  // let {snsId} = email
+  const snsId = email;
   console.log(req.body);
   try {
     //   email을 비교하여 user가 이미 존재하는지 확인
@@ -20,10 +20,8 @@ export const join = async (req, res) => {
       return res.status(400).json({ errors: [{ msg: "User already exists" }] });
     }
     const salt = await bcrypt.genSalt(Number(process.env.SALT));
-    console.log(typeof salt);
     password = await bcrypt.hash(password, salt);
 
-    const snsId = email;
     await mycalendar.registerSnsId({ snsId });
     const checkCalendar = await mycalendar.findOne({ snsId });
     const userCalendar = checkCalendar._id;
@@ -70,5 +68,8 @@ export const logOut = async (req, res) => {
     return res.status(200).json({ inAuth: false, message: "LogOut" });
   } catch (error) {
     console.log(error);
+    return res
+      .status(400)
+      .json({ inAuth: false, message: "error", error: true });
   }
 };

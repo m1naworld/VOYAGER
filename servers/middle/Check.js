@@ -2,20 +2,14 @@ import { User } from "../models/User";
 import jwt from "jsonwebtoken";
 const bcrypt = require("bcrypt");
 
-export const emailCheck = async (req, res) => {
-  console.log(req.body);
+export const emailCheck = async (req, res, next) => {
   const email = req.body.email;
-  console.log(email);
   try {
-    const exUser = await User.findOne({
-      email,
-    });
+    const exUser = await User.findOne({ email });
 
     if (exUser) {
       console.log(exUser);
-      return res
-        .status(200)
-        .json({ error: "이메일이 중복되었습니다", check: false });
+      next();
     }
     return res.status(200).json({ check: true });
   } catch (error) {
@@ -39,10 +33,10 @@ export const snsIdCheck = (req, res, next) => {
 
 export const userCheck = async (req, res) => {
   try {
-    const provider = "local";
-    const email = req.body.email;
-    const password = req.body.password;
-    const user = await User.findOne({ provider, email });
+    const {
+      body: { email, password },
+    } = req;
+    const user = await User.findOne({ email });
     const validate = await bcrypt.compare(password, user.password);
     validate
       ? res.status(200).json({ inAuth: true, message: "user 확인 성공" })

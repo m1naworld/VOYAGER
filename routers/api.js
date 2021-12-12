@@ -12,4 +12,5 @@ api.use("/register", register);
 api.use("/send", send);
 api.use("/delete", remove);
 api.use("/update", update);
+
 export default api;

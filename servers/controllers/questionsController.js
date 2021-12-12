@@ -72,7 +72,6 @@ export const sendSurveyQuestion = async (req, res) => {
       for (let j = 0; j < 3; j++) {
         let random = getRandomInt(0, 90);
         if (random === num) {
-          console.log("in");
           --j;
           continue;
         }
@@ -82,7 +81,7 @@ export const sendSurveyQuestion = async (req, res) => {
         k += 1;
       }
     }
-    return res.status(200).send(question);
+    return res.status(200).json({ success: true, question });
   } catch (error) {
     console.log(error);
     return res

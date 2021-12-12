@@ -3,30 +3,25 @@ import nodemailer from "nodemailer";
 
 export const findEmail = async (req, res) => {
   try {
-    console.log(req.body);
-    const name = req.body.name;
-    let birthday = req.body.birthday;
+    let { name, birthday, phone } = req.body;
     birthday = birthday.split("-");
-    const phone = req.body.phone;
     const birthyear = birthday[0];
     const birth = birthday[1] + birthday[2];
-    console.log(birthyear, birth);
     const user = await User.findOne({ phone });
+    let email = user.email;
+    email = email.split("@");
+    let secret = email[0];
     if (!user) {
       return res
         .status(400)
         .json({ message: "저장되지 않은 휴대폰 번호 입니다." });
     } else if (
-      user.name == name &&
-      user.birth == birth &&
-      user.birthyear == birthyear
+      user.name === name &&
+      user.birth === birth &&
+      user.birthyear === birthyear
     ) {
-      let email = user.email;
-      email = email.split("@");
-      let secret = email[0];
       secret = secret.split("");
-      const index = email.indexOf("@", 0);
-      secret.splice(index - 3, 4, "****");
+      secret.splice(-4, 4, "****");
       secret = secret.join("");
       email = secret + "@" + email[1];
       console.log(email);

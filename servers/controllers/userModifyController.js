@@ -16,7 +16,6 @@ export const userInformation = async (req, res) => {
 
 export const changeNickname = async (req, res) => {
   try {
-    console.log(req.body);
     const snsId = req.snsId;
     const nickname = req.body.nickname;
     const user = await User.findOne({ snsId });
@@ -34,22 +33,17 @@ export const changeNickname = async (req, res) => {
 
 export const changePassword = async (req, res) => {
   try {
-    const snsId = req.body.snsId;
+    const snsId = req.snsId;
     let password = req.body.password;
-    const passwordCheck = req.body.passwordCheck;
-
-    if (password === passwordCheck) {
-      const user = await User.findOne({ snsId });
-      console.log(user);
-      const salt = await bcrypt.genSalt(Number(process.env.SALT));
-      password = await bcrypt.hash(password, salt);
-      user.password = password;
-      user.save();
-      return res
-        .status(200)
-        .json({ modify: true, message: "password 변경 성공" });
-    }
-    return res.status(400).json({ modify: false, message: "password 불일치" });
+    const user = await User.findOne({ snsId });
+    console.log(user);
+    const salt = await bcrypt.genSalt(Number(process.env.SALT));
+    password = await bcrypt.hash(password, salt);
+    user.password = password;
+    user.save();
+    return res
+      .status(200)
+      .json({ modify: true, message: "password 변경 성공" });
   } catch (error) {
     console.log(error);
     return res
@@ -77,6 +71,8 @@ export const changeImage = async (req, res) => {
     return res.status(200).json({ img });
   } catch (error) {
     console.log(error);
-    return res.status(400).json({ modify: false, message: "image 변경 실패 " });
+    return res
+      .status(400)
+      .json({ success: false, message: "image 변경 실패 " });
   }
 };

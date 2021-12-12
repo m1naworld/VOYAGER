@@ -93,25 +93,17 @@ export const addCalendar = async (snsId) => {
 export const sendCalendar = async (req, res) => {
   try {
     const snsId = req.snsId;
-    // const date = new Date("2021-12-10");
     const user = await User.findBySnsId({ snsId }).populate("userCalendar");
-    // const userCalendar = await user.userCalendar.populate({
-    //   path: "color",
-    //   match: {
-    //     "color.data.date": {
-    //       $gte: date,
-    //     },
-    //   },
-    // });
 
     const userCalendar = await user.userCalendar.populate("color");
     await user.userCalendar.populate("daily");
     await user.userCalendar.populate("diary");
     await userCalendar.daily.populate("data.question");
-    console.log(userCalendar.color);
     return res.status(200).json({ calendar: userCalendar });
   } catch (error) {
     console.log(error);
-    return res.status(400).json({ send: false, message: "sendCalendar 실패" });
+    return res
+      .status(400)
+      .json({ send: false, message: "sendCalendar 실패", error: true });
   }
 };

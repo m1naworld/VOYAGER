@@ -4,7 +4,7 @@ import {
   sendSurveyQuestion,
 } from "../servers/controllers/questionsController";
 import { sendCalendar } from "../servers/controllers/myDataController";
-import { snsIdCheck } from "../servers/middle/Cheak";
+import { snsIdCheck } from "../servers/middle/Check";
 import { userInformation } from "../servers/controllers/userModifyController";
 
 const send = express.Router();

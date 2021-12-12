@@ -20,30 +20,40 @@ export const deleteMyDiary = async (req, res) => {
       console.log(user.data);
       user.save();
     }
-    return res.status(200).json({ delete: true, message: "MyDiary 삭제 성공" });
+    return res
+      .status(200)
+      .json({ success: true, message: "MyDiary 삭제 성공" });
   } catch (error) {
     console.log(error);
-    res.status(400).json({ delete: false, message: "MyDiary 삭제 실패" });
+    res.status(400).json({ success: false, message: "MyDiary 삭제 실패" });
   }
 };
 
 export const dropOut = async (req, res) => {
   try {
     const snsId = req.snsId;
-    await mydiary.findOneAndDelete({ snsId });
-    await mydaily.findOneAndDelete({ snsId });
-    await mycolor.findOneAndDelete({ snsId });
-    await mycalendar.findOneAndDelete({ snsId });
-    await User.findOneAndDelete({ snsId });
-    await refresh.findOneAndDelete({ snsId });
-    console.log("탈퇴 성공 ㅠㅠ");
+    const message = req.body.message;
+    if (message === "제 흔적을 지우고 지구로 돌아가겠습니다. VOYAGER 안녕.") {
+      res.clearCookie("Authorization");
+      res.clearCookie("reAuthorization");
+      await mydiary.findOneAndDelete({ snsId });
+      await mydaily.findOneAndDelete({ snsId });
+      await mycolor.findOneAndDelete({ snsId });
+      await mycalendar.findOneAndDelete({ snsId });
+      await User.findOneAndDelete({ snsId });
+      await refresh.findOneAndDelete({ snsId });
+      console.log("탈퇴 성공 ㅠㅠ");
+      return res
+        .status(200)
+        .json({ success: true, message: " 회원탈퇴 성공ㅠㅠ" });
+    }
     return res
-      .status(200)
-      .json({ delete: true, message: " 회원탈퇴 성공ㅠㅠ" });
+      .status(400)
+      .status.json({ success: false, message: "회원탈퇴 실패 " });
   } catch (error) {
     console.log(error);
     return res
       .status(400)
-      .json({ delete: false, message: "error로 회원탈퇴 실패" });
+      .json({ success: false, message: "error로 회원탈퇴 실패" });
   }
 };

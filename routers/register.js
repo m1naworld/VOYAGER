@@ -5,7 +5,7 @@ import {
   myDiary,
   myDaily,
 } from "../servers/controllers/myDataController";
-import { snsIdCheck } from "../servers/middle/Cheak";
+import { snsIdCheck } from "../servers/middle/Check";
 import {
   changeImage,
   changeNickname,
@@ -25,7 +25,7 @@ register.post("/addColor", myColor);
 // user 회원 정보 수정
 register.post("/user/modify", changeNickname);
 
-// register.post("/user/password/modify", changePassword);
+register.post("/user/password/modify", changePassword);
 
 register.post("/userImg", upload.single("image"), changeImage);
 
