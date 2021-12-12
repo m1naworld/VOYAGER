@@ -29,4 +29,4 @@ register.post("/user/password/modify", changePassword);
 
 register.post("/userImg", upload.single("image"), changeImage);
 
-module.exports = register;
+export default register;

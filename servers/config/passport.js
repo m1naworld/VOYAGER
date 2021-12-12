@@ -17,13 +17,22 @@ module.exports = () => {
         try {
           const users = await User.findByEmail({ email });
           if (!users) {
-            return done(null, false, { message: "User not found" });
+            return done(null, false, {
+              success: false,
+              message: "User not found",
+            });
           }
           const validate = await bycrypt.compare(password, users.password);
           if (!validate) {
-            return done(null, false, { message: "Wrong Password" });
+            return done(null, false, {
+              success: false,
+              message: "Wrong Password",
+            });
           }
-          return done(null, users, { message: "Logged in Successfully" });
+          return done(null, users, {
+            success: true,
+            message: "Logged in Successfully",
+          });
         } catch (error) {
           return done(error);
         }

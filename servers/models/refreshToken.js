@@ -16,21 +16,21 @@ tokenSchema.statics.findBysnsId = function ({ snsId }) {
   return this.findOne({ snsId });
 };
 
-tokenSchema.statics.findByRefresh = function ({ refreshtoken }) {
-  return this.findOne({ refreshToken: refreshtoken });
+tokenSchema.statics.findByRefresh = function ({ refresh }) {
+  return this.findOne({ refreshToken: refresh });
 };
 
-tokenSchema.statics.saveRefresh = function ({ snsId, refreshToken }) {
+tokenSchema.statics.saveRefresh = function ({ snsId, refreshjwt }) {
   const refresh = new this({
     snsId,
-    refreshToken,
+    refreshToken: refreshjwt,
   });
 
   return refresh.save();
 };
 
-tokenSchema.statics.deleteRefresh = function ({ refreshtoken }) {
-  return this.remove({ refreshToken: refreshtoken });
+tokenSchema.statics.deleteRefresh = function ({ refreshjwt }) {
+  return this.remove({ refreshToken: refreshjwt });
 };
 
 tokenSchema.statics.deleteSnsId = function ({ snsId }) {

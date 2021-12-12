@@ -16,7 +16,7 @@ const userSchema = new mongoose.Schema(
     age: String,
     birth: String,
     birthyear: String,
-    phone: String,
+    phone: { type: String, unique: true },
     registerdate: { type: String, default: registerDate },
     userCalendar: {
       type: mongoose.SchemaTypes.ObjectId,
@@ -67,10 +67,6 @@ userSchema.statics.join = function ({
   });
 
   return user.save();
-};
-
-userSchema.statics.modify = function ({ id, nickname }) {
-  return this.findOneAndUpdate({ id, $set: { nickname } });
 };
 
 export const User = mongoose.model("User", userSchema);

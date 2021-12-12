@@ -7,10 +7,12 @@ export const userInformation = async (req, res) => {
   try {
     const snsId = req.snsId;
     const user = await User.findOne({ snsId });
-    return res.status(200).json({ user });
+    return res.status(200).json({ success: true, user });
   } catch (error) {
     console.log(error);
-    return res.status(400).json({ message: "유저 정보 실패 " });
+    return res
+      .status(400)
+      .json({ success: false, message: "유저 정보 찾기 실패", error });
   }
 };
 
@@ -22,12 +24,12 @@ export const changeNickname = async (req, res) => {
     user.nickname = nickname;
     user.save();
 
-    return res.status(200).json({ nickname });
+    return res.status(200).json({ success: true, nickname });
   } catch (error) {
     console.log(error);
     return res
       .status(400)
-      .json({ modify: false, message: "nickname 변경 실패" });
+      .json({ success: false, message: "nickname 변경 실패", error });
   }
 };
 
@@ -43,12 +45,12 @@ export const changePassword = async (req, res) => {
     user.save();
     return res
       .status(200)
-      .json({ modify: true, message: "password 변경 성공" });
+      .json({ success: true, message: "password 변경 성공" });
   } catch (error) {
     console.log(error);
     return res
       .status(400)
-      .json({ modify: false, message: "password 변경 실패" });
+      .json({ success: false, message: "password 변경 실패", error });
   }
 };
 
@@ -68,11 +70,11 @@ export const changeImage = async (req, res) => {
     }
     user.img = img;
     user.save();
-    return res.status(200).json({ img });
+    return res.status(200).json({ success: true, img });
   } catch (error) {
     console.log(error);
     return res
       .status(400)
-      .json({ success: false, message: "image 변경 실패 " });
+      .json({ success: false, message: "image 변경 실패 ", error });
   }
 };

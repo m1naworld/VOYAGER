@@ -14,7 +14,7 @@ export const findEmail = async (req, res) => {
     if (!user) {
       return res
         .status(400)
-        .json({ message: "저장되지 않은 휴대폰 번호 입니다." });
+        .json({ success: false, message: "저장되지 않은 휴대폰 번호 입니다." });
     } else if (
       user.name === name &&
       user.birth === birth &&
@@ -25,12 +25,16 @@ export const findEmail = async (req, res) => {
       secret = secret.join("");
       email = secret + "@" + email[1];
       console.log(email);
-      return res.status(200).json({ email });
+      return res.status(200).json({ success: true, email });
     }
-    return res.status(400).json({ message: "정보를 다시 입력해주세요." });
+    return res
+      .status(400)
+      .json({ success: false, message: "정보를 다시 입력해주세요." });
   } catch (error) {
     console.log(error);
-    return res.status(400).json({ error: "이메일 찾기 실패" });
+    return res
+      .status(400)
+      .json({ success: false, message: "이메일 찾기 실패", error });
   }
 };
 

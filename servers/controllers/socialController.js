@@ -10,18 +10,18 @@ export const social = async (req, res, done) => {
     console.log(email);
     if (email === undefined) {
       const onlySnsIdUser = await User.findBySnsId({ snsId });
-      console.log(onlySnsIdUser);
       if (onlySnsIdUser) {
         console.log(`onlySnsIdUser: ${onlySnsIdUser}`);
-        return done(null, onlySnsIdUser, { message: "로그인 성공" });
+        return done(null, onlySnsIdUser, {
+          success: true,
+          message: "로그인 성공",
+        });
       }
     } else {
       const emailUser = await User.findByEmail({ email });
-      console.log(emailUser);
       if (emailUser) {
-        // kakao와 naver 이메일 겹치지 않도록
         console.log(`emailUser: ${emailUser}`);
-        return done(null, emailUser, { message: "로그인 성공" });
+        return done(null, emailUser, { success: true, message: "로그인 성공" });
       }
     }
 
@@ -46,9 +46,9 @@ export const social = async (req, res, done) => {
       userCalendar,
     });
     console.log(`newUser: ${newUser}`);
-    return done(null, newUser, { message: "회원가입 성공" });
+    return done(null, newUser, { success: true, message: "회원가입 성공" });
   } catch (error) {
     console.log(error);
-    return done(error);
+    return done(error, { success: false, message: "소셜 로그인 실패" });
   }
 };

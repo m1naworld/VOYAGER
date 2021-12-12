@@ -29,11 +29,11 @@ router.post("/access", social, postSocialLogin);
 // 토큰 검증
 router.get("/user", tokenError, jwtVerify);
 
-// 비밀번호 변경시 userCheck
-router.get("/userCheck", userCheck);
-
 // 로그아웃
 router.get("/logout", logOut);
+
+// 비밀번호 변경시 userCheck
+router.post("/userCheck", userCheck);
 
 // 이메일 중복 체크
 router.post("/check", emailCheck, (req, res) => {

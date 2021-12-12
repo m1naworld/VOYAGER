@@ -11,7 +11,7 @@ export const postLogin = async (req, res, next) => {
       if (err || !user) {
         // const error = new Error(err);
         console.log("회원가입이 안된 유저");
-        return res.status(400).json(msg);
+        return res.status(400).json({ success: false, msg });
       }
       req.login(user, { session: false }, async (error) => {
         const snsId = user.snsId;
@@ -40,7 +40,9 @@ export const postLogin = async (req, res, next) => {
           httpOnly: true,
           expires: new Date(Date.now() + 1000 * 60 * 60 * 24 * 5),
         });
-        return res.status(200).json({ accessToken, refreshToken });
+        return res
+          .status(200)
+          .json({ success: true, accessToken, refreshToken });
       });
     } catch (error) {
       return next(error);
@@ -76,11 +78,11 @@ export const postSocialLogin = async (req, res) => {
       httpOnly: true,
       expires: new Date(Date.now() + 1000 * 60 * 60 * 24 * 5),
     });
-    return res.status(200).json({ accessToken, refreshToken });
+    return res.status(200).json({ success: true, message: "토큰 발급 성공" });
   } catch (error) {
     console.log(error);
     return res
       .status(401)
-      .json({ inAuth: false, error: "user를 찾을 수 없습니다." });
+      .json({ success: false, message: "user를 찾을 수 없습니다.", error });
   }
 };

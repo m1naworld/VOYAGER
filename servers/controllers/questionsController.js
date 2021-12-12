@@ -3,17 +3,22 @@ import { survey } from "../models/survey";
 
 // dailyquestion 주관식 질문 DB저장 함수
 export const dailyQuestionRegister = async (req, res) => {
-  const datas = req.body[0].label;
-  console.log(datas);
-  let i = 0;
-  while (i < 70) {
-    const label = req.body[i].label;
-    const data = req.body[i].data;
-    await dailyquestion.create({ label, data });
-    i += 1;
-    console.log(`${i} 성공`);
+  try {
+    const datas = req.body[0].label;
+    console.log(datas);
+    let i = 0;
+    while (i < 70) {
+      const label = req.body[i].label;
+      const data = req.body[i].data;
+      await dailyquestion.create({ label, data });
+      i += 1;
+      console.log(`${i} 성공`);
+    }
+    return res.status(200).json({ success: true });
+  } catch (error) {
+    console.log(error);
+    return res.status(400);
   }
-  return res.status(200).json({ success: true });
 };
 
 // dailyquestion 주관식 프론트로 보내는 함수
@@ -28,13 +33,15 @@ export const sendDailyQeustion = async (req, res) => {
     const label = parseInt(((today - fixedDay) / (1000 * 3600 * 24)) % count);
 
     const daily = await dailyquestion.findDailyQ({ label });
-    console.log(daily);
-    return res.status(200).json({ question: daily });
+
+    return res.status(200).json({ success: true, question: daily });
   } catch (error) {
     console.log("dailyQuestion Controller 오류");
-    return res
-      .status(400)
-      .json({ success: false, message: "dailyQuestion Controller 오류" });
+    return res.status(400).json({
+      success: false,
+      message: "dailyQuestion Controller 오류",
+      error,
+    });
   }
 };
 
@@ -42,14 +49,16 @@ export const sendDailyQeustion = async (req, res) => {
 export const surveyRegister = async (req, res) => {
   try {
     const { happy, sad, joy, anger } = req.body;
-    console.log(req.body);
-
     const result = await survey.register({ happy, sad, joy, anger });
     console.log(`결과: ${result}`);
-    return res.status(200).json({ success: true });
+    return res
+      .status(200)
+      .json({ success: true, message: "객관식 DB 저장 성공" });
   } catch (error) {
     console.log(error);
-    return res.status(400).json({ success: false });
+    return res
+      .status(400)
+      .json({ success: false, message: "객관식 DB 저장 실패" });
   }
 };
 
@@ -59,6 +68,7 @@ function getRandomInt(min, max) {
   return Math.floor(Math.random() * (max - min)) + min;
 }
 
+// 객관식 프론트로 보내는 함수
 export const sendSurveyQuestion = async (req, res) => {
   try {
     const id = "61b2e801c28e04f06cbd668a";
@@ -86,6 +96,6 @@ export const sendSurveyQuestion = async (req, res) => {
     console.log(error);
     return res
       .status(400)
-      .json({ success: false, message: "surveyController 오류" });
+      .json({ success: false, message: "surveyController 오류", error });
   }
 };
