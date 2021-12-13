@@ -2,48 +2,22 @@ import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useForm } from "react-hook-form";
 import axios from "axios";
+import ImageUpload from "./ImageUpload";
 import classes from "./index.module.scss";
 import {
   changeImage,
   changeNickname,
 } from "../../../redux/reducer/ToggleReducer";
 
-const ImgUpload = ({ onChange, src }) => (
-  <label
-    htmlFor="photo-upload"
-    className={`${classes.custom_file_upload} ${classes.profile_label} fas`}
-  >
-    <div className={`${classes.img_wrap} ${classes.img_upload}`}>
-      <img
-        className={classes.profile_img}
-        htmlFor="photo-upload"
-        src={src}
-        alt="inputimage"
-      />
-    </div>
-    <input
-      className={classes.profile_input}
-      id="photo-upload"
-      type="file"
-      onChange={onChange}
-    />
-  </label>
-);
-
 const Profile = () => {
   const dispatch = useDispatch();
-  const user = useSelector((state) => state.toggle.user.nickname);
-  const {
-    handleSubmit,
-    register,
-
-    formState: { errors },
-  } = useForm({
+  const user = useSelector((state) => state.toggle.user);
+  const { handleSubmit, register } = useForm({
     defaultValues: {
-      nickname: user,
+      nickname: user.nickname,
     },
   });
-
+  const provider = user.provider;
   const userImage = useSelector((state) => state.toggle.user.img);
 
   const [defaultImage, setDefaultImage] = useState(
@@ -79,53 +53,19 @@ const Profile = () => {
   };
 
   return (
-    <section
-      style={{
-        width: "100vw",
-        height: "100vh",
-        background: " linear-gradient(270deg, #3fa1a9, #79f1a4)",
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        flexDirection: "column",
-      }}
-    >
-      <ImgUpload src={defaultImage} onChange={handleImage} />
-      {/* <label htmlFor="file_upload">
-        <img
-          src="http://raymondubuntu.ddns.net:4000/img/default/092a5957a1ac2f6e3b262b5654339fa1"
-          style={{
-            width: "200px",
-            height: "200px",
-            background: "transparent",
-          }}
-        />
-      </label>
-      <input
-        type="file"
-        id="file_upload"
-        style={{ display: "none" }}
-        accept="image/*"
-        onChange={handleImage}
-      /> */}
-
-      <form>
-        <input
-          ref={register}
-          {...register("nickname", {
-            // required: (
-            //   <h1 style={{ fontSize: "0.5rem", color: "red" }}>
-            //     This field required.
-            //   </h1>
-            // ),
-            // pattern: {
-            //   value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-            //   message: "invalid email address",
-            // },
-          })}
-        />
-        <button onClick={handleSubmit(handleNickname)}>닉네임</button>
-      </form>
+    <section className={classes.profile__section}>
+      <div className={classes.profile__wrapper}>
+        <ImageUpload src={defaultImage} onChange={handleImage} />
+        <label htmlFor="nickname">닉네임</label>
+        <input name="nickname" ref={register} {...register("nickname", {})} />
+        <button className={classes.btn} onClick={handleSubmit(handleNickname)}>
+          닉네임변경
+        </button>
+        <hr />
+        <button className={`${classes.btn} ${classes.settings}`}>설정</button>
+        {provider === "local" && <></>}
+        <button className={`${classes.btn} ${classes.exit}`}>회원탈퇴</button>
+      </div>
     </section>
   );
 };

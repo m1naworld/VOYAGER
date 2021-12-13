@@ -15,9 +15,10 @@
   border-radius: 18px;
   -webkit-border-radius: 18px;
   padding: 2% 8%;
-  section {
+  .section {
     background: transparent;
     min-height: min-content;
+    transition: all 1s ease-in;
     .form {
       display: flex;
       flex-direction: column;
@@ -50,6 +51,21 @@
         margin: 10px 0;
         margin-bottom: 0;
       }
+    }
+    button {
+      background-color: #51aabf;
+      padding: 2px 20px;
+      height: 28px;
+      border-radius: 12px;
+      width: 100%;
+      font-size: 18px;
+      color: #fff;
+      outline: none;
+      border: none;
+      cursor: pointer;
+      white-space: nowrap;
+      margin: 10px 0;
+      margin-bottom: 0;
     }
   }
 }

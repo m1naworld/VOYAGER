@@ -15,3 +15,9 @@ login 접근권한 라우터 분할
 
 Logout 구현
 oauth REST방식으로 변경
+
+
+12/13
+
+이메일변경 비밀번호변경
+리다이렉트 해결 해야함 -> useLocation 데이터전송으로 validate?

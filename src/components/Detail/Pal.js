@@ -184,20 +184,6 @@ const SliderContainer = styled.div`
 `;
 
 const TOTAL_SLIDES = 2;
-const data = [
-  {
-    index: 0,
-    qs: "집에 혼자 있을 때 무엇을 하며 시간을 보내나요?",
-  },
-  {
-    index: 1,
-    qs: "100만원, 7일의 시간이 주어진다면?",
-  },
-  {
-    index: 2,
-    qs: "1년뒤엔 내가 어떻게 바뀌어있길 바라나요?",
-  },
-];
 
 export default function Slider({ toggle, fetch, setFetch }) {
   const [currentSlide, setCurrentSlide] = useState(0);

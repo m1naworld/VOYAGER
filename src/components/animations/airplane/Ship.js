@@ -1,7 +1,6 @@
 import { useEffect, useState, useCallback } from "react";
 import classes from "./Ship.module.scss";
-import Login from "../../Home/Login";
-import NavTestBtn from "../../Detail/Nav/NavTestBtn";
+import Login from "../../Home/Login/Login";
 
 const Ship = () => {
   const [step, setStep] = useState(0);
@@ -75,9 +74,10 @@ const Ship = () => {
               <>
                 <img
                   className={classes.ship__logo}
-                  src={process.env.PUBLIC_URL + "/image/favicon.png"}
+                  src={process.env.PUBLIC_URL + "/image/logo2.png"}
                   alt="favicon"
                 />
+                <h1 className={classes.ship__title}>VOYAGER</h1>
                 <button onClick={handleClick} className={classes.ship__btn}>
                   LOGIN
                 </button>

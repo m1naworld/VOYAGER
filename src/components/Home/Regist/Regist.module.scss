@@ -1,7 +1,14 @@
 .regist__main {
   display: flex;
   justify-content: center;
-
+  background-color: #363636;
+  .regist__img {
+    width: 100vw;
+    height: 100vh;
+    position: absolute;
+    z-index: 0;
+    filter: blur(50px);
+  }
   .regist__section {
     width: 80vw;
     height: 100vh;
@@ -35,9 +42,19 @@
       color: black;
       font-size: 1rem;
       margin: 10px 0;
-      color: black;
       text-align: center;
       width: 100%;
+    }
+    & .date__div {
+      border: none;
+      border-radius: 18px;
+      padding: 0 20px;
+      color: #757575;
+      font-size: 1rem;
+      margin: 10px 0;
+      text-align: center;
+      width: 100%;
+      background-color: #ffffff;
     }
     & .btn {
       background-color: #51aabf;
@@ -53,6 +70,10 @@
       white-space: nowrap;
       margin: 10px 0;
       margin-bottom: 0;
+    }
+    & .birth {
+      visibility: hidden;
+      position: absolute;
     }
     @media screen and (max-width: 960px) {
       overflow: auto;

@@ -6,44 +6,35 @@ import axios from "axios";
 import Spinner from "../animations/Spinner/Spinner";
 import Router from "../../routes/Router";
 
+// 에러코드 , 성공코드 success 맞추기
+
 function App() {
   const loading = useSelector((state) => state.toggle.isLoading);
   const dispatch = useDispatch();
   const checkToken = useCallback(async () => {
-    const res = await axios
-      .get("/api/auth/user", { timeout: 3000 })
-      .then(async (res) => {
-        const re = await axios.get("/api/send/user").then((res) => {
-          console.log(res);
-          dispatch(editUser(res.data.user));
-        });
-
-        dispatch(toggleLogin(true));
-        return res;
-      })
-      .catch(async (err) => {
-        if (err.code === "ECONNABORTED") {
-          dispatch(toggleLogin(false));
-          return "TIMEOUT ERROR";
-        }
-        if (err.response.status === 401) {
-          dispatch(toggleLogin(false));
-          return err.response;
-        } else if (err.response.status === 404) {
-          return err.response;
-        } else if (err.response.status === 419) {
-          dispatch(toggleLogin(false));
-          return err.response;
-        } else {
-          console.log(err);
-          dispatch(checkLoading(false));
-        }
-      });
-    dispatch(checkLoading(false));
+    try {
+      const res = await axios.get("/api/auth/user", { timeout: 3000 });
+      // 이거왜있음????
+      const re = await axios.get("/api/send/user", { timeout: 3000 });
+      console.log(re);
+      dispatch(editUser(re.data.user));
+      dispatch(toggleLogin(true));
+      dispatch(checkLoading(false));
+      console.log(re);
+      return res;
+    } catch (err) {
+      if (err.code === "ECONNABORTED") {
+        dispatch(toggleLogin(false));
+        return "TIMEOUT ERROR";
+      }
+      console.log(err.response);
+      dispatch(toggleLogin(err.response.data.success));
+      dispatch(checkLoading(false));
+    }
   }, [dispatch]);
   useEffect(() => {
-    console.log("OII");
     checkToken();
+    // dispatch(checkLoading(false));
   }, [checkToken, dispatch, toggleLogin]);
   return loading ? <Spinner /> : <Router />;
 }

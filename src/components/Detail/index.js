@@ -2,27 +2,21 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import { getDailyQs, postDailyQs } from "../../redux/reducer/DailyQsReducer";
-import { editUser } from "../../redux/reducer/ToggleReducer";
 import { getCalendar } from "../../redux/reducer/CalendarReducer";
 import styles from "./Detail.module.scss";
 import Pal from "./Pal";
 import { useSelector } from "react-redux";
-import axios from "axios";
 
 function Detail() {
   const stars = useRef();
   const moon = useRef();
   const mountains_behind = useRef();
   const mountains_front = useRef();
-  const text = useRef();
   const btn = useRef();
-  const nickBtn = useRef();
   const [testOpen, setTestOpen] = useState(false);
   const [fetch, setFetch] = useState(false);
 
   const dispatch = useDispatch();
-
-  // const dd = useSelector(getCalendarList);
 
   const postDailyQsData = useSelector((state) => {
     const { answer, id } = state.dailyQuestions;
@@ -34,7 +28,7 @@ function Detail() {
     const qs = await dispatch(getDailyQs());
     await dispatch(getCalendar());
     return qs;
-  }, []);
+  }, [dispatch]);
 
   const scrollEvent = useCallback(() => {
     let value = window.scrollY;
@@ -61,7 +55,7 @@ function Detail() {
     return () => {
       window.removeEventListener("scroll", scrollEvent);
     };
-  }, [fetch]);
+  }, [fetch, dispatch, data]);
   return (
     <>
       <section className={styles.mainSection}>
@@ -85,9 +79,7 @@ function Detail() {
           alt="mountains_behind"
           ref={mountains_behind}
         />
-        {/* <h2 id={styles["text"]} ref={text}>
-          Moon Light
-        </h2> */}
+
         <Link to="/dailyQuestion" id={styles["btn"]} ref={btn}>
           Explore
         </Link>

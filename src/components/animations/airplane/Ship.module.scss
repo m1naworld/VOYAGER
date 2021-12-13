@@ -216,24 +216,31 @@ $fireSub: #fffe00;
   animation: FadeIn 4s ease-in-out forwards;
   animation-delay: 3s;
 }
+.ship__title {
+  font-family: "Aero";
+  color: #80d8e6;
+  font-size: 2.5rem;
+}
 
 .ship__btn {
-  position: absolute;
-  top: 80%;
+  font-family: "Aero";
+  padding: 8px 6%;
+  border-radius: 10px;
+  font-size: 15px;
+  color: #fff;
   outline: none;
   border: none;
-  width: 200px;
-  height: 40px;
-  border-radius: 19px;
-  background: linear-gradient(90deg, #20236389 0%, #20236331 100%);
   cursor: pointer;
-  opacity: 0;
-  animation: FadeIn 4s ease-in-out forwards;
-  animation-delay: 3s;
-  transition: all 0.2s ease;
+  white-space: nowrap;
+  background-color: #80d8e6;
+  // opacity: 0;
+  transition: all 0.3s ease-out;
   &:hover {
-    background: #fff;
-    color: #bec1f6;
+    padding: 8px 7%;
+    transition: all 0.3s ease-out;
+    background-color: #fff;
+    color: #6568f4;
+    transition: 250ms;
   }
 }
 

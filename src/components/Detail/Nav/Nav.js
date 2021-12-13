@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useState } from "react";
 import { Link } from "react-router-dom";
 import classes from "./nav.module.scss";
 import { toggleLogin } from "../../../redux/reducer/ToggleReducer";
@@ -15,17 +15,12 @@ const Nav = () => {
 
   const handleLogout = useCallback(async () => {
     try {
-      const res = await axios.get("/api/auth/logout");
-      console.log(res);
+      await axios.get("/api/auth/logout");
       dispatch(toggleLogin(false));
     } catch (err) {
       console.log(err);
     }
-  }, []);
-  useEffect(() => {
-    const b = document.querySelector("body");
-    // b.style.overflow = "hidden";
-  }, [toggle]);
+  }, [dispatch]);
 
   return (
     <nav

@@ -34,6 +34,10 @@
 }
 
 * {
-  font-family: "Aero";
+  font-family: "NanumSquare";
   list-style: none;
+
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
