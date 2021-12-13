@@ -19,19 +19,25 @@ module.exports = () => {
           if (!users) {
             return done(null, false, {
               success: false,
-              message: "User not found",
+              message: "등록되지 않은 이메일 입니다.",
             });
           }
           const validate = await bycrypt.compare(password, users.password);
           if (!validate) {
             return done(null, false, {
               success: false,
-              message: "Wrong Password",
+              message: "비밀번호가 틀렸습니다.",
+            });
+          }
+          if (users.confirmation) {
+            return done(null, users, {
+              success: true,
+              message: "로그인 성공!",
             });
           }
           return done(null, users, {
-            success: true,
-            message: "Logged in Successfully",
+            success: false,
+            message: "이메일 인증을 완료해 주세요!",
           });
         } catch (error) {
           return done(error);

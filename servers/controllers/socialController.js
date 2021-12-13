@@ -4,8 +4,8 @@ import { addCalendar } from "./myDataController";
 
 export const social = async (req, res, done) => {
   try {
-    let { provider, snsId, email, name, gender, age, birth, birthyear, phone } =
-      req.body;
+    let { snsId, email, name, gender, age, birth, birthyear, phone } = req.body;
+    const provider = "social";
     // email이 없을 경우
     console.log(email);
     if (email === undefined) {

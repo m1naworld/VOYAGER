@@ -2486,7 +2486,7 @@
   "resolved" "https://registry.npmjs.org/graphql/-/graphql-16.0.1.tgz"
   "version" "16.0.1"
 
-"handlebars@4.7.7":
+"handlebars@^4.7.7", "handlebars@4.7.7":
   "integrity" "sha512-aAcXm5OAfE/8IXkcZvCepKU3VzW1/39Fb5ZuqMtgI/hT8X2YgoMvBY5dLhq/cpOvw7Lk1nK/UF71aLG/ZnVYRA=="
   "resolved" "https://registry.npmjs.org/handlebars/-/handlebars-4.7.7.tgz"
   "version" "4.7.7"

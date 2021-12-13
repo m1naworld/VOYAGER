@@ -9,6 +9,6 @@ const remove = express.Router();
 
 remove.use(snsIdCheck);
 remove.post("/myDiary", deleteMyDiary);
-remove.get("/user", dropOut);
+remove.post("/user", dropOut);
 
 export default remove;

@@ -8,18 +8,12 @@ dotenv.config();
 
 const bcrypt = require("bcrypt");
 
-export const join = async (req, res) => {
+export const postJoin = async (req, res) => {
   // req의 body 정보를 사용하려면 server.js에서 따로 설정을 해줘야함
-  let { provider, email, password, name, birth, birthyear, phone } = req.body;
+  let { email, password, name, birth, birthyear, phone } = req.body;
+  const provider = "local";
   const snsId = email;
   try {
-    //   email을 비교하여 user가 이미 존재하는지 확인
-    let users = await User.findOne({ email, provider: "local" });
-    if (users) {
-      return res
-        .status(400)
-        .json({ success: false, message: "User already exists" });
-    }
     const salt = await bcrypt.genSalt(Number(process.env.SALT));
     password = await bcrypt.hash(password, salt);
 
@@ -30,7 +24,7 @@ export const join = async (req, res) => {
     addCalendar(snsId);
 
     // user에 name, email, password 등 값 할당
-    users = new User({
+    let users = new User({
       provider,
       snsId,
       email,

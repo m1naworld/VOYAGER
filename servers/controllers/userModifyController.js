@@ -35,9 +35,10 @@ export const changeNickname = async (req, res) => {
 
 export const changePassword = async (req, res) => {
   try {
-    const snsId = req.snsId;
-    let password = req.body.password;
-    const user = await User.findOne({ snsId });
+    console.log(req.body);
+    let { _id, password } = req.body;
+    // let password = req.body.password;
+    const user = await User.findOne({ _id });
     console.log(user);
     const salt = await bcrypt.genSalt(Number(process.env.SALT));
     password = await bcrypt.hash(password, salt);
@@ -60,11 +61,13 @@ export const changeImage = async (req, res) => {
     const img = req.file.path;
     console.log(img);
     const user = await User.findOne({ snsId });
-    const defaultIMG = process.env.IMG;
-    if (user.img !== defaultIMG) {
+    if (user.img !== process.env.IMG) {
       fs.unlink(user.img, function (error) {
         if (error) {
           console.log(error);
+          return res
+            .status(400)
+            .json({ success: false, message: "IMG Upload 실패 " });
         }
       });
     }

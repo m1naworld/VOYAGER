@@ -5,19 +5,19 @@ import { refresh } from "../models/refreshToken";
 export const jwtVerify = async (req, res) => {
   try {
     const accesstoken = req.cookies.Authorization;
-    const refreshjwt = req.cookies.reAuthorization;
+    const refreshtoken = req.cookies.reAuthorization;
     console.log({ accesstoken: accesstoken });
-    console.log({ refreshtoken: refreshjwt });
+    console.log({ refreshtoken: refreshtoken });
     // DB에 저장된 refresh 가져오기
-    const refreshed = await refresh.findByRefresh({ refreshjwt });
-    let refreshToken = refreshed.refreshToken;
-    console.log({ dbRefresh: refreshToken });
-
+    const refreshed = await refresh.findByRefresh({ refreshtoken });
+    let refreshjwt = refreshed.refreshjwt;
+    console.log({ dbRefresh: refreshjwt });
+    const issuer = "m1na";
     // access 유효성 검사
     jwt.verify(accesstoken, process.env.JWT_SECRET, async (error, decoded) => {
       if (error) {
         jwt.verify(
-          refreshjwt,
+          refreshtoken,
           process.env.JWT_REFRESH_SECRET,
           (error, decoded) => {
             if (error) {
@@ -28,13 +28,12 @@ export const jwtVerify = async (req, res) => {
               // return res.redirect("/auth/logout"); >> 용현님한테 보내달라할것
             } // refresh 유효할 때
             else if (decoded) {
-              if (refreshjwt === refreshToken) {
+              if (refreshjwt === refreshtoken) {
                 const accessToken = jwt.sign(
-                  { id: refreshToken.snsId },
+                  { id: refreshjwt.snsId },
                   process.env.JWT_SECRET,
-                  { expiresIn: process.env.ACCESS_EXPIRE, issuer: "m1na" }
+                  { expiresIn: process.env.ACCESS_EXPIRE, issuer }
                 );
-                console.log(`new accessToken : ${accessToken}`);
                 res.cookie("Authorization", accessToken, {
                   httpOnly: true,
                   expires: new Date(Date.now() + 1000 * 60 * 60 * 3),
@@ -55,24 +54,22 @@ export const jwtVerify = async (req, res) => {
       } else {
         console.log(decoded);
         let snsId = decoded.id;
-        console.log(snsId);
         const user = await User.findBySnsId({ snsId });
-        console.log(user);
         if (user) {
           jwt.verify(
-            refreshjwt,
+            refreshtoken,
             process.env.JWT_REFRESH_SECRET,
             async (error, decoded) => {
               console.log(decoded);
               if (error) {
-                await refresh.deleteRefresh({ refreshjwt });
-                refreshToken = jwt.sign({}, process.env.JWT_REFRESH_SECRET, {
+                await refresh.deleteRefresh({ refreshtoken });
+                refreshjwt = jwt.sign({}, process.env.JWT_REFRESH_SECRET, {
                   expiresIn: process.env.NEW_REFRESH_EXPIRE,
-                  issuer: "m1na",
+                  issuer,
                 });
-                console.log(refreshToken);
-                await refresh.saveRefresh({ snsId, refreshToken });
-                res.cookie("reAuthorization", refreshToken, {
+                console.log(refreshjwt);
+                await refresh.saveRefresh({ snsId, refreshjwt });
+                res.cookie("reAuthorization", refreshjwt, {
                   httpOnly: true,
                   expires: new Date(Date.now() + 1000 * 60 * 60 * 24),
                 });
@@ -93,7 +90,6 @@ export const jwtVerify = async (req, res) => {
           return res
             .status(404)
             .json({ success: false, message: "token에 해당하는 유저가 없음" });
-          // .redirect("/auth/logout");
         }
         if (error) {
           console.log("db 오류 ");

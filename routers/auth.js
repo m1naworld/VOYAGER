@@ -2,23 +2,25 @@ import express from "express";
 
 //middle
 import { jwtVerify } from "../servers/middle/jwtVerify";
-import { userCheck } from "../servers/middle/Check";
+import { phoneCheck, userCheck } from "../servers/middle/Check";
 import { emailCheck } from "../servers/middle/Check";
 import { tokenError } from "../servers/middle/jwtError";
 
 //controller
-import { join, logOut } from "../servers/controllers/loginController";
+import { postJoin, logOut } from "../servers/controllers/loginController";
 import { social } from "../servers/controllers/socialController";
-import { findEmail } from "../servers/controllers/myFindController";
+import { findEmail, sendEmail } from "../servers/controllers/myFindController";
 import {
+  confirmEmail,
   postLogin,
   postSocialLogin,
 } from "../servers/controllers/authController";
+import { changePassword } from "../servers/controllers/userModifyController";
 
 const router = express.Router();
 
 // 회원가입
-router.post("/join", join);
+router.post("/join", postJoin);
 
 // 로컬 로그인
 router.post("/login", postLogin);
@@ -36,16 +38,20 @@ router.get("/logout", logOut);
 router.post("/userCheck", userCheck);
 
 // 이메일 중복 체크
-router.post("/check", emailCheck, (req, res) => {
-  const toggle = req.body.val ?? false;
-  if (!toggle) {
-    return res
-      .status(400)
-      .json({ error: "이메일이 중복되었습니다", check: false });
-  } // 이메일 발송 구현하기
-});
+router.post("/checkEmail", emailCheck);
+
+// 휴대폰 중복 체크
+router.post("/checkPhone", phoneCheck);
 
 // 이메일 찾기
 router.post("/findEmail", findEmail);
+
+// 이메일 인증 및 비밀번호 찾기
+router.post("/change", sendEmail);
+
+// 이메일 인증 확인
+router.post("/confirm", confirmEmail);
+
+router.post("/user/password/modify", changePassword);
 
 module.exports = router;

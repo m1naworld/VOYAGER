@@ -7,7 +7,7 @@ const tokenSchema = mongoose.Schema(
       required: true,
       unique: true,
     },
-    refreshToken: { type: String, required: true },
+    refreshjwt: { type: String, required: true },
   },
   { versionKey: false }
 );
@@ -16,21 +16,21 @@ tokenSchema.statics.findBysnsId = function ({ snsId }) {
   return this.findOne({ snsId });
 };
 
-tokenSchema.statics.findByRefresh = function ({ refresh }) {
-  return this.findOne({ refreshToken: refresh });
+tokenSchema.statics.findByRefresh = function ({ refreshtoken }) {
+  return this.findOne({ refreshtoken });
 };
 
 tokenSchema.statics.saveRefresh = function ({ snsId, refreshjwt }) {
   const refresh = new this({
     snsId,
-    refreshToken: refreshjwt,
+    refreshjwt,
   });
 
   return refresh.save();
 };
 
-tokenSchema.statics.deleteRefresh = function ({ refreshjwt }) {
-  return this.remove({ refreshToken: refreshjwt });
+tokenSchema.statics.deleteRefresh = function ({ refreshtoken }) {
+  return this.remove({ refreshtoken });
 };
 
 tokenSchema.statics.deleteSnsId = function ({ snsId }) {
