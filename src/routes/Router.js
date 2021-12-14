@@ -21,6 +21,10 @@ import { useSelector } from "react-redux";
 import EmailRouter from "./EmailRouter";
 import EmailCheck from "../components/EmailCheck";
 import PasswordCheck from "../components/PasswordCheck";
+import ProfileRouter from "./DetailRouter/ProfileRouter";
+import SettingProfile from "../components/Detail/Profile/SettingProfile";
+import ProfileLogin from "../components/Detail/Profile/ProfileLogin";
+import RemoveUser from "../components/Detail/Profile/RemoveUser";
 
 function Router() {
   const loggedIn = useSelector((state) => state.toggle.isLoggedIn);
@@ -47,7 +51,12 @@ function Router() {
             }
           />
 
-          <Route path="profile" element={<Profile />} />
+          <Route path="profile" element={<ProfileRouter />}>
+            <Route path="" element={<Profile />} />
+            <Route path="settings" element={<SettingProfile />} />
+            <Route path="password" element={<ProfileLogin />} />
+            <Route path="removeUser" element={<RemoveUser />} />
+          </Route>
         </Route>
         <Route path="dailyQuestion" element={<DailyQuestion />} />
         <Route path="oauth" element={<AuthRouter />}>

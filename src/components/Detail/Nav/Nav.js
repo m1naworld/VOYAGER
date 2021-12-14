@@ -70,42 +70,6 @@ const Nav = () => {
         <Link to="/logout" className={classes.link} onClick={handleLogout}>
           Logout
         </Link>
-        <button
-          onClick={async () => {
-            try {
-              const data = await axios.get("/send/calendar");
-              console.log(data);
-            } catch (err) {
-              console.log(err);
-            }
-          }}
-        >
-          123123123
-        </button>
-        <button
-          onClick={async () => {
-            await axios.post("/register/addDiary", {
-              date: "2021-12-12",
-              diary: "123123",
-            });
-            await axios.post("/register/addColor", {
-              date: "2021-12-11",
-              color: "#fff",
-            });
-            const result = await axios.post("/register/addDaily", {
-              date: "2021-12-12",
-              question: { _id: "61a9b358d51383431a002fb9" },
-              answer: [
-                { index: 1, qs: "34343" },
-                { index: 2, qs: "dsdsdsd" },
-                { index: 3, qs: "qwekqwelk" },
-              ],
-            });
-            console.log(result);
-          }}
-        >
-          post
-        </button>
       </div>
     </nav>
   );

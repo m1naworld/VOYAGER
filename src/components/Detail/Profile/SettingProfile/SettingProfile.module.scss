@@ -1,0 +1,31 @@
+.setting__wrapper {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  .btn {
+    background-color: #51aabf;
+    padding: 2px 20px;
+    height: 28px;
+    border-radius: 18px;
+    width: 100%;
+    font-size: 18px;
+    color: #fff;
+    outline: none;
+    border: none;
+    cursor: pointer;
+    white-space: nowrap;
+    margin: 10px 0;
+    transition: all 0.3s ease-in-out;
+  }
+
+  .exit {
+    background-color: rgba(179, 13, 13, 0.797);
+  }
+  .last {
+    background-color: #202363;
+  }
+  & hr {
+    width: 100%;
+    margin: 10px 0;
+  }
+}

@@ -25,11 +25,11 @@ const Logo = () => {
         <div className={classes.logo__stars}></div>
         <div className={classes.logo__stars}></div>
       </div>
-      <img
+      {/* <img
         src={`${process.env.PUBLIC_URL}/image/main/page3.svg`}
         alt="page3"
         className={classes.logo__main}
-      />
+      /> */}
     </div>
   );
 };

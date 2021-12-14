@@ -54,17 +54,31 @@ function Login() {
       }
     } catch (err) {
       const { success, message } = err.response.data;
-      console.log(err.response.data);
       setSuccess({ success, message });
     }
   };
 
   const sendPassword = useCallback(async () => {
-    const res = await axios.post("/api/auth/change", {
-      email: userEmail.current,
-      target: "password",
-    });
-    console.log(res);
+    try {
+      const res = await axios.post("/api/confirm/checkEmail", {
+        email: "akdfhr@gmail.com",
+      });
+      console.log(res);
+    } catch (err) {
+      if (err.response.status !== 402) {
+        return err.response;
+      }
+      try {
+        const sendEmail = await axios.post("/api/confirm/change", {
+          email: "akdfhr2@gmail.com",
+          target: "password",
+        });
+        console.log(sendEmail);
+      } catch (er) {
+        console.log(er.response);
+        return er;
+      }
+    }
   }, []);
 
   return (
@@ -116,16 +130,8 @@ function Login() {
 
             <hr style={{ color: "black", width: "100%", margin: "10px 0" }} />
 
-            {/* <div
-            style={{
-              display: "flex",
-              width: "100%",
-              justifyContent: "space-between",
-            }}
-          > */}
             <KakaoButton />
             <NaverButton />
-            {/* </div> */}
           </form>
         ) : (
           <>

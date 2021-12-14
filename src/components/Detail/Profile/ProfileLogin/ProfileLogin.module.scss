@@ -1,0 +1,40 @@
+.profileLogin__form {
+  // width: 50%;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+
+  & input {
+    border: none;
+    border-radius: 18px;
+    padding: 0 20px;
+    color: black;
+    font-size: 1rem;
+    margin: 10px 0;
+    text-align: center;
+    width: 100%;
+    height: 28px;
+    text-align: center;
+  }
+  & input:focus {
+    outline: none;
+  }
+  & button {
+    background-color: #51aabf;
+    padding: 2px 20px;
+    height: 28px;
+    border-radius: 18px;
+    width: 100%;
+    font-size: 18px;
+    color: #fff;
+    outline: none;
+    border: none;
+    cursor: pointer;
+    white-space: nowrap;
+    margin: 10px 0;
+    transition: all 0.3s ease-in-out;
+  }
+  & button:last-child {
+    background-color: #202363;
+  }
+}
