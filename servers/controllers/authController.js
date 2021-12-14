@@ -119,7 +119,7 @@ export const postSocialLogin = async (req, res) => {
       expiresIn: process.env.REFRESH_EXPIRE,
       issuer,
     });
-
+    console.log(accessToken, refreshjwt);
     const existRefresh = await refresh.findBysnsId({ snsId });
     if (existRefresh) {
       await refresh.deleteSnsId({ snsId });

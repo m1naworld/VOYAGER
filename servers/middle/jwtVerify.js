@@ -25,8 +25,7 @@ export const jwtVerify = async (req, res) => {
           (error, decoded) => {
             if (error) {
               console.log("로그아웃");
-              res.status(200).json({ isAuth: false });
-              return res.redirect("/auth/logout");
+              res.status(404).json({ success: false });
             } // refresh 유효할 때
             if (decoded) {
               if (refreshtoken === refreshjwt) {
@@ -43,11 +42,11 @@ export const jwtVerify = async (req, res) => {
                 console.log("access 재갱신 성공");
                 return res
                   .status(200)
-                  .json({ inAuth: true, message: "access 재갱신 성공" });
+                  .json({ success: true, message: "access 재갱신 성공" });
               }
               console.log("refreshtoken 일치 안함");
               return res.status(401).json({
-                inAuth: false,
+                success: false,
                 error: "refreshtokend이 일치하지 않습니다.",
               });
             }
@@ -80,10 +79,10 @@ export const jwtVerify = async (req, res) => {
                 console.log("refresh 갱신 성공 ");
                 return res
                   .status(200)
-                  .json({ inAuth: true, message: "refresh 갱신 성공" });
+                  .json({ success: true, message: "refresh 갱신 성공" });
               }
               console.log("access refresh 둘다 유효함");
-              return res.status(200).json({ inAuth: true });
+              return res.status(200).json({ success: true });
             }
           );
         }
@@ -91,14 +90,14 @@ export const jwtVerify = async (req, res) => {
           console.log("유저 없음");
           return res
             .status(404)
-            .json({ isAuth: false, error: "token에 해당하는 유저가 없음" });
+            .json({ success: false, error: "token에 해당하는 유저가 없음" });
           // .redirect("/auth/logout");
         }
         if (error) {
           console.log("db 오류 ");
           return res
             .status(402)
-            .json({ isAuth: false, error: "db에서 찾는 도중 오류 발생" });
+            .json({ success: false, error: "db에서 찾는 도중 오류 발생" });
         }
       }
     });
