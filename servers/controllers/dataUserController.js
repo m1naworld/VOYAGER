@@ -5,7 +5,6 @@ import { mydiary } from "../models/myDiary";
 import { mydaily } from "../models/myDaily";
 import { refresh } from "../models/refreshToken";
 
-import bcrypt from "bcrypt";
 import fs from "fs";
 
 export const changeNickname = async (req, res) => {
@@ -22,28 +21,6 @@ export const changeNickname = async (req, res) => {
     return res
       .status(400)
       .json({ success: false, message: "nickname 변경 실패", error });
-  }
-};
-
-export const changePassword = async (req, res) => {
-  try {
-    console.log(req.body);
-    let { _id, password } = req.body;
-    // let password = req.body.password;
-    const user = await User.findOne({ _id });
-    console.log(user);
-    const salt = await bcrypt.genSalt(Number(process.env.SALT));
-    password = await bcrypt.hash(password, salt);
-    user.password = password;
-    user.save();
-    return res
-      .status(200)
-      .json({ success: true, message: "비밀번호 변경 성공!" });
-  } catch (error) {
-    console.log(error);
-    return res
-      .status(400)
-      .json({ success: false, message: "password 변경 실패", error });
   }
 };
 
@@ -111,7 +88,10 @@ export const dropOut = async (req, res) => {
       console.log("탈퇴 성공 ㅠㅠ");
       return res
         .status(200)
-        .json({ success: true, message: " 지구로 돌아가도 잘지내세요. " });
+        .json({
+          success: true,
+          message: " 지구로 돌아가도 행복하셨음 좋겠습니다. 안녕.",
+        });
     }
     return res.status(400).status.json({
       success: false,

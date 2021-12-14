@@ -11,7 +11,6 @@ import {
   changeImage,
   changeNickname,
   dropOut,
-  changePassword,
 } from "../servers/controllers/dataUserController";
 // middle
 import { snsIdCheck } from "../servers/middle/snsIdCheck";
@@ -36,9 +35,6 @@ data.post("/user/modify", changeNickname);
 
 // 이미지 변경
 data.post("/userImg", upload.single("image"), changeImage);
-
-// 비밀번호 변경
-data.post("/user/password/modify", changePassword);
 
 // 회원 탈퇴
 data.post("/user/dropout", dropOut);

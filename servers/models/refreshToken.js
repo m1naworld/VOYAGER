@@ -17,7 +17,7 @@ tokenSchema.statics.findBysnsId = function ({ snsId }) {
 };
 
 tokenSchema.statics.findByRefresh = function ({ refreshtoken }) {
-  return this.findOne({ refreshtoken });
+  return this.findOne({ refreshjwt: refreshtoken });
 };
 
 tokenSchema.statics.saveRefresh = function ({ snsId, refreshjwt }) {
@@ -30,7 +30,7 @@ tokenSchema.statics.saveRefresh = function ({ snsId, refreshjwt }) {
 };
 
 tokenSchema.statics.deleteRefresh = function ({ refreshtoken }) {
-  return this.remove({ refreshtoken });
+  return this.remove({ refreshjwt: refreshtoken });
 };
 
 tokenSchema.statics.deleteSnsId = function ({ snsId }) {

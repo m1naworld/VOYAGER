@@ -17,9 +17,10 @@ export const emailCheck = async (req, res) => {
         .status(200)
         .json({ success: true, message: "사용 가능한 이메일 입니다." });
     } else {
-      return res
-        .status(402)
-        .json({ success: false, message: "이미 존재하는 이메일 입니다." });
+      return res.status(402).json({
+        success: false,
+        message: "이미 존재하는 이메일 입니다.",
+      });
     }
   } catch (error) {
     console.log(error);
@@ -50,7 +51,7 @@ export const phoneCheck = async (req, res) => {
 };
 
 // 이메일 및 비밀번호 유저 확인
-export const checkUser = async (req, res) => {
+export const userCheck = async (req, res) => {
   try {
     const {
       body: { email, password },

@@ -1,6 +1,6 @@
 import express from "express";
 import {
-  checkUser,
+  userCheck,
   phoneCheck,
   emailCheck,
   confirmEmail,
@@ -16,7 +16,7 @@ confirm.post("/checkEmail", emailCheck);
 confirm.post("/checkPhone", phoneCheck);
 
 // 비밀번호 변경 시 한번더 로그인
-confirm.post("/checkUser", checkUser);
+confirm.post("/checkUser", userCheck);
 
 // 이메일 인증 및 비밀번호 찾기
 confirm.post("/change", sendEmail);

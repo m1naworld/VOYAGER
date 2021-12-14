@@ -139,7 +139,7 @@ export const postSocialLogin = async (req, res) => {
   } catch (error) {
     console.log(error);
     return res
-      .status(401)
+      .status(400)
       .json({ success: false, message: "user를 찾을 수 없습니다.", error });
   }
 };
@@ -199,5 +199,28 @@ export const findEmail = async (req, res) => {
     return res
       .status(400)
       .json({ success: false, message: "이메일 찾기 실패", error });
+  }
+};
+
+// 비밀번호 변경
+export const changePassword = async (req, res) => {
+  try {
+    console.log(req.body);
+    let { _id, password } = req.body;
+    // let password = req.body.password;
+    const user = await User.findOne({ _id });
+    console.log(user);
+    const salt = await bcrypt.genSalt(Number(process.env.SALT));
+    password = await bcrypt.hash(password, salt);
+    user.password = password;
+    user.save();
+    return res
+      .status(200)
+      .json({ success: true, message: "비밀번호 변경 성공!" });
+  } catch (error) {
+    console.log(error);
+    return res
+      .status(400)
+      .json({ success: false, message: "password 변경 실패", error });
   }
 };
