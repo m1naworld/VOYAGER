@@ -12,6 +12,7 @@ import {
   postSocialLogin,
   logOut,
   findEmail,
+  changePassword,
 } from "../servers/controllers/authController";
 
 const router = express.Router();
@@ -33,5 +34,8 @@ router.get("/logout", logOut);
 
 // 이메일 찾기
 router.post("/findEmail", findEmail);
+
+// 비밀번호 변경
+router.post("/user/password/modify", changePassword);
 
 module.exports = router;
