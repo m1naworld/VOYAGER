@@ -1,6 +1,6 @@
 import { User } from "../models/User";
 import { mycalendar } from "../models/myCalendar";
-import { addCalendar } from "./myDataController";
+import { addCalendar } from "../controllers/dataCalendarController";
 
 export const social = async (req, res, done) => {
   try {

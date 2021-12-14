@@ -2,16 +2,19 @@ import express from "express";
 import {
   sendDailyQeustion,
   sendSurveyQuestion,
-} from "../servers/controllers/questionsController";
-import { sendCalendar } from "../servers/controllers/myDataController";
-import { snsIdCheck } from "../servers/middle/Check";
-import { userInformation } from "../servers/controllers/userModifyController";
+  sendCalendar,
+  userInformation,
+} from "../servers/controllers/sendController";
+
+import { snsIdCheck } from "../servers/middle/snsIdCheck";
 
 const send = express.Router();
 
 send.get("/dailyQuestion", sendDailyQeustion);
 send.get("/surveyQuestion", sendSurveyQuestion);
 send.get("/calendar", snsIdCheck, sendCalendar);
+
+// 유저정보 보내기
 send.get("/user", snsIdCheck, userInformation);
 
 export default send;

@@ -2,8 +2,8 @@ import { mycalendar } from "../models/myCalendar";
 import { mycolor } from "../models/myColor";
 import { mydaily } from "../models/myDaily";
 import { mydiary } from "../models/myDiary";
-import { User } from "../models/User";
 
+// 수정해야됌.
 export const myColor = async (req, res) => {
   try {
     const snsId = req.snsId;
@@ -19,6 +19,7 @@ export const myColor = async (req, res) => {
   }
 };
 
+// 주관식 질문 저장
 export const myDaily = async (req, res) => {
   try {
     const snsId = req.snsId;
@@ -46,6 +47,7 @@ export const myDaily = async (req, res) => {
   }
 };
 
+// 다이어리 추가 및 수정
 export const myDiary = async (req, res) => {
   try {
     const snsId = req.snsId;
@@ -76,6 +78,32 @@ export const myDiary = async (req, res) => {
   }
 };
 
+// 다이어리 삭제
+export const deleteMyDiary = async (req, res) => {
+  try {
+    const snsId = req.snsId;
+    const date = new Date(req.body.date);
+    const user = await mydiary.findOne({ snsId });
+    const data = user.data;
+    console.log(data);
+    const idx = data.findIndex((m) => m.date.getTime() === date.getTime());
+    console.log(idx);
+    if (idx !== -1) {
+      data.splice(idx, 1);
+      user.data = data;
+      console.log(user.data);
+      user.save();
+    }
+    return res
+      .status(200)
+      .json({ success: true, message: "MyDiary 삭제 성공" });
+  } catch (error) {
+    console.log(error);
+    res.status(400).json({ success: false, message: "MyDiary 삭제 실패" });
+  }
+};
+
+// 캘린더 참조
 export const addCalendar = async (snsId) => {
   try {
     await mycolor.registerSnsId({ snsId });
@@ -93,23 +121,5 @@ export const addCalendar = async (snsId) => {
     await mycalendar.registerData({ snsId, color, diary, daily });
   } catch (error) {
     console.log(error);
-  }
-};
-
-export const sendCalendar = async (req, res) => {
-  try {
-    const snsId = req.snsId;
-    const user = await User.findBySnsId({ snsId }).populate("userCalendar");
-
-    const userCalendar = await user.userCalendar.populate("color");
-    await user.userCalendar.populate("daily");
-    await user.userCalendar.populate("diary");
-    await userCalendar.daily.populate("data.question");
-    return res.status(200).json({ success: true, calendar: userCalendar });
-  } catch (error) {
-    console.log(error);
-    return res
-      .status(400)
-      .json({ success: false, message: "sendCalendar 실패", error });
   }
 };

@@ -29,17 +29,18 @@ module.exports = () => {
               message: "비밀번호가 틀렸습니다.",
             });
           }
-          if (users.confirmation) {
+          if (!users.confirmation) {
             return done(null, users, {
-              success: true,
-              message: "로그인 성공!",
+              success: false,
+              message: "이메일 인증을 완료해 주세요!",
             });
           }
           return done(null, users, {
-            success: false,
-            message: "이메일 인증을 완료해 주세요!",
+            success: true,
+            message: "로그인 성공!",
           });
         } catch (error) {
+          console.log(error);
           return done(error);
         }
       }

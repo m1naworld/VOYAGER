@@ -1,16 +1,16 @@
 import express from "express";
 import router from "./auth";
-import register from "./register";
+import data from "./data";
+import confirm from "./confirm";
 import send from "./send";
-import remove from "./remove";
 import update from "./update";
 
 const api = express.Router();
 
 api.use("/auth", router);
-api.use("/register", register);
+api.use("/data", data);
+api.use("/confirm", confirm);
 api.use("/send", send);
-api.use("/delete", remove);
 api.use("/update", update);
 
 export default api;

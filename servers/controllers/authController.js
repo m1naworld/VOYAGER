@@ -1,11 +1,61 @@
 import passport from "passport";
 import jwt from "jsonwebtoken";
+import bcrypt from "bcrypt";
+import dotenv from "dotenv";
+dotenv.config();
 
+// DB
 import { refresh } from "../models/refreshToken";
 import { User } from "../models/User";
+import { mycalendar } from "../models/myCalendar";
+
+// controller
+import { addCalendar } from "./dataCalendarController";
 
 const issuer = "m1na";
 
+// Local 회원 가입
+export const postJoin = async (req, res) => {
+  // req의 body 정보를 사용하려면 server.js에서 따로 설정을 해줘야함
+  let { email, password, name, birth, birthyear, phone } = req.body;
+  const provider = "local";
+  const snsId = email;
+  try {
+    const salt = await bcrypt.genSalt(Number(process.env.SALT));
+    password = await bcrypt.hash(password, salt);
+
+    await mycalendar.registerSnsId({ snsId });
+    const checkCalendar = await mycalendar.findOne({ snsId });
+    const userCalendar = checkCalendar._id;
+
+    addCalendar(snsId);
+
+    // user에 name, email, password 등 값 할당
+    let users = new User({
+      provider,
+      snsId,
+      email,
+      password,
+      name,
+      birth,
+      birthyear,
+      phone,
+      userCalendar,
+    });
+    console.log(users);
+    // password를 암호화 하기
+    await users.save(); // db에 user 저장
+
+    res
+      .status(200)
+      .json({ success: true, message: "VOYAGER의 가족이 된 것을 환영합니다!" });
+  } catch (error) {
+    console.error(error.message);
+    res.status(500).json({ success: false, message: "Server Error" });
+  }
+};
+
+// Local 로그인
 export const postLogin = async (req, res, next) => {
   passport.authenticate("login", async (err, user, msg) => {
     console.log(user, err, msg);
@@ -47,14 +97,16 @@ export const postLogin = async (req, res, next) => {
           httpOnly: true,
           expires: new Date(Date.now() + 1000 * 60 * 60 * 24 * 5),
         });
-        return res.status(204);
+        return res.status(204).json({ success: true, message: "로그인 성공!" });
       });
     } catch (error) {
+      console.log(error);
       return next(error);
     }
   })(req, res, next);
 };
 
+// 소셜 로그인
 export const postSocialLogin = async (req, res) => {
   try {
     console.log(req.body);
@@ -92,20 +144,60 @@ export const postSocialLogin = async (req, res) => {
   }
 };
 
-export const confirmEmail = async (req, res) => {
+// 로그아웃
+export const logOut = async (req, res) => {
   try {
-    const { id: _id } = req.body;
-    console.log(_id);
-    const user = await User.findOne({ _id });
-    console.log(user);
-    user.confirmation = true;
-    user.save();
-    console.log(user);
-    return res
-      .status(200)
-      .json({ success: true, message: "email 인증 받기 성공" });
+    const refreshtoken = req.cookies.reAuthorization;
+    res.clearCookie("Authorization");
+    res.clearCookie("reAuthorization");
+
+    const refreshed = await refresh.findByRefresh({ refreshtoken });
+    if (refreshed) {
+      await refresh.deleteRefresh({ refreshtoken });
+    }
+    return res.status(200).json({ success: true, message: "로그아웃" });
   } catch (error) {
     console.log(error);
-    return res.status(400).json({ success: false, error });
+    return res
+      .status(400)
+      .json({ success: false, message: "로그아웃 실패", error });
+  }
+};
+
+// 이메일 찾기
+export const findEmail = async (req, res) => {
+  try {
+    let { name, birthday, phone } = req.body;
+    birthday = birthday.split("-");
+    const birthyear = birthday[0];
+    const birth = birthday[1] + birthday[2];
+    const user = await User.findOne({ phone });
+    let email = user.email;
+    email = email.split("@");
+    let secret = email[0];
+    if (!user) {
+      return res
+        .status(400)
+        .json({ success: false, message: "저장되지 않은 휴대폰 번호 입니다." });
+    } else if (
+      user.name === name &&
+      user.birth === birth &&
+      user.birthyear === birthyear
+    ) {
+      secret = secret.split("");
+      secret.splice(-4, 4, "****");
+      secret = secret.join("");
+      email = secret + "@" + email[1];
+      console.log(email);
+      return res.status(200).json({ success: true, email });
+    }
+    return res
+      .status(400)
+      .json({ success: false, message: "정보를 다시 입력해주세요." });
+  } catch (error) {
+    console.log(error);
+    return res
+      .status(400)
+      .json({ success: false, message: "이메일 찾기 실패", error });
   }
 };

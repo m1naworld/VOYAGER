@@ -16,7 +16,7 @@ const userSchema = new mongoose.Schema(
     age: String,
     birth: String,
     birthyear: String,
-    phone: { type: String, unique: true },
+    phone: String,
     registerdate: { type: String, default: registerDate },
     userCalendar: {
       type: mongoose.SchemaTypes.ObjectId,

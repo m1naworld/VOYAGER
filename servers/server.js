@@ -9,7 +9,7 @@ import api from "../routers/api";
 const app = express();
 const PORT = 4000;
 
-const passportConfig = require("./config/passport");
+const passportConfig = require("./middle/localLogin");
 app.use(passport.initialize());
 passportConfig();
 

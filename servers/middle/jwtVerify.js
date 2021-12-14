@@ -11,8 +11,8 @@ export const jwtVerify = async (req, res) => {
     // DB에 저장된 refresh 가져오기
     const refreshed = await refresh.findByRefresh({ refreshtoken });
     let refreshjwt = refreshed.refreshjwt;
-    console.log({ dbRefresh: refreshjwt });
     const issuer = "m1na";
+    console.log({ dbRefresh: refreshjwt });
     // access 유효성 검사
     jwt.verify(accesstoken, process.env.JWT_SECRET, async (error, decoded) => {
       if (error) {

@@ -1,27 +1,22 @@
 import { dailyquestion } from "../models/dailyQuestion";
 import { survey } from "../models/survey";
+import { User } from "../models/User";
 
-// dailyquestion 주관식 질문 DB저장 함수
-export const dailyQuestionRegister = async (req, res) => {
+// 유저 정보 보내기
+export const userInformation = async (req, res) => {
   try {
-    const datas = req.body[0].label;
-    console.log(datas);
-    let i = 0;
-    while (i < 70) {
-      const label = req.body[i].label;
-      const data = req.body[i].data;
-      await dailyquestion.create({ label, data });
-      i += 1;
-      console.log(`${i} 성공`);
-    }
-    return res.status(200).json({ success: true });
+    const snsId = req.snsId;
+    const user = await User.findOne({ snsId });
+    return res.status(200).json({ success: true, user });
   } catch (error) {
     console.log(error);
-    return res.status(400);
+    return res
+      .status(400)
+      .json({ success: false, message: "유저 정보 찾기 실패", error });
   }
 };
 
-// dailyquestion 주관식 프론트로 보내는 함수
+// 주관식 프론트로 보내는 함수
 export const sendDailyQeustion = async (req, res) => {
   try {
     const count = await dailyquestion.count();
@@ -45,23 +40,7 @@ export const sendDailyQeustion = async (req, res) => {
   }
 };
 
-// 객관식 문제 db저장
-export const surveyRegister = async (req, res) => {
-  try {
-    const { happy, sad, joy, anger } = req.body;
-    const result = await survey.register({ happy, sad, joy, anger });
-    console.log(`결과: ${result}`);
-    return res
-      .status(200)
-      .json({ success: true, message: "객관식 DB 저장 성공" });
-  } catch (error) {
-    console.log(error);
-    return res
-      .status(400)
-      .json({ success: false, message: "객관식 DB 저장 실패" });
-  }
-};
-
+// 랜덤 함수
 function getRandomInt(min, max) {
   min = Math.ceil(min);
   max = Math.floor(max);
@@ -97,5 +76,25 @@ export const sendSurveyQuestion = async (req, res) => {
     return res
       .status(400)
       .json({ success: false, message: "surveyController 오류", error });
+  }
+};
+
+// 캘린더 보내기
+export const sendCalendar = async (req, res) => {
+  try {
+    const snsId = req.snsId;
+    const user = await User.findBySnsId({ snsId }).populate("userCalendar");
+    // const date = new Date("2022-01-01");
+    const userCalendar = await user.userCalendar.populate("color");
+    await user.userCalendar.populate("daily");
+    await user.userCalendar.populate("diary");
+    await userCalendar.daily.populate("data.question");
+    console.log(userCalendar);
+    return res.status(200).json({ success: true, calendar: userCalendar });
+  } catch (error) {
+    console.log(error);
+    return res
+      .status(400)
+      .json({ success: false, message: "sendCalendar 실패", error });
   }
 };
