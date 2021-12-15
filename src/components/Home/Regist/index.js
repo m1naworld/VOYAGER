@@ -64,7 +64,7 @@ function Regist() {
         phone,
       };
       const re = await axios.post("/api/auth/join", value);
-      const res = await axios.post("/api/auth/change", {
+      const res = await axios.post("/api/confirm/change", {
         email,
         target: "email",
       });
@@ -163,9 +163,6 @@ function Regist() {
                   onFocus={() => setToggle(!toggle)}
                 />
                 <ErrorMessage errors={errors} name="birthday" as="h3" />
-                {/* <button className={classes.btn} onClick={() => setToggle(!toggle)}>
-              날짜선택
-            </button> */}
 
                 <DatePick
                   control={control}
@@ -200,7 +197,7 @@ function Regist() {
               </>
             ) : (
               <>
-                <h1>{success.message}</h1>
+                <h1 style={{ whiteSpace: "nowrap" }}>{success.message}</h1>
                 <Link to="/">
                   <button className={classes.btn}>HOME</button>
                 </Link>

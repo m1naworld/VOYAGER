@@ -15,8 +15,9 @@ const Nav = () => {
 
   const handleLogout = useCallback(async () => {
     try {
-      await axios.get("/api/auth/logout");
+      const res = await axios.get("/api/auth/logout");
       dispatch(toggleLogin(false));
+      console.log(res);
     } catch (err) {
       console.log(err);
     }
@@ -55,16 +56,16 @@ const Nav = () => {
           toggle ? `${classes.nav_links} ${classes.fade_in}` : classes.nav_links
         }
       >
-        <Link to="" className={classes.link}>
+        <Link to="" className={classes.link} onClick={handleClick}>
           Home
         </Link>
-        <Link to="" className={classes.link}>
+        <Link to="" className={classes.link} onClick={handleClick}>
           Contact
         </Link>
-        <Link to="profile" className={classes.link}>
+        <Link to="profile" className={classes.link} onClick={handleClick}>
           Profile
         </Link>
-        <Link to="" className={classes.link}>
+        <Link to="" className={classes.link} onClick={handleClick}>
           About
         </Link>
         <Link to="/logout" className={classes.link} onClick={handleLogout}>

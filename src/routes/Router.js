@@ -25,6 +25,13 @@ import ProfileRouter from "./DetailRouter/ProfileRouter";
 import SettingProfile from "../components/Detail/Profile/SettingProfile";
 import ProfileLogin from "../components/Detail/Profile/ProfileLogin";
 import RemoveUser from "../components/Detail/Profile/RemoveUser";
+import Login from "../components/Home/Login/Login";
+import MainLogo from "../components/animations/MainLogo";
+import Find from "../components/Home/Find";
+import About from "../components/About";
+import FindRouter from "./HomeRouter/FindRouter";
+import FindEmail from "./HomeRouter/FindRouter/FindEmail";
+import FindPassword from "./HomeRouter/FindRouter/FindPassword";
 
 function Router() {
   const loggedIn = useSelector((state) => state.toggle.isLoggedIn);
@@ -32,10 +39,17 @@ function Router() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<HomeRouter login={loggedIn} />}>
-          <Route path="" element={<Home />} />
+        <Route path="" element={<HomeRouter login={loggedIn} />}>
+          <Route path="" element={<Home />}>
+            <Route path="" element={<MainLogo />} />
+            <Route path="login" element={<Login />} />
+            <Route path="login/find" element={<FindRouter />}>
+              <Route path="" element={<Find />} />
+              <Route path="email" element={<FindEmail />} />
+              <Route path="password" element={<FindPassword />} />
+            </Route>
+          </Route>
           <Route path="join" element={<Regist />} />
-          <Route path="about" element={<h1>ABOUT</h1>} />
           <Route path="logout" element={<div>Logout</div>} />
         </Route>
         <Route path="detail" element={<DetailRouter />}>
@@ -67,6 +81,8 @@ function Router() {
           <Route path="password" element={<PasswordCheck />} />
           <Route path="email" element={<EmailCheck />} />
         </Route>
+        <Route path="about" element={<About />} />
+        <Route path="*" element={<h1>Not Allowed</h1>} />
       </Routes>
     </BrowserRouter>
   );

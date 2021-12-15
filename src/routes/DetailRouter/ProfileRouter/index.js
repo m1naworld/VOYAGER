@@ -8,6 +8,11 @@ const ProfileRouter = () => {
       <div className={classes.profile__wrapper}>
         <Outlet />
       </div>
+      <img
+        src={process.env.PUBLIC_URL + "/image/parallax/stars.png"}
+        className={classes.profile__star}
+        alt="stars"
+      />
     </section>
   );
 };

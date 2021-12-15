@@ -27,7 +27,7 @@ const NavTest = () => {
         }}
       >
         <img
-          src="image/logo2.png"
+          src={`${process.env.PUBLIC_URL}/image/logo2.png`}
           alt="logo"
           className={classes.navbar__logo}
         />

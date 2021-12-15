@@ -1,6 +1,6 @@
 import React from "react";
 import classes from "./Page4.module.scss";
-import { useLocation } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 const Page4 = () => {
   const { hash: path } = useLocation();
@@ -27,7 +27,9 @@ const Page4 = () => {
 오늘의 감정을 말해주세요. 색깔을 비춰드립니다.`}</pre>
           <br />
           <br />
-          <button>MORE</button>
+          <Link to="/about">
+            <button>MORE</button>
+          </Link>
         </div>
       </section>
     </div>

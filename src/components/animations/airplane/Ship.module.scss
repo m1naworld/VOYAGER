@@ -2,7 +2,33 @@ $bg: #01191d;
 $green: #18f4a3;
 $fireMain: #ff0000;
 $fireSub: #fffe00;
-
+.login {
+  // opacity: 0;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  padding: 0;
+  transform: translate(-50%, -50%);
+  // animation: FadeIn 6s ease-in-out forwards;
+  // animation-delay: 2s;
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  box-shadow: rgba(142, 142, 142, 0.5) 0px 6px 15px 0px;
+  -webkit-box-shadow: rgba(142, 142, 142, 0.5) 0px 6px 15px 0px;
+  border-radius: 18px;
+  -webkit-border-radius: 18px;
+  padding: 2% 8%;
+  .login__section {
+    background: transparent;
+    min-height: min-content;
+    transition: all 1s ease-in;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    animation: FadeIn 6s ease-in-out forwards;
+  }
+}
 .section {
   width: 100%;
   height: 70%;
@@ -262,6 +288,14 @@ $fireSub: #fffe00;
   }
   100% {
     transform: scale(1.2);
+  }
+}
+@keyframes FadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
   }
 }
 

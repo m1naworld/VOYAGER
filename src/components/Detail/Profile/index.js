@@ -10,6 +10,7 @@ import {
   changeNickname,
 } from "../../../redux/reducer/ToggleReducer";
 import { useNavigate } from "react-router-dom";
+import myAxios from "../../../hooks/myAxios";
 
 const Profile = () => {
   const navigate = useNavigate();
@@ -51,8 +52,9 @@ const Profile = () => {
   };
   const handleNickname = async (e) => {
     const { nickname } = e;
-    const res = await axios.post("/api/register/user/modify", { nickname });
-    dispatch(changeNickname(res.data.nickname));
+    const res = await myAxios("/api/data/user/modify", { nickname });
+    console.log(res);
+    dispatch(changeNickname(res.nickname));
   };
 
   return (

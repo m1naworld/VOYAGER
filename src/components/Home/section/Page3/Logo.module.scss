@@ -92,6 +92,9 @@
     .logo__background {
       width: 250px;
       height: 250px;
+      .logo__stars {
+        filter: blur(0.2px) drop-shadow(0 0 10px gray);
+      }
     }
     .logo__main {
       position: absolute;
@@ -100,12 +103,20 @@
       height: 250px;
       top: 0;
     }
-    .logo__stars {
-      filter: blur(0.2px) drop-shadow(0 0 10px gray);
-    }
 
     // } @else {
     //   $i: $i - 1;
     // }
+  }
+}
+@keyframes Starry_mobile {
+  0% {
+    filter: blur(0.5px) drop-shadow(0 0 10px gray);
+    transform: scale(0.1);
+  }
+
+  100% {
+    filter: blur(0.1px) drop-shadow(0 0 10px gray);
+    transform: scale(1);
   }
 }

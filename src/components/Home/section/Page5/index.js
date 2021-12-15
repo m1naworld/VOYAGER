@@ -1,6 +1,6 @@
 import React from "react";
 import classes from "./Page5.module.scss";
-import { useLocation } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 const Page5 = () => {
   const { hash: path } = useLocation();
   return (
@@ -17,7 +17,9 @@ const Page5 = () => {
 내가 살았던 오늘 하루의 작은 부분도 기록해보세요.`}</pre>
           <br />
           <br />
-          <button>MORE</button>
+          <Link to="/about">
+            <button>MORE</button>
+          </Link>
         </div>
         <img
           className={

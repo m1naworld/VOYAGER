@@ -1,6 +1,7 @@
 import { useEffect, useState, useCallback } from "react";
 import classes from "./Ship.module.scss";
 import Login from "../../Home/Login/Login";
+import { Outlet } from "react-router-dom";
 
 const Ship = () => {
   const [step, setStep] = useState(0);
@@ -68,7 +69,10 @@ const Ship = () => {
             <div className={classes.smoke_bubble} id="sb12"></div>
           </div>
           <div className={classes.ship__content}>
-            {login ? (
+            <main className={classes.login}>
+              <section className={classes.login__section}>
+                <Outlet />
+                {/* {login ? (
               <Login />
             ) : (
               <>
@@ -82,7 +86,9 @@ const Ship = () => {
                   LOGIN
                 </button>
               </>
-            )}
+            )} */}
+              </section>
+            </main>
           </div>
         </div>
       </section>

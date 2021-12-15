@@ -66,13 +66,14 @@ function NaverAuth() {
 
                 dispatch(toggleLogin(true));
                 return res;
-              });
+              })
+              .catch((err) => console.log(err.response));
             navigate("/");
           }
         }
       });
     } catch (err) {
-      console.log(err);
+      console.log(err.response);
     }
   }, [dispatch, navigate]);
 

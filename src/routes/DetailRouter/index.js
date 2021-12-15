@@ -27,26 +27,6 @@ function DetailRouter() {
       <Outlet />
     </>
   );
-
-  // return user ? (
-  //   <>
-  //     <Nav />
-  //     <Link to="profile" className={classes.detailRouter__links}>
-  //       <img
-  //         src={
-  //           process.env.REACT_APP_SERVER_URL +
-  //           "/" +
-  //           (user.img ?? process.env.REACT_APP_DEFAULT_IMG)
-  //         }
-  //         alt="moon"
-  //         className={classes.detailRouter__img}
-  //       />
-  //     </Link>
-  //     <Outlet />
-  //   </>
-  // ) : (
-  //   <Navigate to="/" />
-  // );
 }
 
 export default DetailRouter;

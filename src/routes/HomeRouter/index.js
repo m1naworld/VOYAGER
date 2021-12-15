@@ -13,14 +13,8 @@ function HomeRouter({ login }) {
         <Outlet />
       </div>
     );
-  } else if (login) {
-    return <Navigate to="detail" />;
   }
-  return (
-    <>
-      <Outlet />
-    </>
-  );
+  return <Navigate to="detail" />;
 }
 
 export default HomeRouter;

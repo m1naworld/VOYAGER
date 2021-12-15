@@ -1,80 +1,80 @@
-.login {
-  // opacity: 0;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  padding: 0;
-  transform: translate(-50%, -50%);
-  // animation: FadeIn 6s ease-in-out forwards;
-  // animation-delay: 2s;
-  backdrop-filter: blur(5px);
-  -webkit-backdrop-filter: blur(5px);
-  border: 1px solid rgba(255, 255, 255, 0.5);
-  box-shadow: rgba(142, 142, 142, 0.5) 0px 6px 15px 0px;
-  -webkit-box-shadow: rgba(142, 142, 142, 0.5) 0px 6px 15px 0px;
-  border-radius: 18px;
-  -webkit-border-radius: 18px;
-  padding: 2% 8%;
-  .section {
-    background: transparent;
-    min-height: min-content;
-    transition: all 1s ease-in;
-    .form {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      & label,
-      & input {
-        margin: 10px 0;
-        color: black;
-        text-align: center;
-      }
-      & input {
-        border: none;
-        border-radius: 18px;
-        padding: 0 20px;
-        color: black;
-        font-size: 1rem;
-      }
-      & button {
-        background-color: #51aabf;
-        padding: 2px 20px;
-        height: 28px;
-        border-radius: 12px;
-        width: 100%;
-        font-size: 18px;
-        color: #fff;
-        outline: none;
-        border: none;
-        cursor: pointer;
-        white-space: nowrap;
-        margin: 10px 0;
-        margin-bottom: 0;
-      }
-    }
-    button {
-      background-color: #51aabf;
-      padding: 2px 20px;
-      height: 28px;
-      border-radius: 12px;
-      width: 100%;
-      font-size: 18px;
-      color: #fff;
-      outline: none;
-      border: none;
-      cursor: pointer;
-      white-space: nowrap;
-      margin: 10px 0;
-      margin-bottom: 0;
-    }
+.form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  & label,
+  & input {
+    margin: 10px 0;
+    color: black;
+    text-align: center;
+  }
+  & input {
+    border: none;
+    border-radius: 18px;
+    padding: 0 20px;
+    color: black;
+    font-size: 1rem;
+  }
+  & .button {
+    background-color: #51aabf;
+    padding: 2px 20px;
+    height: 28px;
+    border-radius: 12px;
+    width: 100%;
+    font-size: 18px;
+    color: #fff;
+    outline: none;
+    border: none;
+    cursor: pointer;
+    white-space: nowrap;
+    margin: 10px 0;
+    margin-bottom: 0;
   }
 }
 
-@keyframes FadeIn {
-  from {
-    opacity: 0;
+.button {
+  background-color: #51aabf;
+  padding: 2px 20px;
+  height: 28px;
+  border-radius: 12px;
+  width: 100%;
+  font-size: 18px;
+  color: #fff;
+  outline: none;
+  border: none;
+  cursor: pointer;
+  white-space: nowrap;
+  margin: 10px 0;
+  margin-bottom: 0;
+}
+.input {
+  background-color: white;
+  width: 100%;
+  margin: 10px 0;
+  color: #757575;
+  text-align: center;
+  border: none;
+  border-radius: 18px;
+  padding: 0 20px;
+  font-size: 1rem;
+}
+
+.navy {
+  background-color: #202363;
+}
+
+@media screen and (max-width: 940px) {
+  .form {
+    * {
+      font-size: 0.5rem;
+      padding: 0;
+    }
+    & input {
+      font-size: 0.5rem;
+      padding: 0;
+    }
   }
-  to {
-    opacity: 1;
+  .input {
+    font-size: 0.5rem;
   }
 }

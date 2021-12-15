@@ -6,7 +6,7 @@ const FirshPage = () => {
     <div className={`${classes.home__section} section`}>
       <div className={classes.home__section__wrapper}>
         <img
-          src="image/space.gif"
+          src={`${process.env.PUBLIC_URL}/image/space.gif`}
           loop={true}
           alt="space-background"
           className={classes.home__img}
