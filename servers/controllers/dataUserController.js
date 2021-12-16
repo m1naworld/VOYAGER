@@ -15,7 +15,9 @@ export const changeNickname = async (req, res) => {
     user.nickname = nickname;
     user.save();
 
-    return res.status(200).json({ success: true, nickname });
+    return res
+      .status(200)
+      .json({ success: true, nickname, message: `${nickname}님 반가워요!` });
   } catch (error) {
     console.log(error);
     return res
@@ -74,7 +76,7 @@ export const dropOut = async (req, res) => {
         fs.unlink(user.img, function (error) {
           if (error) {
             console.log(error);
-            return res
+            res
               .status(400)
               .json({ success: false, message: "IMG Delete 실패 ", error });
           }
@@ -86,14 +88,12 @@ export const dropOut = async (req, res) => {
       await mycalendar.findOneAndDelete({ snsId });
       await refresh.findOneAndDelete({ snsId });
       console.log("탈퇴 성공 ㅠㅠ");
-      return res
-        .status(200)
-        .json({
-          success: true,
-          message: " 지구로 돌아가도 행복하셨음 좋겠습니다. 안녕.",
-        });
+      return res.status(200).json({
+        success: true,
+        message: " 지구로 돌아가도 행복하셨음 좋겠습니다. 안녕.",
+      });
     }
-    return res.status(400).status.json({
+    return res.status(400).json({
       success: false,
       message: "message 불일치. 회원탈퇴 실패 ",
     });

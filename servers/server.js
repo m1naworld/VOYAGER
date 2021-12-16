@@ -22,5 +22,6 @@ app.use(cookieParser(process.env.COOKIE_SECRET));
 app.use("/uploads", express.static("uploads"));
 app.use("/api", api);
 
+console.log(process.env.NODE_ENV);
 // 서버연결
 app.listen(PORT, () => console.log(`Server is runngin on ${PORT}`));

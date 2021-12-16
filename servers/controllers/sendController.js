@@ -1,4 +1,5 @@
 import { dailyquestion } from "../models/dailyQuestion";
+import { mydiary } from "../models/myDiary";
 import { survey } from "../models/survey";
 import { User } from "../models/User";
 
@@ -96,5 +97,30 @@ export const sendCalendar = async (req, res) => {
     return res
       .status(400)
       .json({ success: false, message: "sendCalendar 실패", error });
+  }
+};
+
+export const sendDiary = async (req, res) => {
+  try {
+    const snsId = req.snsId;
+    const date = req.body.date;
+
+    const userDiary = await mydiary.find(
+      {
+        snsId,
+      },
+      { data: [{ date: { $in: [date, ["2021-12-12"]] } }] }
+    );
+    console.log(userDiary[0].data);
+    // const result = userDiary.data.filter(
+    //   (m) => new Date(m.date) >= new Date(date)
+    // );
+    // console.log(result);
+    return res.status(200).json({ userDiary, success: true });
+  } catch (error) {
+    console.log(error);
+    return res
+      .status(400)
+      .json({ success: false, message: "sendDiary 실패", error });
   }
 };

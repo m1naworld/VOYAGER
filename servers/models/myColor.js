@@ -5,7 +5,7 @@ const myColorSchema = new mongoose.Schema(
     snsId: { type: String, required: true, unique: true },
     data: [
       {
-        date: Date,
+        date: String,
         color: String,
       },
     ],

@@ -5,7 +5,7 @@ const myDailySchema = new mongoose.Schema(
     snsId: { type: String, required: true, unique: true },
     data: [
       {
-        date: Date,
+        date: String,
         question: {
           type: mongoose.SchemaTypes.ObjectId,
           ref: "dailyquestion",

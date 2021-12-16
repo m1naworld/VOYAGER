@@ -41,6 +41,7 @@ export const postJoin = async (req, res) => {
       birthyear,
       phone,
       userCalendar,
+      confirmation: false,
     });
     console.log(users);
     // password를 암호화 하기
@@ -109,7 +110,7 @@ export const postLogin = async (req, res, next) => {
 // 소셜 로그인
 export const postSocialLogin = async (req, res) => {
   try {
-    console.log(req.body);
+    const user = req.user;
     const snsId = req.body.snsId;
     const accessToken = jwt.sign({ id: snsId }, process.env.JWT_SECRET, {
       expiresIn: process.env.ACCESS_EXPIRE,
@@ -135,7 +136,9 @@ export const postSocialLogin = async (req, res) => {
       httpOnly: true,
       expires: new Date(Date.now() + 1000 * 60 * 60 * 24 * 5),
     });
-    return res.status(200).json({ success: true, message: "토큰 발급 성공" });
+    return res
+      .status(200)
+      .json({ user, success: true, message: "토큰 발급 성공" });
   } catch (error) {
     console.log(error);
     return res

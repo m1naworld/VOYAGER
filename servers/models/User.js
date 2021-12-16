@@ -26,7 +26,7 @@ const userSchema = new mongoose.Schema(
       type: String,
       default: process.env.IMG,
     },
-    confirmation: { type: Boolean, default: false },
+    confirmation: { type: Boolean },
   },
   { versionKey: false }
 );

@@ -11,6 +11,7 @@ export const social = async (req, res, done) => {
     if (email === undefined) {
       const onlySnsIdUser = await User.findBySnsId({ snsId });
       if (onlySnsIdUser) {
+        req.user = onlySnsIdUser;
         console.log(`onlySnsIdUser: ${onlySnsIdUser}`);
         return done(null, onlySnsIdUser, {
           success: true,
@@ -18,8 +19,9 @@ export const social = async (req, res, done) => {
         });
       }
     } else {
-      const emailUser = await User.findByEmail({ email });
+      const emailUser = await User.findOne({ email });
       if (emailUser) {
+        req.user = emailUser;
         console.log(`emailUser: ${emailUser}`);
         return done(null, emailUser, { success: true, message: "로그인 성공" });
       }
@@ -44,11 +46,16 @@ export const social = async (req, res, done) => {
       birthyear,
       phone,
       userCalendar,
+      confirmation: true,
     });
     console.log(`newUser: ${newUser}`);
+    req.user = newUser;
     return done(null, newUser, { success: true, message: "회원가입 성공" });
   } catch (error) {
     console.log(error);
     return done(error, { success: false, message: "소셜 로그인 실패" });
+    // return res
+    //   .status(400)
+    //   .json({ success: false, message: "소셜 로그인 실패", error });
   }
 };

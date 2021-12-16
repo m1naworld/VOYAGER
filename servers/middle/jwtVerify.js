@@ -22,7 +22,7 @@ export const jwtVerify = async (req, res) => {
         jwt.verify(
           refreshtoken,
           process.env.JWT_REFRESH_SECRET,
-          (error, decoded) => {
+          async (error, decoded) => {
             if (error) {
               console.log("로그아웃");
               res.status(404).json({ success: false });
@@ -34,6 +34,8 @@ export const jwtVerify = async (req, res) => {
                   process.env.JWT_SECRET,
                   { expiresIn: process.env.ACCESS_EXPIRE, issuer: "m1na" }
                 );
+                let snsId = refreshjwt.snsId;
+                let user = await User.findOne({ snsId });
                 console.log(`new accessToken : ${accessToken}`);
                 res.cookie("Authorization", accessToken, {
                   httpOnly: true,
@@ -42,7 +44,7 @@ export const jwtVerify = async (req, res) => {
                 console.log("access 재갱신 성공");
                 return res
                   .status(200)
-                  .json({ success: true, message: "access 재갱신 성공" });
+                  .json({ user, success: true, message: "access 재갱신 성공" });
               }
               console.log("refreshtoken 일치 안함");
               return res.status(401).json({
@@ -79,10 +81,10 @@ export const jwtVerify = async (req, res) => {
                 console.log("refresh 갱신 성공 ");
                 return res
                   .status(200)
-                  .json({ success: true, message: "refresh 갱신 성공" });
+                  .json({ user, success: true, message: "refresh 갱신 성공" });
               }
               console.log("access refresh 둘다 유효함");
-              return res.status(200).json({ success: true });
+              return res.status(200).json({ user, success: true });
             }
           );
         }
