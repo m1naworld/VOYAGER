@@ -6,6 +6,7 @@ import { editUser } from "../../redux/reducer/ToggleReducer";
 import Spinner from "../animations/Spinner/Spinner";
 import Router from "../../routes/Router";
 import myAxios from "../../hooks/myAxios";
+import axios from "axios";
 
 // 에러코드 , 성공코드 success 맞추기
 
@@ -15,22 +16,26 @@ function App() {
   const checkToken = useCallback(async () => {
     try {
       // const res = await axios.get("/api/auth/user", { timeout: 3000 });
-      const res = await myAxios("/api/auth/user");
-      dispatch(toggleLogin(res.success));
+      const res = await axios.get("/api/auth/user");
       // 이거왜있음????
-      const re = await myAxios("/api/send/user");
-      // console.log(re);
-      dispatch(editUser(re.user));
+      // const re = await axios.get("/api/send/user");
+      // // console.log(re);
+      // console.log(res);
+      dispatch(editUser(res.data.user));
       dispatch(checkLoading(false));
+      dispatch(toggleLogin(res.data.success));
 
-      return res;
+      return res.data;
     } catch (err) {
       if (err.code === "ECONNABORTED") {
         dispatch(toggleLogin(false));
         return "TIMEOUT ERROR";
       }
-      console.log(err.response.success);
-      dispatch(toggleLogin(err.response.success));
+      console.log(err);
+      // dispatch(toggleLogin(err.response.success));
+
+      dispatch(toggleLogin(err.response.data.success));
+      console.log(err.response.data.success);
       dispatch(checkLoading(false));
     }
   }, [dispatch]);

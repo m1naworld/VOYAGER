@@ -6,7 +6,7 @@
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  overflow: hidden !important;
+  overflow: hidden;
   touch-action: none;
   .profile__wrapper {
     display: flex;
@@ -19,7 +19,7 @@
     border-radius: 35px;
     justify-content: center;
     align-items: center;
-    z-index: 1000;
+    z-index: 1;
     & input {
       border: none;
       border-radius: 18px;
@@ -76,8 +76,27 @@
   pointer-events: none;
 }
 
+.profile__form {
+  display: flex;
+  flex-direction: column;
+}
+
 @media screen and (max-width: 420px) {
   .profile__section {
-    height: calc(100vh - (100vh * 0.05));
+    // height: calc(100vh - (100vh * 0.05));
+    position: relative;
+    .profile__wrapper {
+      justify-content: flex-start;
+      padding: 3% 10% 20% 10%;
+      // position: absolute;
+      // left: 50%;
+      // top: 50%;
+      // transform: translate(-50%, -50%);
+      // margin-top: 15%;
+      overflow: auto;
+    }
+  }
+  .profile__form {
+    display: block;
   }
 }

@@ -6,7 +6,7 @@ const ProfileRouter = () => {
   return (
     <section className={classes.profile__section}>
       <div className={classes.profile__wrapper}>
-        <Outlet />
+        <Outlet classes={classes} />
       </div>
       <img
         src={process.env.PUBLIC_URL + "/image/parallax/stars.png"}

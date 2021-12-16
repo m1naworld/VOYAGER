@@ -12,7 +12,7 @@ const EmailCheck = () => {
   console.log("IN");
   const postId = async (id) => {
     try {
-      await axios.post("/api/auth/confirm", { id });
+      await axios.post("/api/confirm/confirm", { id });
       dispatch(checkLoading(false));
       console.log("DONE");
       navigate("/");

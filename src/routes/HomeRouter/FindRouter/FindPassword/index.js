@@ -10,7 +10,6 @@ const FindPassword = () => {
   const classes = location.state.classes;
   const {
     handleSubmit,
-    control,
     register,
 
     formState: { errors },

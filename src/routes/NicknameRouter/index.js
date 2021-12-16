@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from "react-redux";
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router";
-import { changeNickname } from "../../redux/reducer/ToggleReducer";
+import { changeNickname, getUser } from "../../redux/reducer/ToggleReducer";
 import { Navigate } from "react-router-dom";
 import classes from "./nickname.module.scss";
 import myAxios from "../../hooks/myAxios";
@@ -11,7 +11,6 @@ const NicknameRouter = ({ loggedIn }) => {
   const [nick, setNick] = useState("");
   const navigate = useNavigate();
   let user = useSelector((state) => state.toggle.user);
-
   const nickBtn = useRef();
   const handleClick = async (e) => {
     try {
@@ -27,6 +26,10 @@ const NicknameRouter = ({ loggedIn }) => {
       return e;
     }
   };
+
+  useEffect(() => {
+    dispatch(getUser());
+  }, []);
   if (!loggedIn) {
     return <Navigate to="/" />;
   }

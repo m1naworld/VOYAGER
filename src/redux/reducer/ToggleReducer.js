@@ -5,7 +5,9 @@ const initialState = {
   isLoggedIn: false,
   isLoading: true,
   isStart: false,
-  user: {},
+  user: {
+    nickname: null,
+  },
   cookie: {
     accessToken: "",
     refreshToken: "",
@@ -42,6 +44,9 @@ export const ToggleSlice = createSlice({
     changeNickname: (state, { payload }) => {
       state.user.nickname = payload;
     },
+    editError: (state, { payload }) => {
+      state.errorMessage = payload;
+    },
   },
   extraReducers: {
     [getUser.fulfilled]: (state, { payload }) => {
@@ -50,6 +55,8 @@ export const ToggleSlice = createSlice({
   },
 });
 
+export const getError = (state) => state.toggle.errorMessage;
+
 export const {
   toggleLogin,
   editUser,
@@ -57,6 +64,7 @@ export const {
   checkStart,
   changeImage,
   changeNickname,
+  editError,
 } = ToggleSlice.actions;
 
 export default ToggleSlice.reducer;

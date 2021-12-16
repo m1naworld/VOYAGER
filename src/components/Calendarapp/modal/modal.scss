@@ -1,0 +1,104 @@
+/* @import url('https://cdn.rawgit.com/moonspam/NanumSquare/master/nanumsquare.css');
+ */
+
+@font-face {
+  font-family: 'IM_Hyemin-Regular';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2106@1.1/IM_Hyemin-Regular.woff2') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+
+
+.ModalBack {
+  visibility: visible;
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+  width: 80vw;
+  height: 85vh;
+  background-color: rgb(0, 0, 0);
+  z-index:3;
+  opacity: 1;
+  text-align: center;
+  padding: 0;
+  border: 3px solid rgb(249, 247, 247);
+  /* border-radius: 2em; */
+  color: white;
+
+  box-shadow: 12px 12px 2px 1px rgb(58, 58, 58);
+}
+
+.hidden {
+  visibility: hidden;
+  background-color: purple;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  opacity: 0;
+}
+
+.title {
+  box-sizing: border-box;
+  position: relative;
+  height: 7%;
+  padding: 0 10%;
+  width: 100%;
+  font-size: 19px;
+  align-items: center;
+  border-bottom: 3px solid #FFF;
+  background-color: transparent;
+}
+
+.body_card {
+  height:44%;
+  width: 100%;
+  position: relative;
+  padding: 0;
+  display: flex;
+  border-bottom: 3px solid #FFF;
+}
+
+.body_textarea {
+  height: 40%;
+  top: 3%;
+  width: 100%;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+}
+
+.body_diary {
+  height: 40%;
+  top: 3%;
+  width: 100%;
+  position: relative;
+}
+
+.saveBtn {
+  margin: 10px;
+  padding: 10px 20px;
+  border: 2px solid #FFF;
+  border-radius: 3px;
+  background: transparent;
+  color: white;
+  font-size: 14px;
+  font-weight: 600;
+  text-decoration: none;
+  display: inline-block;
+  cursor: pointer;
+}
+
+
+
+@keyframes hide {
+  0%, 100% {
+    -webkit-transform: translateY(-100%);
+            transform: translateY(-100%);
+  }
+}

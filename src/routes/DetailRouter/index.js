@@ -5,14 +5,18 @@ import Nav from "../../components/Detail/Nav/Nav";
 
 import classes from "./DetailRouter.module.scss";
 
-function DetailRouter() {
-  let user = useSelector((state) => state.toggle.user);
+function DetailRouter({ login }) {
+  const user = useSelector((state) => state.toggle.user);
+  const nickname = useSelector((state) => state.toggle.user?.nickname);
   // Object.keys(user).length
   // user ?? Object.keys(user).length
 
+  if (!login) {
+    return <Navigate to="/" />;
+  }
   return (
     <>
-      <Nav />
+      {nickname && <Nav />}
       <Link to="profile" className={classes.detailRouter__links}>
         <img
           src={

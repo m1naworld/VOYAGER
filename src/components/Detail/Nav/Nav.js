@@ -2,7 +2,7 @@ import axios from "axios";
 import { useCallback, useState } from "react";
 import { Link } from "react-router-dom";
 import classes from "./nav.module.scss";
-import { toggleLogin } from "../../../redux/reducer/ToggleReducer";
+import { editUser, toggleLogin } from "../../../redux/reducer/ToggleReducer";
 import { useDispatch } from "react-redux";
 
 const Nav = () => {
@@ -17,10 +17,9 @@ const Nav = () => {
     try {
       const res = await axios.get("/api/auth/logout");
       dispatch(toggleLogin(false));
+      dispatch(editUser(""));
       console.log(res);
-    } catch (err) {
-      console.log(err);
-    }
+    } catch (err) {}
   }, [dispatch]);
 
   return (
@@ -59,13 +58,13 @@ const Nav = () => {
         <Link to="" className={classes.link} onClick={handleClick}>
           Home
         </Link>
-        <Link to="" className={classes.link} onClick={handleClick}>
-          Contact
+        <Link to="calendar" className={classes.link} onClick={handleClick}>
+          Calendar
         </Link>
         <Link to="profile" className={classes.link} onClick={handleClick}>
           Profile
         </Link>
-        <Link to="" className={classes.link} onClick={handleClick}>
+        <Link to="/about" className={classes.link} onClick={handleClick}>
           About
         </Link>
         <Link to="/logout" className={classes.link} onClick={handleLogout}>

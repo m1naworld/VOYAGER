@@ -3,7 +3,11 @@ import { useNavigate } from "react-router";
 import qs from "qs";
 import axios from "axios";
 import { useDispatch } from "react-redux";
-import { editUser, toggleLogin } from "../../redux/reducer/ToggleReducer";
+import {
+  editError,
+  editUser,
+  toggleLogin,
+} from "../../redux/reducer/ToggleReducer";
 import Spinner from "../animations/Spinner/Spinner";
 import myAxios from "../../hooks/myAxios";
 
@@ -44,46 +48,20 @@ function KakaoAuth() {
         console.log(data);
         // birth = `${birth.substring(0, 2)}-${birth.substring(2, 4)}`;
         const userDate = { snsId, email, name, gender, age, birth };
-        const result = await myAxios("/api/auth/access", {
+        const result = await axios.post("/api/auth/access", {
           provider: "kakao",
           ...userDate,
         });
-        // const result = await axios.post(
-        //   "/api/auth/access",
-        //   {
-        //     provider: "kakao",
-        //     ...userDate,
-        //   },
-        //   { withCredentials: true }
-        // );
+
         console.log(result);
-
-        // const user = await myAxios("/api/auth/user");
-        const re = await myAxios("/api/send/user");
-        console.log(re);
-        dispatch(editUser(re.user));
-        // const res = await axios
-        //   .get("/api/auth/user", {
-        //     timeout: 3000,
-        //     withCredentials: true,
-        //   })
-        //   .then(async (res) => {
-        //     const re = await axios
-        //       .get("/api/send/user", {
-        //         withCredentials: true,
-        //       })
-        //       .then((res) => {
-        //         console.log(res);
-        //         dispatch(editUser(res.data.user));
-        //       });
-
+        dispatch(editUser(result.data.user));
         dispatch(toggleLogin(true));
         navigate("/");
       } catch (err) {
-        // if (err.response.data.error_code === "KOE320") {
-        // }
+        dispatch(toggleLogin(err.response.data.success));
+        dispatch(editError(err.response.data.message));
         console.log(err.response);
-        navigate("/join");
+        navigate("/login");
       }
     },
     [navigate, dispatch]

@@ -22,7 +22,7 @@ const myAxios = async (
     return { ...res.data, status: res.status };
   } catch (err) {
     console.log(err.response);
-    return { ...err.response.data, status: err.response.status };
+    return new Error({ ...err.response.data, status: err.response.status });
   }
 };
 

@@ -32,6 +32,7 @@ import About from "../components/About";
 import FindRouter from "./HomeRouter/FindRouter";
 import FindEmail from "./HomeRouter/FindRouter/FindEmail";
 import FindPassword from "./HomeRouter/FindRouter/FindPassword";
+import Calendar from "../components/Calendarapp/calendar";
 
 function Router() {
   const loggedIn = useSelector((state) => state.toggle.isLoggedIn);
@@ -52,7 +53,7 @@ function Router() {
           <Route path="join" element={<Regist />} />
           <Route path="logout" element={<div>Logout</div>} />
         </Route>
-        <Route path="detail" element={<DetailRouter />}>
+        <Route path="detail" element={<DetailRouter login={loggedIn} />}>
           <Route path="" element={<NicknameRouter loggedIn={loggedIn} />} />
           <Route
             path="home"
@@ -64,7 +65,7 @@ function Router() {
               />
             }
           />
-
+          <Route path="calendar" element={<Calendar />} />
           <Route path="profile" element={<ProfileRouter />}>
             <Route path="" element={<Profile />} />
             <Route path="settings" element={<SettingProfile />} />

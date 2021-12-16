@@ -6,6 +6,28 @@ import { getCalendar } from "../../redux/reducer/CalendarReducer";
 import styles from "./Detail.module.scss";
 import Pal from "./Pal";
 import { useSelector } from "react-redux";
+import styled from "styled-components";
+
+const Sec = styled.div`
+  position: relative;
+  padding: 100px;
+  background: ${(props) => props.color};
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
+
+const Moon = styled.img`
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  pointer-events: none;
+  mix-blend-mode: screen;
+  background-color: ${(props) => props.color};
+`;
 
 function Detail() {
   const stars = useRef();
@@ -24,9 +46,12 @@ function Detail() {
     return data;
   });
 
+  const getColor = useSelector(
+    (state) => state.Calendar.Calendar?.color?.data[0]
+  );
+
   const data = useCallback(async () => {
-    const qs = await dispatch(getDailyQs());
-    await dispatch(getCalendar());
+    const qs = dispatch(getDailyQs());
     return qs;
   }, [dispatch]);
 
@@ -44,6 +69,7 @@ function Detail() {
   }, []);
 
   useEffect(() => {
+    dispatch(getCalendar());
     data();
     if (fetch) {
       console.log(postDailyQsData);
@@ -55,7 +81,7 @@ function Detail() {
     return () => {
       window.removeEventListener("scroll", scrollEvent);
     };
-  }, [fetch, dispatch, data]);
+  }, [data, dispatch]);
   return (
     <>
       <section className={styles.mainSection}>
@@ -65,10 +91,12 @@ function Detail() {
           alt="stars"
           ref={stars}
         />
-        <img
+        <Moon
           src={process.env.PUBLIC_URL + "/image/parallax/moon_fix.png"}
-          id={styles["moon"]}
+          // id={styles["moon"]}
           alt="moon"
+          // style={{ backgroundColor: "red" }}
+          color={getColor ? getColor.color : "transparent"}
           ref={moon}
         />
         <img
@@ -90,13 +118,13 @@ function Detail() {
           ref={mountains_front}
         />
       </section>
-      <div className={styles.sec} id="sec">
+      <Sec className={styles.sec} id="sec" color={"#0b787f"}>
         {testOpen ? (
           <Pal toggle={setTestOpen} fetch={fetch} setFetch={setFetch} />
         ) : (
           <button onClick={() => setTestOpen(true)}>OPEN SURVEY</button>
         )}
-      </div>
+      </Sec>
     </>
     // </div>
   );
