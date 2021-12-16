@@ -15,20 +15,20 @@ const Home = () => {
         scrollBar={false}
         scrollingSpeed={800}
         lazyLoading={true}
-        autoScrolling={true}
+        autoScrolling={false}
         continuousVertical={true}
         recordHistory={false}
         anchors={["page-1", "page-2", "page-3", "page-4", "page-5", "page-6"]}
         fadingEffect={true}
-        navigation
-        navigationTooltips={[
-          "page-1",
-          "page-2",
-          "page-3",
-          "page-4",
-          "page-5",
-          "page-6",
-        ]}
+        // navigation
+        // navigationTooltips={[
+        //   "page-1",
+        //   "page-2",
+        //   "page-3",
+        //   "page-4",
+        //   "page-5",
+        //   "page-6",
+        // ]}
         render={({ state, fullpageApi }) => {
           return (
             <div id="fullpage-wrapper">
