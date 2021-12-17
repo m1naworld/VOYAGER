@@ -11,9 +11,6 @@ const dailyQuestionSchema = new mongoose.Schema(
 dailyQuestionSchema.statics.count = function () {
   return this.countDocuments();
 };
-dailyQuestionSchema.statics.findDailyQ = function ({ label }) {
-  return this.findOne({ label });
-};
 
 export const dailyquestion = mongoose.model(
   "dailyquestion",

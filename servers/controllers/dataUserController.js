@@ -1,5 +1,4 @@
 import { User } from "../models/User";
-import { mycalendar } from "../models/myCalendar";
 import { mycolor } from "../models/myColor";
 import { mydiary } from "../models/myDiary";
 import { mydaily } from "../models/myDaily";
@@ -26,38 +25,38 @@ export const changeNickname = async (req, res) => {
   }
 };
 
-// 프로필 사진 변경
-export const changeImage = async (req, res) => {
-  try {
-    const snsId = req.snsId;
-    // console.log(req);
-    console.log(req.blob);
-    console.log("====================================");
-    console.log(req.file);
-    const img = req.file.path;
-    console.log("=====================================");
-    console.log(img);
-    const user = await User.findOne({ snsId });
-    if (user.img !== process.env.IMG) {
-      fs.unlink(user.img, function (error) {
-        if (error) {
-          console.log(error);
-          return res
-            .status(400)
-            .json({ success: false, message: "IMG Upload 실패 " });
-        }
-      });
-    }
-    user.img = img;
-    user.save();
-    return res.status(200).json({ success: true, img });
-  } catch (error) {
-    console.log(error);
-    return res
-      .status(400)
-      .json({ success: false, message: "image 변경 실패 ", error });
-  }
-};
+// // 프로필 사진 변경
+// export const changeImage = async (req, res) => {
+//   try {
+//     const snsId = req.snsId;
+//     // console.log(req);
+//     console.log(req.blob);
+//     console.log("====================================");
+//     console.log(req.file);
+//     const img = req.file.path;
+//     console.log("=====================================");
+//     console.log(img);
+//     const user = await User.findOne({ snsId });
+//     if (user.img !== process.env.IMG) {
+//       fs.unlink(user.img, function (error) {
+//         if (error) {
+//           console.log(error);
+//           return res
+//             .status(400)
+//             .json({ success: false, message: "IMG Upload 실패 " });
+//         }
+//       });
+//     }
+//     user.img = img;
+//     user.save();
+//     return res.status(200).json({ success: true, img });
+//   } catch (error) {
+//     console.log(error);
+//     return res
+//       .status(400)
+//       .json({ success: false, message: "image 변경 실패 ", error });
+//   }
+// };
 
 // 회원 탈퇴
 export const dropOut = async (req, res) => {
@@ -85,7 +84,6 @@ export const dropOut = async (req, res) => {
       await mydiary.findOneAndDelete({ snsId });
       await mydaily.findOneAndDelete({ snsId });
       await mycolor.findOneAndDelete({ snsId });
-      await mycalendar.findOneAndDelete({ snsId });
       await refresh.findOneAndDelete({ snsId });
       console.log("탈퇴 성공 ㅠㅠ");
       return res.status(200).json({

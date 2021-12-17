@@ -15,9 +15,10 @@ import {
 // middle
 import { snsIdCheck } from "../servers/middle/snsIdCheck";
 
-import multer from "multer";
+// import multer from "multer";
 
-const upload = multer({ dest: "uploads/", limits: 1024 * 1024 });
+// const upload = multer({ dest: "uploads/", limits: 1024 * 1024 });
+
 const data = express.Router();
 
 data.use(snsIdCheck);
@@ -34,7 +35,7 @@ data.post("/delete/myDiary", deleteMyDiary);
 data.post("/user/modify", changeNickname);
 
 // 이미지 변경
-data.post("/userImg", upload.single("image"), changeImage);
+// data.post("/userImg", upload.single("image"), changeImage);
 
 // 회원 탈퇴
 data.post("/user/dropout", dropOut);

@@ -15,7 +15,7 @@ module.exports = () => {
       },
       async (email, password, done) => {
         try {
-          const users = await User.findByEmail({ email });
+          const users = await User.findOne({ email });
           if (!users) {
             return done(null, false, {
               success: false,

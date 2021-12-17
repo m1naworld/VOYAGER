@@ -10,7 +10,7 @@ export const tokenError = async (req, res, next) => {
       .status(419)
       .json({ success: false, message: "Token does not exist in cookie" });
   }
-  const refreshed = await refresh.findByRefresh({ refreshtoken });
+  const refreshed = await refresh.findOne({ refreshtoken });
   if (refreshed === null) {
     return res
       .status(419)

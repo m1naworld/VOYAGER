@@ -12,14 +12,6 @@ const tokenSchema = mongoose.Schema(
   { versionKey: false }
 );
 
-tokenSchema.statics.findBysnsId = function ({ snsId }) {
-  return this.findOne({ snsId });
-};
-
-tokenSchema.statics.findByRefresh = function ({ refreshtoken }) {
-  return this.findOne({ refreshjwt: refreshtoken });
-};
-
 tokenSchema.statics.saveRefresh = function ({ snsId, refreshjwt }) {
   const refresh = new this({
     snsId,

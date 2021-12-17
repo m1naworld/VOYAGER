@@ -18,28 +18,10 @@ const userSchema = new mongoose.Schema(
     birthyear: String,
     phone: String,
     registerdate: { type: String, default: registerDate },
-    userCalendar: {
-      type: mongoose.SchemaTypes.ObjectId,
-      ref: "mycalendar",
-    },
-    img: {
-      type: String,
-      default: process.env.IMG,
-    },
     confirmation: { type: Boolean },
   },
   { versionKey: false }
 );
-
-// 이메일로 유저 찾기
-userSchema.statics.findByEmail = function ({ email }) {
-  return this.findOne({ email });
-};
-
-// snsId로 유저 찾기
-userSchema.statics.findBySnsId = function ({ snsId }) {
-  return this.findOne({ snsId });
-};
 
 // 저장된 유저가 없을 시 유저 디비 저장
 userSchema.statics.join = function ({
@@ -52,7 +34,7 @@ userSchema.statics.join = function ({
   birth,
   birthyear,
   phone,
-  userCalendar,
+  confirmation,
 }) {
   const user = new this({
     provider,
@@ -64,7 +46,7 @@ userSchema.statics.join = function ({
     birth,
     birthyear,
     phone,
-    userCalendar,
+    confirmation,
   });
 
   return user.save();

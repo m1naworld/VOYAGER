@@ -7,10 +7,6 @@ dotenv.config();
 // DB
 import { refresh } from "../models/refreshToken";
 import { User } from "../models/User";
-import { mycalendar } from "../models/myCalendar";
-
-// controller
-import { addCalendar } from "./dataCalendarController";
 
 const issuer = "m1na";
 
@@ -24,12 +20,6 @@ export const postJoin = async (req, res) => {
     const salt = await bcrypt.genSalt(Number(process.env.SALT));
     password = await bcrypt.hash(password, salt);
 
-    await mycalendar.registerSnsId({ snsId });
-    const checkCalendar = await mycalendar.findOne({ snsId });
-    const userCalendar = checkCalendar._id;
-
-    addCalendar(snsId);
-
     // user에 name, email, password 등 값 할당
     let users = new User({
       provider,
@@ -40,13 +30,11 @@ export const postJoin = async (req, res) => {
       birth,
       birthyear,
       phone,
-      userCalendar,
       confirmation: false,
     });
     console.log(users);
     // password를 암호화 하기
     await users.save(); // db에 user 저장
-
     res
       .status(200)
       .json({ success: true, message: "VOYAGER의 가족이 된 것을 환영합니다!" });
@@ -121,7 +109,7 @@ export const postSocialLogin = async (req, res) => {
       issuer,
     });
     console.log(accessToken, refreshjwt);
-    const existRefresh = await refresh.findBysnsId({ snsId });
+    const existRefresh = await refresh.findOne({ snsId });
     if (existRefresh) {
       await refresh.deleteSnsId({ snsId });
       console.log("refreshDB snsId 중복 제거");
@@ -154,7 +142,7 @@ export const logOut = async (req, res) => {
     res.clearCookie("Authorization");
     res.clearCookie("reAuthorization");
 
-    const refreshed = await refresh.findByRefresh({ refreshtoken });
+    const refreshed = await refresh.findOne({ refreshtoken });
     if (refreshed) {
       await refresh.deleteRefresh({ refreshtoken });
     }

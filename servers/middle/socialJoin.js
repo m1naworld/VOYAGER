@@ -1,6 +1,4 @@
 import { User } from "../models/User";
-import { mycalendar } from "../models/myCalendar";
-import { addCalendar } from "../controllers/dataCalendarController";
 
 export const social = async (req, res, done) => {
   try {
@@ -37,14 +35,6 @@ export const social = async (req, res, done) => {
       }
     }
 
-    await mycalendar.registerSnsId({ snsId });
-    const checkCalendar = await mycalendar.findOne({ snsId });
-
-    addCalendar(snsId);
-
-    console.log(`new ${checkCalendar}`);
-    const userCalendar = checkCalendar._id;
-
     const newUser = await User.join({
       provider,
       snsId,
@@ -55,7 +45,6 @@ export const social = async (req, res, done) => {
       birth,
       birthyear,
       phone,
-      userCalendar,
       confirmation: true,
     });
     console.log(`newUser: ${newUser}`);

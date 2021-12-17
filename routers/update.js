@@ -11,7 +11,7 @@ const update = express.Router();
 update.post("/dailyQuestion", dailyQuestionRegister);
 
 // 객관식 질문 DB 저장
-update.post("/surveyQuestion", surveyRegister);
+update.get("/surveyQuestion", surveyRegister);
 
 update.get("/color", colorRegister);
 

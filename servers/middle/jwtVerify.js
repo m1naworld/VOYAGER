@@ -11,7 +11,7 @@ export const jwtVerify = async (req, res) => {
     console.log({ refreshtoken: refreshtoken });
 
     // DB에 저장된 refresh 가져오기
-    const refreshed = await refresh.findByRefresh({ refreshtoken });
+    const refreshed = await refresh.findOne({ refreshtoken });
     console.log({ refreshed: refreshed });
     let refreshjwt = refreshed.refreshjwt;
     console.log({ dbRefresh: refreshjwt });
@@ -58,7 +58,7 @@ export const jwtVerify = async (req, res) => {
         console.log(decoded);
         let snsId = decoded.id;
         console.log(snsId);
-        const user = await User.findBySnsId({ snsId });
+        const user = await User.findOne({ snsId });
         console.log(user);
         if (user) {
           jwt.verify(
