@@ -17,7 +17,7 @@ const NavTest = () => {
   return (
     <nav className={classes.navbar__Items}>
       <Link
-        to="/"
+        to="/#page-1"
         style={{
           display: "flex",
           alignItems: "center",
@@ -34,13 +34,6 @@ const NavTest = () => {
         <span>VOYAGER</span>
       </Link>
 
-      <div className={classes.navbar__menu_icon} onClick={handleClick}>
-        {clicked ? (
-          <FaTimes className={classes.fa__times} />
-        ) : (
-          <FaBars className={classes.fa__bar} />
-        )}
-      </div>
       <ul
         className={
           clicked

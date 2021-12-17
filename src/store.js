@@ -14,5 +14,6 @@ export const store = configureStore({
     Calendar: CalendarReducer,
   },
   // middleware: (getDefaultMiddleware) => getDefaultMiddleware(),
-  devTools: process.env.NODE_ENV !== "production",
+  // devTools: process.env.NODE_ENV !== "production",
+  devTools: true,
 });

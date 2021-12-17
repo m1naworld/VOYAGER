@@ -47,7 +47,14 @@ function KakaoAuth() {
         } = data;
         console.log(data);
         // birth = `${birth.substring(0, 2)}-${birth.substring(2, 4)}`;
-        const userDate = { snsId, email, name, gender, age, birth };
+        const userDate = {
+          snsId: String(snsId),
+          email,
+          name,
+          gender,
+          age,
+          birth,
+        };
         const result = await axios.post("/api/auth/access", {
           provider: "kakao",
           ...userDate,

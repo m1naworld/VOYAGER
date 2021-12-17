@@ -1,6 +1,5 @@
 import { useEffect, useState, useCallback } from "react";
 import classes from "./Ship.module.scss";
-import Login from "../../Home/Login/Login";
 import { Outlet } from "react-router-dom";
 
 const Ship = () => {
@@ -72,21 +71,6 @@ const Ship = () => {
             <main className={classes.login}>
               <section className={classes.login__section}>
                 <Outlet />
-                {/* {login ? (
-              <Login />
-            ) : (
-              <>
-                <img
-                  className={classes.ship__logo}
-                  src={process.env.PUBLIC_URL + "/image/logo2.png"}
-                  alt="favicon"
-                />
-                <h1 className={classes.ship__title}>VOYAGER</h1>
-                <button onClick={handleClick} className={classes.ship__btn}>
-                  LOGIN
-                </button>
-              </>
-            )} */}
               </section>
             </main>
           </div>

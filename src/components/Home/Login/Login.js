@@ -7,7 +7,7 @@ import { useForm } from "react-hook-form";
 import { ErrorMessage } from "@hookform/error-message";
 import { useDispatch } from "react-redux";
 import { getError, toggleLogin } from "../../../redux/reducer/ToggleReducer";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useRef, useState } from "react";
 
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
@@ -145,6 +145,7 @@ function Login() {
                 marginTop: "10px",
                 textDecoration: "none",
                 color: "gray",
+                whiteSpace: "nowrap",
               }}
               state={{ title: "find", classes: styles }}
               to="find"

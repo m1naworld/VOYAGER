@@ -6,19 +6,27 @@ const initialState = {};
 
 export const getCalendar = createAsyncThunk(
   "Calendar/fetchCalendar",
-  async () => {
-    const res = await axios.get("/api/send/calendar");
-    return res.data.calendar;
+  async (date = new Date()) => {
+    let result = date;
+    if (typeof date === "object") {
+      result = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
+      console.log(result);
+    }
+    const res = await axios.post("/api/send/calendar", { date: result });
+    console.log(res);
+    return res.data.sendcalendar;
   }
 );
 
-export const postDailyDiary = createAsyncThunk(
-  "Calendar/postCalendar",
-  async (data) => {
-    const res = myAxios("/api/data/addDiary", data);
-    return res.data;
-  }
-);
+export const postDailyDiary = createAsyncThunk("assefd", async (data) => {
+  console.log(data);
+  const res = await axios.post("/api/data/addDiary", {
+    date: "2021-11-11",
+    diary: "fdfdf",
+  });
+  console.log(res);
+  return res.data;
+});
 
 export const CalendarSlice = createSlice({
   name: "Calendar",
@@ -45,13 +53,15 @@ export const CalendarSlice = createSlice({
       state.Calendar = payload;
     },
     [postDailyDiary.pending]: (state, { payload }) => {
+      console.log(payload);
       state.Calendar.isLoading = true;
     },
     [postDailyDiary.fulfilled]: (state, { payload }) => {
-      state.Calendar.lastDiary = payload;
+      state.Calendar = payload;
     },
     [postDailyDiary.rejected]: (state, { payload }) => {
-      state.Calendar.lastDiary.error = payload;
+      console.log(payload);
+      // state.Calendar.lastDiary.error = payload;
     },
   },
 });
@@ -63,9 +73,10 @@ export const getCalendarList = (state) => {
 };
 
 export const getCurrentDiary = (state, date) => {
-  return state.Calendar.Calendar.diary.data.filter(
-    (m) => m.date.substring(0, 10) === date
-  );
+  return state.Calendar;
+  // return state.Calendar.Calendar.diary.data.filter(
+  //   (m) => m.date.substring(0, 10) === date
+  // );
 };
 
 export default CalendarSlice.reducer;

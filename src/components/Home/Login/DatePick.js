@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { Calendar } from "react-date-range";
 import "react-date-range/dist/styles.css";
 import "react-date-range/dist/theme/default.css";
@@ -24,24 +24,6 @@ function DatePick({ control, view, setView, setBirthday }) {
             setView(!view);
           }}
           scroll={{ enabled: true }}
-          // value={Dvalue}
-          // onClickDay={(value) =>
-          //   setBirthday({
-          //     year: value.getFullYear(),
-          //     month: value.getMonth() + 1,
-          //     day: value.getDate(),
-          //   })
-          // }
-          // onChange={(value) => {
-          //   onChange(value);
-          //   setView(!view);
-          //   setDvalue(value);
-          //   setBirthday({
-          //     year: value.getFullYear(),
-          //     month: value.getMonth() + 1,
-          //     day: value.getDate(),
-          //   });
-          // }}
         />
       )}
     />

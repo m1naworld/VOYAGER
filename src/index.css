@@ -36,8 +36,15 @@
 * {
   font-family: "NanumSquare";
   list-style: none;
-
+  z-index: 0;
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+}
+
+#fp-nav {
+  top: 0;
+}
+#root {
+  /* overflow-x: hidden; */
 }

@@ -1,8 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useDispatch } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { getDailyQs, postDailyQs } from "../../redux/reducer/DailyQsReducer";
-import { getCalendar } from "../../redux/reducer/CalendarReducer";
 import styles from "./Detail.module.scss";
 import Pal from "./Pal";
 import { useSelector } from "react-redux";
@@ -37,9 +36,7 @@ function Detail() {
   const btn = useRef();
   const [testOpen, setTestOpen] = useState(false);
   const [fetch, setFetch] = useState(false);
-
   const dispatch = useDispatch();
-
   const postDailyQsData = useSelector((state) => {
     const { answer, id } = state.dailyQuestions;
     const data = { question: { _id: id }, answer };
@@ -67,9 +64,7 @@ function Detail() {
       console.log(err);
     }
   }, []);
-
   useEffect(() => {
-    dispatch(getCalendar());
     data();
     if (fetch) {
       console.log(postDailyQsData);
@@ -81,7 +76,7 @@ function Detail() {
     return () => {
       window.removeEventListener("scroll", scrollEvent);
     };
-  }, [data, dispatch]);
+  }, [dispatch]);
   return (
     <>
       <section className={styles.mainSection}>
