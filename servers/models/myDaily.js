@@ -17,11 +17,6 @@ const myDailySchema = new mongoose.Schema(
   { versionKey: false }
 );
 
-myDailySchema.statics.registerSnsId = function ({ snsId, id }) {
-  const create = new this({ snsId, owner: id });
-  return create.save();
-};
-
 myDailySchema.statics.registerDaily = function ({
   snsId,
   date,

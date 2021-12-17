@@ -1,7 +1,7 @@
 import express from "express";
 
 //middle
-import { social } from "../servers/middle/socialJoin2";
+import { social } from "../servers/middle/socialJoin";
 import { tokenError } from "../servers/middle/jwtError";
 import { jwtVerify } from "../servers/middle/jwtVerify";
 

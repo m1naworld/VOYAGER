@@ -13,11 +13,6 @@ const myDiarySchema = new mongoose.Schema(
   { versionKey: false }
 );
 
-myDiarySchema.statics.registerSnsId = function ({ snsId }) {
-  const create = new this({ snsId });
-  return create.save();
-};
-
 myDiarySchema.statics.registerDiary = function ({ snsId, date, diary }) {
   return this.findOneAndUpdate(
     { snsId },

@@ -1,5 +1,4 @@
 import { dailyquestion } from "../models/dailyQuestion";
-import { mydiary } from "../models/myDiary";
 import { survey } from "../models/survey";
 import { User } from "../models/User";
 
@@ -83,44 +82,86 @@ export const sendSurveyQuestion = async (req, res) => {
 // 캘린더 보내기
 export const sendCalendar = async (req, res) => {
   try {
+    const date = req.body.date;
     const snsId = req.snsId;
+
     const user = await User.findBySnsId({ snsId }).populate("userCalendar");
-    // const date = new Date("2022-01-01");
     const userCalendar = await user.userCalendar.populate("color");
     await user.userCalendar.populate("daily");
     await user.userCalendar.populate("diary");
     await userCalendar.daily.populate("data.question");
-    console.log(userCalendar);
-    return res.status(200).json({ success: true, calendar: userCalendar });
+
+    let diary = userCalendar.diary.data;
+    let color = userCalendar.color.data;
+    let daily = userCalendar.daily.data;
+
+    let mycalendar = [];
+    let mydate = [];
+
+    for (let i in diary) {
+      let data = diary[i];
+      if (data.date.substring(0, 7) === date.substring(0, 7)) {
+        mycalendar.push(data);
+        mydate.push(data.date);
+      }
+    }
+
+    for (let i in color) {
+      let data = color[i];
+      if (data.date.substring(0, 7) === date.substring(0, 7)) {
+        mycalendar.push(data);
+        mydate.push(data.date);
+      }
+    }
+
+    for (let i in daily) {
+      let data = daily[i];
+      console.log(data);
+      console.log(data.date);
+      if (data.date.substring(0, 7) === date.substring(0, 7)) {
+        let value = {
+          date: data.date,
+          question: data.question.data,
+          answer: data.answer,
+        };
+        console.log(value.question[0]);
+        mycalendar.push(value);
+        mydate.push(data.date);
+      }
+    }
+
+    let sendcalendar = [];
+    const set = new Set(mydate);
+    mydate = [...set];
+
+    // 날짜별로 정렬
+    mycalendar = mycalendar.sort();
+
+    // 날짜별로 모으기
+    for (let i in mydate) {
+      let value = {};
+      value.date = mydate[i];
+      for (let j in mycalendar) {
+        let data = mycalendar[j];
+        if (mydate[i] === data.date) {
+          if (data.color) {
+            value.color = data.color;
+          } else if (data.diary) {
+            value.diary = data.diary;
+          } else if (data.question) {
+            value.question = data.question;
+            value.answer = data.answer;
+          }
+        }
+      }
+      sendcalendar.push(value);
+    }
+    console.log(sendcalendar);
+    return res.status(200).json({ success: true, sendcalendar });
   } catch (error) {
     console.log(error);
     return res
       .status(400)
       .json({ success: false, message: "sendCalendar 실패", error });
-  }
-};
-
-export const sendDiary = async (req, res) => {
-  try {
-    const snsId = req.snsId;
-    const date = req.body.date;
-
-    const userDiary = await mydiary.find(
-      {
-        snsId,
-      },
-      { data: [{ date: { $in: [date, ["2021-12-12"]] } }] }
-    );
-    console.log(userDiary[0].data);
-    // const result = userDiary.data.filter(
-    //   (m) => new Date(m.date) >= new Date(date)
-    // );
-    // console.log(result);
-    return res.status(200).json({ userDiary, success: true });
-  } catch (error) {
-    console.log(error);
-    return res
-      .status(400)
-      .json({ success: false, message: "sendDiary 실패", error });
   }
 };

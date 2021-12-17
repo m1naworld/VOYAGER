@@ -13,11 +13,6 @@ const myColorSchema = new mongoose.Schema(
   { versionKey: false }
 );
 
-myColorSchema.statics.registerSnsId = function ({ snsId }) {
-  const create = new this({ snsId });
-  return create.save();
-};
-
 myColorSchema.statics.registerColor = function ({ snsId, date, color }) {
   return this.findOneAndUpdate(
     { snsId },
