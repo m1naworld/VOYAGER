@@ -42,12 +42,12 @@ export const DiaryBtn = styled.div`
 `;
 
 function Diary({ date, setShowMention }) {
-  const diary = useSelector((state) => getCurrentDiary(state, date));
-  console.log(diary);
+  // const diary = useSelector((state) => getCurrentDiary(state, date));
+  // console.log(diary);
   return (
     <>
       <DiaryResults className="diary-result">
-        {diary.length !== 0 ? <pre>{diary[0].diary}</pre> : ""}
+        {/* {diary.length !== 0 ? <pre>{diary[0].diary}</pre> : ""} */}
       </DiaryResults>
       <div>
         <DiaryBtn

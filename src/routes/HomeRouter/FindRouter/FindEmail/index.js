@@ -134,11 +134,17 @@ const FindEmail = () => {
           이메일찾기
         </button>
       </form>
-      <button className={classes.button}>
-        <Link style={{ textDecoration: "none", color: "white" }} to="../">
+      <Link
+        style={{ textDecoration: "none", color: "white", width: "100%" }}
+        to="../"
+      >
+        <button
+          style={{ backgroundColor: "#202363" }}
+          className={classes.button}
+        >
           돌아가기
-        </Link>
-      </button>
+        </button>
+      </Link>
     </>
   );
 };

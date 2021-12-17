@@ -1,4 +1,3 @@
-import { constrainPoint } from "@fullcalendar/react";
 import React, { useEffect, useRef } from "react";
 import styled from "styled-components";
 import { useForm } from "react-hook-form";
@@ -7,6 +6,7 @@ import {
   changeLastDiary,
   getCalendar,
   getCurrentDiary,
+  postDailyDiary,
 } from "../../../../../redux/reducer/CalendarReducer";
 import { useSelector } from "react-redux";
 import { DiaryBtn } from "../diary/diary";
@@ -45,16 +45,18 @@ function TextArea({ date, setShowMention }) {
   };
 
   const onSubmit = async (e) => {
-    try {
-      const res = await axios.post("/api/data/addDiary", {
-        date: date,
-        diary: e.text,
-      });
-      console.log(res);
-    } catch (err) {
-      console.log(err.response);
-    }
-    dispatch(getCalendar());
+    // try {
+    //   const res = await axios.post("/api/data/addDiary", {
+    //     date: date,
+    //     diary: e.text,
+    //   });
+    //   console.log(res);
+    // } catch (err) {
+    //   console.log(err.response);
+    // }
+
+    dispatch(postDailyDiary(12, { date, diary: e.text }));
+    // dispatch(getCalendar());
     setShowMention(false);
   };
   useEffect(() => {
@@ -90,10 +92,13 @@ function TextArea({ date, setShowMention }) {
           SUBMIT
         </DiaryBtn>
         <button
-          style={{ visibility: "hidden" }}
+          // style={{ visibility: "hidden" }}
           ref={btn}
-          type="submit"
-        ></button>
+          // type="submit"
+          onClick={() => dispatch(postDailyDiary())}
+        >
+          ssss
+        </button>
       </form>
     </>
   );

@@ -1,17 +1,22 @@
 import axios from "axios";
-import { useCallback, useState } from "react";
-import { Link } from "react-router-dom";
+import { useCallback, useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import classes from "./nav.module.scss";
 import { editUser, toggleLogin } from "../../../redux/reducer/ToggleReducer";
 import { useDispatch } from "react-redux";
+import { HiArrowCircleLeft } from "react-icons/hi";
 
-const Nav = () => {
+const Nav = ({ back }) => {
   const [toggle, setToggle] = useState(false);
   const dispatch = useDispatch();
-
+  const navigate = useNavigate();
   const handleClick = useCallback(() => {
-    setToggle(!toggle);
-  }, [toggle]);
+    if (back) {
+      navigate("/detail/home");
+    } else {
+      setToggle(!toggle);
+    }
+  }, [toggle, back]);
 
   const handleLogout = useCallback(async () => {
     try {
@@ -21,8 +26,21 @@ const Nav = () => {
       console.log(res);
     } catch (err) {}
   }, [dispatch]);
-
-  return (
+  useEffect(() => {}, [back]);
+  return back ? (
+    <HiArrowCircleLeft
+      style={{
+        color: "white",
+        fontSize: "2.5rem",
+        position: "absolute",
+        left: "3%",
+        top: "4%",
+        cursor: "pointer",
+        zIndex: "1000",
+      }}
+      onClick={() => navigate("/detail/home")}
+    ></HiArrowCircleLeft>
+  ) : (
     <nav
       className={toggle ? `${classes.nav} ${classes.nav_open}` : classes.nav}
     >

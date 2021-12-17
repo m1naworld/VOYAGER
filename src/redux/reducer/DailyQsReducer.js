@@ -3,6 +3,7 @@ import axios from "axios";
 
 const initialState = {
   qsLoading: false,
+
   qs: [],
   answer: [],
 };

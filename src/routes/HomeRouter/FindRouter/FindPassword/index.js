@@ -32,19 +32,6 @@ const FindPassword = () => {
               value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,3}$/i,
               message: "invaild Email Address",
             },
-            // validate: {
-            //   checkUrl: async (v) => {
-            //     let re = await checkEmail(v);
-            //     re = re.success;
-            //     return (
-            //       !re || (
-            //         <h1 style={{ fontSize: "0.5rem", color: "red" }}>
-            //           없는 이메일 입니다.
-            //         </h1>
-            //       )
-            //     );
-            //   },
-            // },
           })}
         />
         <ErrorMessage errors={errors} name="email" as="h3" />
@@ -52,11 +39,17 @@ const FindPassword = () => {
           비밀번호찾기
         </button>
       </form>
-      <button className={classes.button}>
-        <Link style={{ textDecoration: "none", color: "white" }} to="../">
+      <Link
+        style={{ textDecoration: "none", color: "white", width: "100%" }}
+        to="../"
+      >
+        <button
+          className={classes.button}
+          style={{ backgroundColor: "#202363" }}
+        >
           돌아가기
-        </Link>
-      </button>
+        </button>
+      </Link>
     </>
   );
 };

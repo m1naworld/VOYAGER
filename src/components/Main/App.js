@@ -7,6 +7,7 @@ import Spinner from "../animations/Spinner/Spinner";
 import Router from "../../routes/Router";
 import myAxios from "../../hooks/myAxios";
 import axios from "axios";
+import ShipSpinner from "../animations/ShipSpinner/ShipSpinner";
 
 // 에러코드 , 성공코드 success 맞추기
 
@@ -44,6 +45,7 @@ function App() {
     // dispatch(checkLoading(false));
   }, [checkToken, dispatch, toggleLogin]);
   return loading ? <Spinner /> : <Router />;
+  // return <ShipSpinner />;
 }
 
 export default App;

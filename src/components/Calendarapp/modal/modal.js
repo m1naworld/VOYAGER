@@ -6,7 +6,7 @@ import TextArea, { DiarySaveBtn } from "./inmodal/textarea/textarea";
 
 // import styled from 'styled-components'
 
-function Modal({ date, toggle, calendarList }) {
+function Modal({ date, toggle }) {
   const [showMention, setShowMention] = useState(false);
   const [showTextarea, setShowTextarea] = useState(true);
   // const Savediary = () => {

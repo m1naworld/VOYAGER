@@ -6,6 +6,7 @@ import Modal from "./modal/modal";
 import "./calendar.scss";
 import {
   clickedDay,
+  getCalendar,
   getCalendarList,
 } from "../../redux/reducer/CalendarReducer";
 import { useDispatch } from "react-redux";
@@ -17,7 +18,7 @@ function Calendar() {
   const [toggle, setToggle] = useState(false);
   const [modalDate, SetModalDate] = useState("");
   const dispatch = useDispatch();
-  const calendarList = useSelector(getCalendarList);
+  // const calendarList = useSelector(getCalendarList);
 
   const handleEvents = (events) => {
     setCurrentEvents(events);
@@ -45,10 +46,11 @@ function Calendar() {
   };
 
   useEffect(() => {
+    dispatch(getCalendar());
     return () => {
       setTimeout(() => console.log("OK"), 3000);
     };
-  }, [dispatch, calendarList]);
+  }, [dispatch]);
 
   return (
     <>
@@ -99,7 +101,7 @@ function Calendar() {
                 */
           />
         </div>
-        <Modal date={modalDate} toggle={toggle} calendarList={calendarList} />
+        <Modal date={modalDate} toggle={toggle} />
         {toggle && (
           <>
             <div

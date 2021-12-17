@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect, useState } from "react";
+import React, { Fragment, useCallback, useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useForm } from "react-hook-form";
 import axios from "axios";
@@ -8,12 +8,13 @@ import classes from "./index.module.scss";
 import {
   changeImage,
   changeNickname,
+  editUser,
+  toggleLogin,
 } from "../../../redux/reducer/ToggleReducer";
-import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import myAxios from "../../../hooks/myAxios";
-let birthday;
+
 const Profile = () => {
-  const navigate = useNavigate();
   const dispatch = useDispatch();
   const user = useSelector((state) => state.toggle.user);
   const { handleSubmit, register } = useForm({
@@ -21,12 +22,6 @@ const Profile = () => {
       nickname: user.nickname,
     },
   });
-  if (user?.birth) {
-    birthday = `${user?.birthyear}-${user?.birth?.substring(
-      0,
-      2
-    )}-${user?.birth?.substring(2, 4)}`;
-  }
 
   const [changeMessage, setChangeMessage] = useState(null);
   const userImage = useSelector((state) => state.toggle.user.img);
@@ -64,6 +59,15 @@ const Profile = () => {
     setChangeMessage(res.message);
     dispatch(changeNickname(res.nickname));
   };
+  const handleLogout = useCallback(async () => {
+    try {
+      const res = await axios.get("/api/auth/logout");
+      dispatch(toggleLogin(false));
+      dispatch(editUser(""));
+      console.log(res);
+    } catch (err) {}
+  }, [dispatch]);
+
   useEffect(() => {
     setTimeout(() => setChangeMessage(null), 3000);
   }, [changeMessage]);
@@ -71,36 +75,6 @@ const Profile = () => {
     <Fragment>
       <ImageUpload src={defaultImage} onChange={handleImage} />
       <form className={classes.profile__form}>
-        <label htmlFor="name">이름</label>
-        <input
-          disabled
-          name="name"
-          value={user?.name}
-          className={classes.profile__input}
-          style={{ backgroundColor: "white" }}
-        />
-
-        <label htmlFor="email">이메일</label>
-        <input
-          readOnly
-          name="email"
-          value={user?.email ?? "empty"}
-          className={classes.profile__input}
-        />
-        <label htmlFor="birthday">생일</label>
-        <input
-          readOnly
-          name="birthday"
-          value={birthday ?? "empty"}
-          className={classes.profile__input}
-        />
-        <label htmlFor="phone]">전화번호</label>
-        <input
-          readOnly
-          className={classes.profile__input}
-          name="phone"
-          value={user.phone ?? "empty"}
-        />
         <label htmlFor="nickname">닉네임</label>
         <input
           className={classes.profile__input}
@@ -127,11 +101,19 @@ const Profile = () => {
         </div>
       </form>
       <hr />
-      <button
+      <Link
+        to="settings"
+        state={user}
         className={`${classes.profile__btn} ${classes.profile__settings}`}
-        onClick={() => navigate("settings")}
+        style={{ textDecoration: "none", textAlign: "center" }}
       >
         설정
+      </Link>
+      <button
+        className={`${classes.profile__btn} ${classes.profile__settings}`}
+        onClick={handleLogout}
+      >
+        로그아웃
       </button>
     </Fragment>
   );

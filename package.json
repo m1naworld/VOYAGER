@@ -3,10 +3,10 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@emotion/react": "^11.6.0",
     "@fullcalendar/daygrid": "^5.10.1",
     "@fullcalendar/interaction": "^5.10.1",
     "@fullcalendar/react": "^5.10.1",
-    "@emotion/react": "^11.6.0",
     "@fullpage/react-fullpage": "^0.1.19",
     "@hookform/error-message": "^2.0.0",
     "@reduxjs/toolkit": "^1.6.2",
