@@ -55,7 +55,7 @@ export const sendSurveyQuestion = async (req, res) => {
     const arr = emotion.emotions;
 
     const question = [];
-    let k = 1;
+    let kㅃㅂ1 = 1;
     for (let a in arr) {
       let num;
       for (let j = 0; j < 3; j++) {
