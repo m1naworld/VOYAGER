@@ -1,13 +1,15 @@
 import { dailyquestion } from "../models/dailyQuestion";
 import { survey } from "../models/survey";
 import { resultcolor } from "../models/colors";
-import data from "../../colors.json";
+import dailyQuestion from "../../Json/dailyQuestion.json";
+import emotions from "../../Json/emotions.json";
+import data from "../../Json/colors.json";
 
 // dailyquestion 주관식 질문 DB저장 함수
 export const dailyQuestionRegister = async (req, res) => {
   try {
-    const datas = req.body[0].label;
-    console.log(datas);
+    const datas = dailyQuestion;
+    console.log(datas.length);
     let i = 0;
     while (i < 70) {
       const label = req.body[i].label;
@@ -26,7 +28,7 @@ export const dailyQuestionRegister = async (req, res) => {
 // development
 export const surveyRegister = async (req, res) => {
   try {
-    const { happy, sad, joy, anger } = req.body;
+    const { happy, sad, joy, anger } = emotions;
     const result = await survey.register({ happy, sad, joy, anger });
     console.log(`결과: ${result}`);
     return res
