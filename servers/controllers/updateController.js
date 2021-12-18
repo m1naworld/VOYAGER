@@ -11,9 +11,9 @@ export const dailyQuestionRegister = async (req, res) => {
     const datas = dailyQuestion;
     console.log(datas.length);
     let i = 0;
-    while (i < 70) {
-      const label = req.body[i].label;
-      const data = req.body[i].data;
+    while (i < datas.length) {
+      const label = datas[i].label;
+      const data = datas[i].data;
       await dailyquestion.create({ label, data });
       i += 1;
       console.log(`${i} 성공`);
