@@ -16,9 +16,17 @@ export const userInformation = async (req, res) => {
     today = "2021-11-30";
     const snsId = req.snsId;
     const user = await User.findOne({ snsId });
+    let userDaily = null;
+    let userColor = null;
     const daily = await mydaily.findOne({ snsId, date: today });
     const color = await mycolor.findOne({ snsId, date: today });
-    return res.status(200).json({ success: true, user, daily, color });
+    if (daily) {
+      userDaily = true;
+    }
+    if (color) {
+      userColor = true;
+    }
+    return res.status(200).json({ success: true, user, userDaily, userColor });
   } catch (error) {
     console.log(error);
     return res
@@ -61,10 +69,9 @@ function getRandomInt(min, max) {
 // 객관식 프론트로 보내는 함수
 export const sendSurveyQuestion = async (req, res) => {
   try {
-    const id = "61bd026a94b3c4ab1bde9c4c";
-    const emotion = await survey.findById(id);
-    console.log(emotion);
-    const arr = emotion.emotions;
+    const emotion = await survey.find({});
+    const arr = emotion[0].emotions;
+    console.log(arr);
     const question = [];
     let k = 1;
     for (let a in arr) {

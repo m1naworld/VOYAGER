@@ -13,6 +13,7 @@ update.get("/dailyQuestion", dailyQuestionRegister);
 // 객관식 질문 DB 저장
 update.get("/surveyQuestion", surveyRegister);
 
+// 컬러 DB 저장
 update.get("/color", colorRegister);
 
 export default update;

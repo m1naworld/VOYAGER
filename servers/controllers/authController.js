@@ -33,7 +33,6 @@ export const postJoin = async (req, res) => {
       confirmation: false,
     });
     console.log(users);
-    // password를 암호화 하기
     await users.save(); // db에 user 저장
     res
       .status(200)

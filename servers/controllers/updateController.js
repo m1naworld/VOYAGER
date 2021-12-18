@@ -9,7 +9,6 @@ import data from "../../Json/colors.json";
 export const dailyQuestionRegister = async (req, res) => {
   try {
     const datas = dailyQuestion;
-    console.log(datas.length);
     let i = 0;
     while (i < datas.length) {
       const label = datas[i].label;
