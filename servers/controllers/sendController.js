@@ -8,25 +8,17 @@ import moment from "moment";
 
 require("moment-timezone");
 moment.tz.setDefault("Asia/Seoul");
-let today = moment().format("YYYY-MM-DD");
 
 // 유저 정보 보내기
 export const userInformation = async (req, res) => {
   try {
-    today = "2021-11-30";
+    const today = moment().format("YYYY-MM-DD");
+    console.log(today);
     const snsId = req.snsId;
     const user = await User.findOne({ snsId });
-    let userDaily = null;
-    let userColor = null;
     const daily = await mydaily.findOne({ snsId, date: today });
     const color = await mycolor.findOne({ snsId, date: today });
-    if (daily) {
-      userDaily = true;
-    }
-    if (color) {
-      userColor = true;
-    }
-    return res.status(200).json({ success: true, user, userDaily, userColor });
+    return res.status(200).json({ success: true, user, color, daily });
   } catch (error) {
     console.log(error);
     return res

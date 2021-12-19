@@ -69,18 +69,20 @@ export const dropOut = async (req, res) => {
     if (message === MSG) {
       res.clearCookie("Authorization");
       res.clearCookie("reAuthorization");
-      const user = await User.findOneAndDelete({ snsId });
-      console.log(user.img);
-      if (user.img !== process.env.IMG) {
-        fs.unlink(user.img, function (error) {
-          if (error) {
-            console.log(error);
-            res
-              .status(400)
-              .json({ success: false, message: "IMG Delete 실패 ", error });
-          }
-        });
-      }
+      await User.findOneAndDelete({ snsId });
+
+      // const user = await User.findOneAndDelete({ snsId });
+      // console.log(user.img);
+      // if (user.img !== process.env.IMG) {
+      //   fs.unlink(user.img, function (error) {
+      //     if (error) {
+      //       console.log(error);
+      //       res
+      //         .status(400)
+      //         .json({ success: false, message: "IMG Delete 실패 ", error });
+      //     }
+      //   });
+      // }
       await mydiary.findOneAndDelete({ snsId });
       await mydaily.findOneAndDelete({ snsId });
       await mycolor.findOneAndDelete({ snsId });
