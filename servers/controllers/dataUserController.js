@@ -83,10 +83,10 @@ export const dropOut = async (req, res) => {
       //     }
       //   });
       // }
-      await mydiary.findOneAndDelete({ snsId });
-      await mydaily.findOneAndDelete({ snsId });
-      await mycolor.findOneAndDelete({ snsId });
-      await refresh.findOneAndDelete({ snsId });
+      await mydiary.deleteMany({ snsId });
+      await mydaily.deleteMany({ snsId });
+      await mycolor.deleteMany({ snsId });
+      await refresh.deleteOne({ snsId });
       console.log("탈퇴 성공 ㅠㅠ");
       return res.status(200).json({
         success: true,

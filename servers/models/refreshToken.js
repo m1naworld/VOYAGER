@@ -12,21 +12,21 @@ const tokenSchema = mongoose.Schema(
   { versionKey: false }
 );
 
-tokenSchema.statics.saveRefresh = function ({ snsId, refreshjwt }) {
-  const refresh = new this({
-    snsId,
-    refreshjwt,
-  });
+// tokenSchema.statics.saveRefresh = function ({ snsId, refreshjwt }) {
+//   const refresh = new this({
+//     snsId,
+//     refreshjwt,
+//   });
 
-  return refresh.save();
-};
+//   return refresh.save();
+// };
 
-tokenSchema.statics.deleteRefresh = function ({ refreshtoken }) {
-  return this.remove({ refreshjwt: refreshtoken });
-};
+// tokenSchema.statics.deleteRefresh = function ({ refreshtoken }) {
+//   return this.remove({ refreshjwt: refreshtoken });
+// };
 
-tokenSchema.statics.deleteSnsId = function ({ snsId }) {
-  return this.remove({ snsId });
-};
+// tokenSchema.statics.deleteSnsId = function ({ snsId }) {
+//   return this.remove({ snsId });
+// };
 
 export const refresh = mongoose.model("token", tokenSchema);

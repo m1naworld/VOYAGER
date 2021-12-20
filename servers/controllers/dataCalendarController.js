@@ -2,6 +2,11 @@ import { mycolor } from "../models/myColor";
 import { mydaily } from "../models/myDaily";
 import { mydiary } from "../models/myDiary";
 import { resultcolor } from "../models/colors";
+import moment from "moment";
+
+// 날짜
+require("moment-timezone");
+moment.tz.setDefault("Asia/Seoul");
 
 // 랜덤함수
 function getRandomInt(min, max) {
@@ -14,7 +19,9 @@ function getRandomInt(min, max) {
 export const myColor = async (req, res) => {
   try {
     const snsId = req.snsId;
-    const date = req.body.date;
+    // const date = "2021-10-02";
+    const date = moment().format("YYYY-MM-DD");
+
     const { happy, sad, joy, anger } = req.body;
     let x = 25 - happy * 7 + sad * 7;
     let y = 25 - anger * 7 + joy * 7;
@@ -63,7 +70,10 @@ export const myColor = async (req, res) => {
 export const myDaily = async (req, res) => {
   try {
     const snsId = req.snsId;
-    const date = req.body.date;
+    console.log(req.body);
+    // const date = "2021-10-02";
+
+    const date = moment().format("YYYY-MM-DD");
     const { question, answer } = req.body;
     const exist = await mydaily.findOne({ snsId, date });
     if (exist) {

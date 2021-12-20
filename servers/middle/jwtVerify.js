@@ -67,13 +67,13 @@ export const jwtVerify = async (req, res) => {
             async (error, decoded) => {
               console.log(decoded);
               if (error) {
-                await refresh.deleteRefresh({ refreshtoken });
+                await refresh.deleteOne({ refreshjwt: refreshtoken });
                 refreshjwt = jwt.sign({}, process.env.JWT_REFRESH_SECRET, {
                   expiresIn: process.env.NEW_REFRESH_EXPIRE,
                   issuer: "m1na",
                 });
                 console.log(refreshjwt);
-                await refresh.saveRefresh({ snsId, refreshjwt });
+                await refresh.create({ snsId, refreshjwt });
                 res.cookie("reAuthorization", refreshjwt, {
                   httpOnly: true,
                   expires: new Date(Date.now() + 1000 * 60 * 60 * 24),

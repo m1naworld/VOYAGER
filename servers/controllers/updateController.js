@@ -17,7 +17,9 @@ export const dailyQuestionRegister = async (req, res) => {
       i += 1;
       console.log(`${i} 성공`);
     }
-    return res.status(200).json({ success: true });
+    return res
+      .status(200)
+      .json({ success: true, message: "주관식 DB 저장 성공" });
   } catch (error) {
     console.log(error);
     return res.status(400);
@@ -50,7 +52,9 @@ export const colorRegister = async (req, res) => {
       let color = colors.color;
       await resultcolor.create({ position, color });
     }
-    return res.status(200).json({ success: true, message: "color 저장 성공" });
+    return res
+      .status(200)
+      .json({ success: true, message: "color DB 저장 성공" });
   } catch (error) {
     console.log(error);
     return res

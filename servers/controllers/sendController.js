@@ -39,7 +39,6 @@ export const sendDailyQeustion = async (req, res) => {
     const label = parseInt(((today - fixedDay) / (1000 * 3600 * 24)) % count);
 
     const daily = await dailyquestion.findOne({ label });
-
     return res.status(200).json({ success: true, question: daily });
   } catch (error) {
     console.log("dailyQuestion Controller 오류");
@@ -63,7 +62,7 @@ export const sendSurveyQuestion = async (req, res) => {
   try {
     const emotion = await survey.find({});
     const arr = emotion[0].emotions;
-    console.log(arr);
+    // console.log(arr);
     const question = [];
     let k = 1;
     for (let a in arr) {

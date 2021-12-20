@@ -70,12 +70,12 @@ export const postLogin = async (req, res, next) => {
           issuer,
         });
 
-        const existRefresh = await refresh.findBysnsId({ snsId });
+        const existRefresh = await refresh.findOne({ snsId });
         if (existRefresh) {
-          await refresh.deleteSnsId({ snsId });
+          await refresh.deleteOne({ snsId });
           console.log("refreshDB snsId 중복 제거");
         }
-        await refresh.saveRefresh({ snsId, refreshjwt });
+        await refresh.create({ snsId, refreshjwt });
         console.log("refresh DB 저장 성공!");
         res.cookie("Authorization", accessToken, {
           httpOnly: true,
@@ -110,10 +110,10 @@ export const postSocialLogin = async (req, res) => {
     console.log(accessToken, refreshjwt);
     const existRefresh = await refresh.findOne({ snsId });
     if (existRefresh) {
-      await refresh.deleteSnsId({ snsId });
+      await refresh.deleteOne({ snsId });
       console.log("refreshDB snsId 중복 제거");
     }
-    await refresh.saveRefresh({ snsId, refreshjwt });
+    await refresh.create({ snsId, refreshjwt });
     console.log("refresh DB 저장 성공!");
     res.cookie("Authorization", accessToken, {
       httpOnly: true,
@@ -137,13 +137,13 @@ export const postSocialLogin = async (req, res) => {
 // 로그아웃
 export const logOut = async (req, res) => {
   try {
-    const refreshtoken = req.cookies.reAuthorization;
+    const snsId = req.snsId;
     res.clearCookie("Authorization");
     res.clearCookie("reAuthorization");
 
-    const refreshed = await refresh.findOne({ refreshtoken });
+    const refreshed = await refresh.findOne({ snsId });
     if (refreshed) {
-      await refresh.deleteRefresh({ refreshtoken });
+      await refresh.deleteOne({ snsId });
     }
     return res.status(200).json({ success: true, message: "로그아웃" });
   } catch (error) {
@@ -157,6 +157,7 @@ export const logOut = async (req, res) => {
 // 이메일 찾기
 export const findEmail = async (req, res) => {
   try {
+    console.log(req.body);
     let { name, birthday, phone } = req.body;
     birthday = birthday.split("-");
     const birthyear = birthday[0];
@@ -179,7 +180,7 @@ export const findEmail = async (req, res) => {
       secret = secret.join("");
       email = secret + "@" + email[1];
       console.log(email);
-      return res.status(200).json({ success: true, email });
+      return res.status(200).json({ success: true, message: email });
     }
     return res
       .status(400)
@@ -188,7 +189,7 @@ export const findEmail = async (req, res) => {
     console.log(error);
     return res
       .status(400)
-      .json({ success: false, message: "이메일 찾기 실패", error });
+      .json({ success: false, message: "다시 시도해주세요.", error });
   }
 };
 
@@ -197,9 +198,7 @@ export const changePassword = async (req, res) => {
   try {
     console.log(req.body);
     let { _id, password } = req.body;
-    // let password = req.body.password;
     const user = await User.findOne({ _id });
-    console.log(user);
     const salt = await bcrypt.genSalt(Number(process.env.SALT));
     password = await bcrypt.hash(password, salt);
     user.password = password;
