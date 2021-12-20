@@ -7,6 +7,8 @@ const initialState = {
   isStart: false,
   user: {
     nickname: null,
+    color: null,
+    daily: null,
   },
   cookie: {
     accessToken: "",
@@ -18,6 +20,11 @@ export const getUser = createAsyncThunk("GET_USER", async () => {
   const res = await axios.get("/api/send/user").then((res) => {
     return res;
   });
+  return res.data;
+});
+
+export const authUser = createAsyncThunk("ToggleState/authUser", async () => {
+  const res = await axios.get("/api/auth/user");
   return res.data;
 });
 
@@ -50,7 +57,21 @@ export const ToggleSlice = createSlice({
   },
   extraReducers: {
     [getUser.fulfilled]: (state, { payload }) => {
+      console.log(payload);
       state.user = payload.user;
+      state.user.color = payload.color;
+      state.user.daily = payload.daily;
+    },
+    [authUser.pending]: (state, action) => {
+      state.isLoading = true;
+    },
+    [authUser.fulfilled]: (state, action) => {
+      state.isLoading = false;
+      console.log(action);
+    },
+    [authUser.rejected]: (state, action) => {
+      state.isLoading = false;
+      console.log(action);
     },
   },
 });

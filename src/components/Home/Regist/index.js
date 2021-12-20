@@ -125,7 +125,7 @@ function Regist() {
                 <ErrorMessage errors={errors} name="password" as="h3" />
                 <input
                   type="password"
-                  placeholder="passwordConfirm"
+                  placeholder="password Confirm"
                   {...register("passwordConfirm", {
                     required: "This field required.",
                     minLength: {

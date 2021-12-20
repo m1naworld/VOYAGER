@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect, useCallback } from "react";
 import styled, { keyframes } from "styled-components";
 import CalendarSurvey from "../survey/calendar/CalendarSurvey";
 import "./Pal.scss";
@@ -8,6 +8,8 @@ import {
 } from "react-icons/md";
 
 import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
+import { postDailyQs } from "../../redux/reducer/DailyQsReducer";
 
 const Container = styled.div`
   width: 100%;
@@ -188,7 +190,9 @@ const TOTAL_SLIDES = 2;
 export default function Slider({ toggle, fetch, setFetch }) {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [slidePosition, setSlidePosition] = useState(null);
-
+  const answers = useSelector((state) => state.dailyQuestions.qs.answer);
+  const [postToggle, setPostToggle] = useState(false);
+  const dispatch = useDispatch();
   const slideRef = useRef(null);
   const dataList = useSelector((state) => state.dailyQuestions.qs);
 
@@ -209,18 +213,33 @@ export default function Slider({ toggle, fetch, setFetch }) {
     setSlidePosition("prev");
   };
 
+  const postDaily = useCallback(() => {
+    const { question, answer } = dataList;
+    console.log(dataList);
+    dispatch(postDailyQs({ question, answer }));
+  }, [dataList]);
+
+  useEffect(() => {
+    console.log(answers);
+    if (answers.length === 3) {
+      setPostToggle(true);
+      console.log(postToggle);
+    }
+  }, [postToggle, answers, dataList]);
+
   return (
     <Container>
       <div className="wrapper">
         <SliderContainer ref={slideRef}>
-          {dataList.map((m) => (
+          {dataList.qsList.map((m) => (
             <CalendarSurvey
               key={m.index}
               data={m}
               slideIndex={currentSlide}
               slidePosition={slidePosition}
               maxIndex={TOTAL_SLIDES}
-              toggle={fetch}
+              postToggle={postToggle}
+              postDaily={postDaily}
             />
           ))}
         </SliderContainer>

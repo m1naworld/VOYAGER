@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 import DatePick from "../../../../components/Home/Login/DatePick";
 import "./resetInput.css";
 import myAxios from "../../../../hooks/myAxios";
+import axios from "axios";
 let birthResult;
 
 const FindEmail = () => {
@@ -24,19 +25,50 @@ const FindEmail = () => {
 
     formState: { errors },
   } = useForm();
-
+  const [ok, setOk] = useState({ success: false, message: null });
   if (birthday.year !== null) {
     birthResult = `${birthday.year}-${birthday.month}-${birthday.day}`;
   }
 
   const onSubmit = async (value) => {
     const { name, p_1, p_2, p_3 } = value;
-    const data = { name, birthday: birthResult, phone: `${p_1}${p_2}${p_3}` };
-    const res = await myAxios("/api/auth/findEmail", data);
-    console.log(res);
+    let { year, month, day } = birthday;
+    if (month < 10) {
+      month = `0${month}`;
+    }
+    if (day < 10) {
+      day = `0${day}`;
+    }
+    const data = {
+      name,
+      birthday: `${year}-${month}-${day}`,
+      phone: `${p_1}${p_2}${p_3}`,
+    };
+    try {
+      const res = await axios.post("/api/auth/findEmail", data);
+      console.log(res);
+      setOk(res.data);
+    } catch (err) {
+      setOk(err.response.data);
+    }
   };
 
-  return (
+  return ok.success ? (
+    <div className={classes.profile__popup__view}>
+      <h1>등록된 이메일은 {ok.message} 입니다.</h1>
+      <Link
+        style={{ textDecoration: "none", color: "white", width: "100%" }}
+        to="../"
+      >
+        <button
+          className={classes.button}
+          style={{ backgroundColor: "#202363" }}
+        >
+          돌아가기
+        </button>
+      </Link>
+    </div>
+  ) : (
     <>
       <form onSubmit={handleSubmit(onSubmit)} className={classes.form}>
         <input
@@ -81,6 +113,8 @@ const FindEmail = () => {
         >
           <input
             type="number"
+            value="010"
+            readOnly
             style={{ width: "30%" }}
             placeholder="010"
             {...register("p_1", {
@@ -130,6 +164,7 @@ const FindEmail = () => {
           />
         </div>
         <ErrorMessage errors={errors} name="p_1" />
+        {ok.message && <h3>{ok.message}</h3>}
         <button className={classes.button} type="submit">
           이메일찾기
         </button>

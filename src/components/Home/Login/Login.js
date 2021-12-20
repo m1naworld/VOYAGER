@@ -35,7 +35,7 @@ function Login() {
   userEmail.current = watch("email");
 
   const sendEmail = useCallback(async () => {
-    const res = await axios.post("/api/auth/change", {
+    const res = await axios.post("/api/confirm/change", {
       email: userEmail.current,
       target: "email",
     });
@@ -57,7 +57,8 @@ function Login() {
         setConfirm(result.data);
       }
     } catch (err) {
-      const { success, message } = err.response.data;
+      console.log(err.response);
+      const { data: success, message } = err.response;
       setSuccess({ success, message });
     }
   };
