@@ -1,15 +1,14 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
-import myAxios from "../../hooks/myAxios";
 
-const initialState = {};
+const initialState = { isLoading: false, error: null, showMention: false };
 
 export const getCalendar = createAsyncThunk(
   "Calendar/fetchCalendar",
-  async (date = new Date()) => {
+  async (date) => {
     let result = date;
     if (typeof date === "object") {
-      result = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
+      result = `${date.getFullYear()}-${date.getMonth() + 1}`;
       console.log(result);
     }
     const res = await axios.post("/api/send/calendar", { date: result });
@@ -18,15 +17,14 @@ export const getCalendar = createAsyncThunk(
   }
 );
 
-export const postDailyDiary = createAsyncThunk("assefd", async (data) => {
-  console.log(data);
-  const res = await axios.post("/api/data/addDiary", {
-    date: "2021-11-11",
-    diary: "fdfdf",
-  });
-  console.log(res);
-  return res.data;
-});
+export const postDailyDiary = createAsyncThunk(
+  "Calendar/postCalendar",
+  async (data) => {
+    console.log(data);
+    const res = await axios.post("/api/data/addDiary", data);
+    console.log(res);
+  }
+);
 
 export const CalendarSlice = createSlice({
   name: "Calendar",
@@ -47,36 +45,41 @@ export const CalendarSlice = createSlice({
       console.log(payload);
       state.clickedDay = payload;
     },
+    editMention: (state, { payload }) => {
+      state.showMention = payload;
+    },
   },
   extraReducers: {
     [getCalendar.fulfilled]: (state, { payload }) => {
       state.Calendar = payload;
     },
     [postDailyDiary.pending]: (state, { payload }) => {
-      console.log(payload);
-      state.Calendar.isLoading = true;
+      state.isLoading = true;
     },
     [postDailyDiary.fulfilled]: (state, { payload }) => {
+      state.isLoading = false;
       state.Calendar = payload;
     },
-    [postDailyDiary.rejected]: (state, { payload }) => {
-      console.log(payload);
-      // state.Calendar.lastDiary.error = payload;
+    [postDailyDiary.rejected]: (state, action) => {
+      state.isLoading = false;
+      console.log(action);
+      state.error = action.error;
     },
   },
 });
 
-export const { changeLastDiary, clickedDay } = CalendarSlice.actions;
+export const { changeLastDiary, clickedDay, editMention } =
+  CalendarSlice.actions;
 
 export const getCalendarList = (state) => {
-  return state.Calendar.Calendar.diary.data;
+  return state.Calendar.Calendar;
 };
 
 export const getCurrentDiary = (state, date) => {
-  return state.Calendar;
-  // return state.Calendar.Calendar.diary.data.filter(
-  //   (m) => m.date.substring(0, 10) === date
-  // );
+  // return state.Calendar;
+  return state.Calendar?.Calendar?.filter(
+    (m) => m.date.substring(0, 10) === date
+  );
 };
 
 export default CalendarSlice.reducer;

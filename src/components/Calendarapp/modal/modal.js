@@ -2,48 +2,31 @@ import React, { useEffect, useState } from "react";
 import "./modal.scss";
 import Flipcard from "./inmodal/card/card";
 import Diary from "./inmodal/diary/diary";
-import TextArea, { DiarySaveBtn } from "./inmodal/textarea/textarea";
+import TextArea from "./inmodal/textarea/textarea";
+import { useSelector } from "react-redux";
 
 // import styled from 'styled-components'
 
-function Modal({ date, toggle }) {
-  const [showMention, setShowMention] = useState(false);
-  const [showTextarea, setShowTextarea] = useState(true);
-  // const Savediary = () => {
-  //   setShowMention(true);
-  // };
-
-  // const ShowupTextarea = () => setShowTextarea(false);
-
-  const [mention, setMention] = useState(null);
-
-  useEffect(() => {}, [toggle]);
-
+function Modal({ date, toggle, calendarList }) {
+  const toggleMention = useSelector((state) => state.Calendar.showMention);
+  const currentDiary = calendarList?.filter((m) => m.date === date);
+  useEffect(() => {}, [toggleMention]);
   return (
     <div className={`ModalBack ${toggle ? "" : "hidden"}`}>
       <div className="title">
         <p>{date}</p>
       </div>
       <div className="body_card">
-        <Flipcard />
+        <Flipcard currentDiary={currentDiary} />
       </div>
       <div className="body_textarea">
-        {showMention ? (
+        {toggleMention ? (
           <>
-            <TextArea date={date} setShowMention={setShowMention}>
-              {/* {!diary.length !== 0 ? diary[0]?.mention : ""} */}
-            </TextArea>
-            {/* <DiarySaveBtn className="diary-save" onClick={Savediary}>
-              저장fd
-            </DiarySaveBtn> */}
+            <TextArea date={date} currentDiary={currentDiary}></TextArea>
           </>
         ) : (
-          <Diary setShowMention={setShowMention} date={date} />
+          <Diary date={date} currentDiary={currentDiary} />
         )}
-
-        {/* {showMention && <Diary setShowMention={setShowMention} date={date} />} */}
-        {/* <div className="saveBtn" onClick={SaveBtn}>저장</div> */}
-        {/* <SaveBtn /> */}
       </div>
     </div>
   );

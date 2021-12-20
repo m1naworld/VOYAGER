@@ -88,6 +88,9 @@ const Fr = styled.div`
   color: rgb(255, 255, 255);
   text-align: center;
   box-shadow: 7px 7px 2px 1px rgba(125, 125, 125, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
 `;
 
 const Bc = styled.div`
@@ -96,6 +99,9 @@ const Bc = styled.div`
   height: 100%;
   border-radius: 4px;
   backface-visibility: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   background: rgb(1, 1, 1);
   color: rgb(255, 125, 0);
   text-align: center;
@@ -103,9 +109,8 @@ const Bc = styled.div`
   box-shadow: 7px 7px 2px 1px rgba(125, 125, 125, 0.7);
 `;
 
-function Flipcard() {
+function Flipcard({ currentDiary }) {
   const [idx, setIdx] = useState(0);
-
   return (
     <ModalCard className="ModalCard">
       <Btn
@@ -124,18 +129,93 @@ function Flipcard() {
 
       <CardContainer className="CardContainer">
         <Cardview idx={idx} className="Cardview">
-          <Card className="Card Card1">
-            <Fr className="fr">1</Fr>
-            <Bc className="bc">dddd</Bc>
-          </Card>
-          <Card className="Card Card1">
-            <Fr className="fr">2</Fr>
-            <Bc className="bc">dddd</Bc>
-          </Card>
-          <Card className="Card Card1">
-            <Fr className="fr">3</Fr>
-            <Bc className="bc">dddd</Bc>
-          </Card>
+          {currentDiary !== undefined &&
+          currentDiary?.length !== 0 &&
+          currentDiary[0].question ? (
+            currentDiary[0].question?.map((m, index) => {
+              return (
+                <Card className="Card Card1" key={m.index}>
+                  <Fr className="fr">
+                    <div
+                      style={{ position: "absolute", left: "50%", top: "0%" }}
+                    >
+                      {m.index + 1}
+                    </div>
+                    <span>{m.qs}</span>
+                  </Fr>
+                  <Bc className="bc">
+                    <div
+                      style={{
+                        position: "absolute",
+                        top: "0%",
+                        margin: "0 auto",
+                      }}
+                    >
+                      {m.index + 1}
+                    </div>
+                    <span>{currentDiary[0].answer[m.index].answer}</span>
+                  </Bc>
+                </Card>
+              );
+            })
+          ) : (
+            <>
+              <Card className="Card Card1">
+                <Fr className="fr">
+                  <div style={{ position: "absolute", left: "50%", top: "0%" }}>
+                    1
+                  </div>
+                </Fr>
+                <Bc className="bc">
+                  <div
+                    style={{
+                      position: "absolute",
+                      top: "0%",
+                      margin: "0 auto",
+                    }}
+                  >
+                    1
+                  </div>
+                </Bc>
+              </Card>
+              <Card className="Card Card1">
+                <Fr className="fr">
+                  <div style={{ position: "absolute", left: "50%", top: "0%" }}>
+                    2
+                  </div>
+                </Fr>
+                <Bc className="bc">
+                  <div
+                    style={{
+                      position: "absolute",
+                      top: "0%",
+                      margin: "0 auto",
+                    }}
+                  >
+                    2
+                  </div>
+                </Bc>
+              </Card>
+              <Card className="Card Card1">
+                <Fr className="fr">
+                  <div style={{ position: "absolute", left: "50%", top: "0%" }}>
+                    3
+                  </div>
+                </Fr>
+                <Bc className="bc">
+                  <div
+                    style={{
+                      position: "absolute",
+                      top: "0%",
+                      margin: "0 auto",
+                    }}
+                  >
+                    3
+                  </div>
+                </Bc>
+              </Card>
+            </>
+          )}
         </Cardview>
       </CardContainer>
 

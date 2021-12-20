@@ -13,7 +13,10 @@ export const store = configureStore({
     dailyQuestions: DailyQsReducer,
     Calendar: CalendarReducer,
   },
-  // middleware: (getDefaultMiddleware) => getDefaultMiddleware(),
+  middleware:
+    process.env.NODE_ENV !== "production"
+      ? (getDefaultMiddleware) => getDefaultMiddleware().concat(logger)
+      : "",
   // devTools: process.env.NODE_ENV !== "production",
   devTools: true,
 });

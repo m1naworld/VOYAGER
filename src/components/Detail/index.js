@@ -1,7 +1,11 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useDispatch } from "react-redux";
 import { Link, useLocation } from "react-router-dom";
-import { getDailyQs, postDailyQs } from "../../redux/reducer/DailyQsReducer";
+import {
+  getDailyQs,
+  getSurveyQs,
+  postDailyQs,
+} from "../../redux/reducer/DailyQsReducer";
 import styles from "./Detail.module.scss";
 import Pal from "./Pal";
 import { useSelector } from "react-redux";
@@ -35,13 +39,7 @@ function Detail() {
   const mountains_front = useRef();
   const btn = useRef();
   const [testOpen, setTestOpen] = useState(false);
-  const [fetch, setFetch] = useState(false);
   const dispatch = useDispatch();
-  const postDailyQsData = useSelector((state) => {
-    const { answer, id } = state.dailyQuestions;
-    const data = { question: { _id: id }, answer };
-    return data;
-  });
 
   const getColor = useSelector(
     (state) => state.Calendar.Calendar?.color?.data[0]
@@ -49,6 +47,7 @@ function Detail() {
 
   const data = useCallback(async () => {
     const qs = dispatch(getDailyQs());
+    dispatch(getSurveyQs());
     return qs;
   }, [dispatch]);
 
@@ -66,17 +65,12 @@ function Detail() {
   }, []);
   useEffect(() => {
     data();
-    if (fetch) {
-      console.log(postDailyQsData);
-      dispatch(postDailyQs(postDailyQsData));
-      setFetch(false);
-    }
 
     window.addEventListener("scroll", scrollEvent);
     return () => {
       window.removeEventListener("scroll", scrollEvent);
     };
-  }, [dispatch]);
+  }, []);
   return (
     <>
       <section className={styles.mainSection}>
@@ -115,7 +109,7 @@ function Detail() {
       </section>
       <Sec className={styles.sec} id="sec" color={"#0b787f"}>
         {testOpen ? (
-          <Pal toggle={setTestOpen} fetch={fetch} setFetch={setFetch} />
+          <Pal toggle={setTestOpen} />
         ) : (
           <button onClick={() => setTestOpen(true)}>OPEN SURVEY</button>
         )}

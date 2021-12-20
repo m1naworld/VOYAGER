@@ -3,9 +3,8 @@ import styled from "styled-components";
 import { useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
 import {
-  changeLastDiary,
+  editMention,
   getCalendar,
-  getCurrentDiary,
   postDailyDiary,
 } from "../../../../../redux/reducer/CalendarReducer";
 import { useSelector } from "react-redux";
@@ -28,11 +27,11 @@ export const DiarySaveBtn = styled.div`
   cursor: pointer;
 `;
 
-function TextArea({ date, setShowMention }) {
+function TextArea({ date, currentDiary }) {
   const dispatch = useDispatch();
   const btn = useRef();
   const { register, handleSubmit } = useForm();
-  const diary = useSelector((state) => getCurrentDiary(state, date));
+
   const formStyle = {
     textArea: {
       border: 8,
@@ -45,23 +44,11 @@ function TextArea({ date, setShowMention }) {
   };
 
   const onSubmit = async (e) => {
-    // try {
-    //   const res = await axios.post("/api/data/addDiary", {
-    //     date: date,
-    //     diary: e.text,
-    //   });
-    //   console.log(res);
-    // } catch (err) {
-    //   console.log(err.response);
-    // }
-
-    dispatch(postDailyDiary(12, { date, diary: e.text }));
-    // dispatch(getCalendar());
-    setShowMention(false);
+    dispatch(postDailyDiary({ date, diary: e.text }));
+    dispatch(getCalendar(date));
+    dispatch(editMention(false));
   };
-  useEffect(() => {
-    console.log(diary);
-  }, [diary]);
+  useEffect(() => {}, [dispatch]);
   return (
     <>
       <form
@@ -81,7 +68,11 @@ function TextArea({ date, setShowMention }) {
           placeholder="일기(300자 제한)"
           style={formStyle.textArea}
           maxLength="300"
-          defaultValue={!diary.length !== 0 ? diary[0]?.diary : ""}
+          defaultValue={
+            currentDiary !== undefined && currentDiary?.length !== 0
+              ? currentDiary[0].diary
+              : ""
+          }
           {...register("text")}
         />
 
@@ -92,13 +83,10 @@ function TextArea({ date, setShowMention }) {
           SUBMIT
         </DiaryBtn>
         <button
-          // style={{ visibility: "hidden" }}
+          style={{ visibility: "hidden" }}
           ref={btn}
-          // type="submit"
-          onClick={() => dispatch(postDailyDiary())}
-        >
-          ssss
-        </button>
+          type="submit"
+        ></button>
       </form>
     </>
   );

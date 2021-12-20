@@ -1,7 +1,7 @@
 import React from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
-import { getCurrentDiary } from "../../../../../redux/reducer/CalendarReducer";
+import { editMention } from "../../../../../redux/reducer/CalendarReducer";
 
 const DiaryResults = styled.div`
   width: 80%;
@@ -41,18 +41,20 @@ export const DiaryBtn = styled.div`
   }
 `;
 
-function Diary({ date, setShowMention }) {
-  // const diary = useSelector((state) => getCurrentDiary(state, date));
-  // console.log(diary);
+function Diary({ currentDiary }) {
+  const dispatch = useDispatch();
+
   return (
     <>
       <DiaryResults className="diary-result">
-        {/* {diary.length !== 0 ? <pre>{diary[0].diary}</pre> : ""} */}
+        {currentDiary !== undefined && currentDiary?.length !== 0 && (
+          <pre>{currentDiary[0].diary}</pre>
+        )}
       </DiaryResults>
       <div>
         <DiaryBtn
           onClick={() => {
-            setShowMention(true);
+            dispatch(editMention(true));
           }}
         >
           수정

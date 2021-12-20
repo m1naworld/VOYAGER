@@ -5,9 +5,9 @@ import { editUser } from "../../redux/reducer/ToggleReducer";
 
 import Spinner from "../animations/Spinner/Spinner";
 import Router from "../../routes/Router";
-import myAxios from "../../hooks/myAxios";
 import axios from "axios";
-import ShipSpinner from "../animations/ShipSpinner/ShipSpinner";
+// import Calendar from "../Calendarapp/calendar";
+// import ShipSpinner from "../animations/ShipSpinner/ShipSpinner";
 
 // 에러코드 , 성공코드 success 맞추기
 
@@ -32,9 +32,7 @@ function App() {
         dispatch(toggleLogin(false));
         return "TIMEOUT ERROR";
       }
-      console.log(err);
       // dispatch(toggleLogin(err.response.success));
-
       dispatch(toggleLogin(err.response.data.success));
       console.log(err.response.data.success);
       dispatch(checkLoading(false));

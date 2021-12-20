@@ -1,23 +1,24 @@
-import React, { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
-import { addAnswer } from "../../../redux/reducer/DailyQsReducer";
+import React, { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { addTextAnswer } from "../../../redux/reducer/DailyQsReducer";
+import { useForm } from "react-hook-form";
 
 const CalendarSurvey = ({
   data,
   slideIndex,
   maxIndex,
   slidePosition,
-  toggle,
+  postToggle,
+  postDaily,
 }) => {
   let prevIndex;
   let nextIndex;
+  const { register, handleSubmit } = useForm();
 
   const dispatch = useDispatch();
+  const [dis, setDis] = useState(false);
 
-  const [postData, setPostData] = useState({
-    index: data.index,
-    answer: "",
-  });
+  const qsData = useSelector((state) => state.dailyQuestions.qs);
 
   if (slideIndex === 0) {
     prevIndex = maxIndex;
@@ -29,12 +30,15 @@ const CalendarSurvey = ({
     prevIndex = slideIndex - 1;
     nextIndex = slideIndex + 1;
   }
-
-  useEffect(() => {
-    if (toggle) {
-      dispatch(addAnswer(postData));
+  console.log(slideIndex);
+  console.log(postToggle);
+  const onSubmit = (e) => {
+    if (!dis) {
+      console.log(e.dailyQs);
+      dispatch(addTextAnswer({ index: data.index, answer: e.dailyQs }));
     }
-  }, [toggle, dispatch, postData]);
+    setDis(!dis);
+  };
 
   return (
     <>
@@ -49,17 +53,24 @@ const CalendarSurvey = ({
             : "slide"
         }
       >
-        <span style={{ font: "IM_Hyemin-Bold", color: "white" }}>
-          {data.qs}
-        </span>
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <span style={{ font: "IM_Hyemin-Bold", color: "white" }}>
+            {data.qs}
+          </span>
+          <textarea
+            disabled={dis}
+            rows="5"
+            cols="30"
+            {...register("dailyQs")}
+          />
+
+          {slideIndex === 2 && postToggle ? (
+            <button onClick={postDaily}>제출하기</button>
+          ) : (
+            <button type="submit">{dis ? "수정하기" : "등록하기"}</button>
+          )}
+        </form>
       </div>
-      <textarea
-        type="text"
-        rows="5"
-        cols="30"
-        onChange={(v) => setPostData({ ...postData, answer: v.target.value })}
-        className={slideIndex === data.index ? "qs slide now" : "qs slide hide"}
-      />
     </>
   );
 };

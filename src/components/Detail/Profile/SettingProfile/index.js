@@ -40,7 +40,7 @@ const SettingProfile = () => {
       <input
         readOnly
         name="birthday"
-        style={{ backgroundColor: `${!state?.birthday ? "#4e4e4e" : "white"}` }}
+        style={{ backgroundColor: `${!birthday ? "#4e4e4e" : "white"}` }}
         value={birthday ?? "-"}
         className={classes.profile__input}
       />
