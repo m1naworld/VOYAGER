@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { addTextAnswer } from "../../../redux/reducer/DailyQsReducer";
 import { useForm } from "react-hook-form";
+import classes from "./CalendarSurvey.module.scss";
 
 const CalendarSurvey = ({
   data,
@@ -17,8 +18,6 @@ const CalendarSurvey = ({
 
   const dispatch = useDispatch();
   const [dis, setDis] = useState(false);
-
-  const qsData = useSelector((state) => state.dailyQuestions.qs);
 
   if (slideIndex === 0) {
     prevIndex = maxIndex;
@@ -54,20 +53,24 @@ const CalendarSurvey = ({
         }
       >
         <form onSubmit={handleSubmit(onSubmit)}>
-          <span style={{ font: "IM_Hyemin-Bold", color: "white" }}>
-            {data.qs}
-          </span>
+          <span className={classes.span}>{data.qs}</span>
+
           <textarea
             disabled={dis}
-            rows="5"
-            cols="30"
+            className={classes.survey__textarea}
+            rows="1"
+            spellCheck={false}
             {...register("dailyQs")}
           />
 
           {slideIndex === 2 && postToggle ? (
-            <button onClick={postDaily}>제출하기</button>
+            <button className={classes.survey__btn} onClick={postDaily}>
+              제출하기
+            </button>
           ) : (
-            <button type="submit">{dis ? "수정하기" : "등록하기"}</button>
+            <button className={classes.survey__btn} type="submit">
+              {dis ? "수정하기" : "등록하기"}
+            </button>
           )}
         </form>
       </div>

@@ -8,10 +8,18 @@ const SettingProfile = () => {
   const [social, setSocial] = useState(false);
   const { state } = location;
   if (state?.birth) {
-    birthday = `${state?.birthyear}-${state?.birth?.substring(
-      0,
-      2
-    )}-${state?.birth?.substring(2, 4)}`;
+    console.log(state);
+    if (state.birthyear) {
+      birthday = `${state?.birthyear}-${state?.birth?.substring(
+        0,
+        2
+      )}-${state?.birth?.substring(2, 4)}`;
+    } else {
+      birthday = `${state?.birth?.substring(0, 2)}-${state?.birth?.substring(
+        2,
+        4
+      )}`;
+    }
   }
   useEffect(() => {
     if (state.provider === "local") {

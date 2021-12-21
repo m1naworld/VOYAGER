@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { Outlet, Navigate, useLocation, useNavigate } from "react-router";
+import { Outlet, Navigate, useLocation } from "react-router";
 import { Link } from "react-router-dom";
 import Nav from "../../components/Detail/Nav/Nav";
 
@@ -14,9 +14,13 @@ function DetailRouter({ login }) {
 
   // Object.keys(user).length
   // user ?? Object.keys(user).length
-
+  console.log(location.pathname);
   useEffect(() => {
-    if (location.pathname.includes("profile")) {
+    if (
+      location.pathname.includes("profile") ||
+      location.pathname.includes("dailyQuestion") ||
+      location.pathname.includes("surveyQuestion")
+    ) {
       setBack(true);
     } else {
       setBack(false);

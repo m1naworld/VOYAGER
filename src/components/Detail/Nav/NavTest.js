@@ -64,7 +64,7 @@ const NavTest = () => {
           )
         )}
       </ul>
-      <NavTestBtn onClick={() => navigate("join")}>SIGN UP</NavTestBtn>
+      <NavTestBtn onClick={() => navigate("login")}>LOG IN</NavTestBtn>
     </nav>
   );
 };

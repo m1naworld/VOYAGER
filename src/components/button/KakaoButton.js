@@ -1,4 +1,4 @@
-import "./kakao.scss";
+import "./authBtn.scss";
 
 const { Kakao } = window;
 Kakao.init(process.env.REACT_APP_KAKAO_JS_KEY);
@@ -14,8 +14,8 @@ function KakaoButton({ ...res }) {
     });
   };
   return (
-    <button id="btn" onClick={loginWithKakao}>
-      <img id="kakao" src="image/kakao.png" alt="kakao" />
+    <button className="kakao" onClick={loginWithKakao}>
+      <img src="image/kakao.png" alt="kakao" />
       {/* Login with Kakao */}
     </button>
   );

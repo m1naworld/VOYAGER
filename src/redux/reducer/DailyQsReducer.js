@@ -135,7 +135,7 @@ export const DailyQsSlice = createSlice({
     },
     [postDailyQs.rejected]: (state, { payload }) => {
       state.qsLoading = false;
-      console.log(payload.response.data);
+      console.log(payload);
     },
   },
 });

@@ -7,6 +7,7 @@ import { useDispatch } from "react-redux";
 import { HiArrowCircleLeft } from "react-icons/hi";
 
 const Nav = ({ back }) => {
+  console.log(back);
   const [toggle, setToggle] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -32,11 +33,12 @@ const Nav = ({ back }) => {
       style={{
         color: "white",
         fontSize: "2.5rem",
-        position: "absolute",
+        // position: "absolute",
         left: "3%",
         top: "4%",
         cursor: "pointer",
         zIndex: "1000",
+        position: "fixed",
       }}
       onClick={() => navigate("/detail/home")}
     ></HiArrowCircleLeft>

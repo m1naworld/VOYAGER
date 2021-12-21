@@ -1,0 +1,116 @@
+@import "../../assets/styles/mixin";
+.move__section {
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
+  z-index: 0;
+  transition: all 10s linear;
+}
+
+.daily__form {
+  @include changeForm;
+  z-index: 900;
+
+  & .daily_inside {
+    @include changeFormInside;
+    box-shadow: none;
+    backdrop-filter: none;
+    text-align: center;
+    // transition: all 2s linear;
+    // visibility: visible;
+  }
+  & .daily__disabled {
+    visibility: hidden;
+  }
+}
+
+.anime {
+  animation: move 10s forwards ease-in;
+}
+
+.logo__background {
+  width: 100vw;
+  height: 100vh;
+  // background-color: #374a67;
+  background-color: rgb(3, 7, 31);
+
+  z-index: 1;
+  overflow: auto;
+  .logo__stars {
+    position: absolute;
+    width: 3px;
+    height: 3px;
+    border-radius: 50%;
+    filter: blur(0.3px) drop-shadow(0 0 30px gray);
+    background-color: white;
+    z-index: 0;
+    animation: Starry 3s cubic-bezier(0.68, -0.55, 0.265, 1.55) alternate
+      infinite;
+  }
+
+  $i: 1;
+  @while $i <= 40 {
+    $left: 0 + random(100);
+    $top: 0 + random(100);
+    .logo__stars:nth-child(#{$i}) {
+      animation-delay: calc(20 / $i) + s;
+      left: unquote($left + "%");
+      top: unquote($top + "%");
+    }
+    $i: $i + 1;
+  }
+}
+@media screen and (max-width: 420px) {
+  .logo__wrapper {
+    border: 5px solid white;
+    .logo__background {
+      width: 250px;
+      height: 250px;
+      .logo__stars {
+        filter: blur(0.2px) drop-shadow(0 0 10px gray);
+      }
+    }
+    .logo__main {
+      position: absolute;
+      z-index: 1000;
+      width: 250px;
+      height: 250px;
+      top: 0;
+    }
+
+    // } @else {
+    //   $i: $i - 1;
+    // }
+  }
+}
+@keyframes Starry_mobile {
+  0% {
+    filter: blur(0.5px) drop-shadow(0 0 10px gray);
+    transform: scale(0.1);
+  }
+
+  100% {
+    filter: blur(0.1px) drop-shadow(0 0 10px gray);
+    transform: scale(1);
+  }
+}
+
+@keyframes move {
+  0% {
+    transform: translate(0, 0);
+  }
+  100% {
+    transform: translate(-120%, 0);
+  }
+}
+@keyframes Starry {
+  0% {
+    filter: blur(1px) drop-shadow(0 0 30px gray);
+    transform: scale(0.1);
+  }
+
+  100% {
+    filter: blur(0.5px) drop-shadow(0 0 30px gray);
+    transform: scale(1);
+  }
+}

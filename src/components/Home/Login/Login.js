@@ -58,33 +58,13 @@ function Login() {
       }
     } catch (err) {
       console.log(err.response);
-      const { data: success, message } = err.response;
+      const {
+        data: { success, message },
+      } = err.response;
+
       setSuccess({ success, message });
     }
   };
-
-  const sendPassword = useCallback(async () => {
-    try {
-      const res = await axios.post("/api/confirm/checkEmail", {
-        email: "akdfhr@gmail.com",
-      });
-      console.log(res);
-    } catch (err) {
-      if (err.response.status !== 402) {
-        return err.response;
-      }
-      try {
-        const sendEmail = await axios.post("/api/confirm/change", {
-          email: "akdfhr2@gmail.com",
-          target: "password",
-        });
-        console.log(sendEmail);
-      } catch (er) {
-        console.log(er.response);
-        return er;
-      }
-    }
-  }, []);
 
   return (
     <>
@@ -125,9 +105,6 @@ function Login() {
               })}
             />
             <ErrorMessage errors={errors} name="password" />
-            <button className={styles.button} type="submit">
-              로그인
-            </button>
             {!success.success && (
               <h1
                 style={{ fontSize: "1rem", color: "black", marginTop: "10px" }}
@@ -135,9 +112,14 @@ function Login() {
                 {success.message}
               </h1>
             )}
+            <button className={styles.button} type="submit">
+              로그인
+            </button>
 
+            <button className={styles.button} onClick={() => navigate("/join")}>
+              회원가입
+            </button>
             <hr style={{ color: "black", width: "100%", margin: "10px 0" }} />
-
             <KakaoButton />
             <NaverButton />
             <Link

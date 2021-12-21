@@ -5,8 +5,8 @@ export const MenuItems = [
     cName: "navbar__links",
   },
   {
-    title: "SIGN UP",
-    url: "/join",
+    title: "LOG IN",
+    url: "/login",
     cName: "navbar__links-mobile",
   },
 ];
