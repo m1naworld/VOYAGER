@@ -3,6 +3,6 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    image: minatest:0.0.3
+    image: minatest:0.0.4
     ports:
       - 4000:4000
