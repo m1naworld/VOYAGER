@@ -1,7 +1,8 @@
 {
-  "name": "fecra",
+  "name": "harbor",
   "version": "0.1.0",
   "private": true,
+  "license": "MIT",
   "dependencies": {
     "@emotion/react": "^11.6.0",
     "@fullcalendar/daygrid": "^5.10.1",
