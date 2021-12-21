@@ -109,7 +109,7 @@ export const sendEmail = async (req, res) => {
 
     let message = {
       from: "VOYAGER",
-      to: "m1nna@naver.com",
+      to: email,
       subject: "VOYAGER 메일 인증",
       html: htmlToSend,
     };

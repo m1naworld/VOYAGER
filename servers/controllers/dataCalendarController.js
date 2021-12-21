@@ -19,7 +19,6 @@ function getRandomInt(min, max) {
 export const myColor = async (req, res) => {
   try {
     const snsId = req.snsId;
-    // const date = "2021-10-02";
     const date = moment().format("YYYY-MM-DD");
 
     const { happy, sad, joy, anger } = req.body;
@@ -71,8 +70,6 @@ export const myDaily = async (req, res) => {
   try {
     const snsId = req.snsId;
     console.log(req.body);
-    // const date = "2021-10-02";
-
     const date = moment().format("YYYY-MM-DD");
     const { question, answer } = req.body;
     const exist = await mydaily.findOne({ snsId, date });

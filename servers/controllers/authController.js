@@ -53,11 +53,15 @@ export const postLogin = async (req, res, next) => {
         console.log("회원가입이 안된 유저");
         return res.status(400).json(msg);
       }
+      if (user.provider !== "local") {
+        return res.status(400).json(msg);
+      }
       if (!user.confirmation) {
         console.log(msg);
         console.log("이메일 인증 안된 유저");
         return res.status(202).json(msg);
       }
+
       req.login(user, { session: false }, async (error) => {
         const snsId = user.snsId;
         if (error) return next(error);
