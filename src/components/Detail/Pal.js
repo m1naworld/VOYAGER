@@ -10,6 +10,7 @@ import {
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { postDailyQs } from "../../redux/reducer/DailyQsReducer";
+import { useNavigate } from "react-router-dom";
 
 const Container = styled.div`
   width: 100%;
@@ -115,6 +116,7 @@ const SliderContainer = styled.div`
   & span {
     display: inline-block;
     width: 55%;
+    font-size: 2rem;
     text-align: center;
     word-wrap: break-word;
   }
@@ -128,8 +130,8 @@ const SliderContainer = styled.div`
     background: black;
     color: white;
     height: 8rem;
-    font-size: 2px;
-    width: 30rem;
+    /* font-size: 2px; */
+    width: 50%;
   }
   --x1: 0.1;
   --y1: 0.67;
@@ -168,7 +170,7 @@ const SliderContainer = styled.div`
     color: white;
     position: absolute;
     left: 50%;
-    top: 15rem;
+    top: 17rem;
     transform: translate(-50%, -50%);
   }
 
@@ -181,6 +183,25 @@ const SliderContainer = styled.div`
     .qs {
       top: 10rem;
       width: 80%;
+    }
+    & textarea {
+      flex: 0 0 auto;
+      /* top: 13rem; */
+      /* bottom: -50vh; */
+      left: 50%;
+      transform: translate(-50%, -50%);
+      position: absolute;
+      background: black;
+      color: white;
+      height: min-content;
+      width: 70%;
+    }
+    & span {
+      display: inline-block;
+      width: 55%;
+      font-size: 1rem;
+      text-align: center;
+      word-wrap: break-word;
     }
   }
 `;
@@ -195,6 +216,7 @@ export default function Slider({ toggle, fetch, setFetch }) {
   const dispatch = useDispatch();
   const slideRef = useRef(null);
   const dataList = useSelector((state) => state.dailyQuestions.qs);
+  const navigate = useNavigate();
 
   const nextSlide = () => {
     if (currentSlide >= TOTAL_SLIDES) {
@@ -212,11 +234,11 @@ export default function Slider({ toggle, fetch, setFetch }) {
     }
     setSlidePosition("prev");
   };
-
   const postDaily = useCallback(() => {
     const { question, answer } = dataList;
     console.log(dataList);
     dispatch(postDailyQs({ question, answer }));
+    navigate(-1);
   }, [dataList]);
 
   useEffect(() => {
@@ -252,8 +274,8 @@ export default function Slider({ toggle, fetch, setFetch }) {
           onClick={nextSlide}
         ></ButtonRight>
       </div>
-      <button onClick={() => toggle(false)}>CLOSE SURVEY</button>
-      <button onClick={() => setFetch(!fetch)}>send</button>
+      {/* <button onClick={() => toggle(false)}>CLOSE SURVEY</button> */}
+      {/* <button onClick={() => setFetch(!fetch)}>send</button> */}
     </Container>
   );
 }

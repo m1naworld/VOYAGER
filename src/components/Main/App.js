@@ -17,7 +17,7 @@ function App() {
   const checkToken = useCallback(async () => {
     try {
       // const res = await axios.get("/api/auth/user", { timeout: 3000 });
-      const res = await axios.get("/api/auth/user");
+      const res = await axios.get("/api/auth/user", { timeout: 1000 });
       // 이거왜있음????
       // const re = await axios.get("/api/send/user");
       // // console.log(re);
@@ -42,6 +42,7 @@ function App() {
     checkToken();
     // dispatch(checkLoading(false));
   }, [checkToken, dispatch, toggleLogin]);
+
   return loading ? <Spinner /> : <Router />;
   // return <ShipSpinner />;
 }

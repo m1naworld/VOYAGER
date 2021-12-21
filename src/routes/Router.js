@@ -33,6 +33,8 @@ import FindRouter from "./HomeRouter/FindRouter";
 import FindEmail from "./HomeRouter/FindRouter/FindEmail";
 import FindPassword from "./HomeRouter/FindRouter/FindPassword";
 import Calendar from "../components/Calendarapp/calendar";
+import ErrorPage from "../components/404";
+import Slider from "../components/Detail/Pal";
 
 function Router() {
   const loggedIn = useSelector((state) => state.toggle.isLoggedIn);
@@ -65,6 +67,8 @@ function Router() {
               />
             }
           />
+          <Route path="dailyQuestion" element={<DailyQuestion />} />
+          <Route path="surveyQuestion" element={<Slider />} />
           <Route path="calendar" element={<Calendar />} />
           <Route path="profile" element={<ProfileRouter />}>
             <Route path="" element={<Profile />} />
@@ -73,7 +77,6 @@ function Router() {
             <Route path="removeUser" element={<RemoveUser />} />
           </Route>
         </Route>
-        <Route path="dailyQuestion" element={<DailyQuestion />} />
         <Route path="oauth" element={<AuthRouter />}>
           <Route path="kakao" element={<KakaoAuth />} />
           <Route path="naver" element={<NaverAuth />} />
@@ -83,7 +86,7 @@ function Router() {
           <Route path="email" element={<EmailCheck />} />
         </Route>
         <Route path="about" element={<About />} />
-        <Route path="*" element={<h1>Not Allowed</h1>} />
+        <Route path="*" element={<ErrorPage />} />
       </Routes>
     </BrowserRouter>
   );

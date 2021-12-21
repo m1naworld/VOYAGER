@@ -1,11 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useDispatch } from "react-redux";
-import { Link, useLocation } from "react-router-dom";
-import {
-  getDailyQs,
-  getSurveyQs,
-  postDailyQs,
-} from "../../redux/reducer/DailyQsReducer";
+import { Link } from "react-router-dom";
+import { getDailyQs, getSurveyQs } from "../../redux/reducer/DailyQsReducer";
 import styles from "./Detail.module.scss";
 import Pal from "./Pal";
 import { useSelector } from "react-redux";
@@ -28,6 +24,7 @@ const Moon = styled.img`
   height: 100%;
   object-fit: cover;
   pointer-events: none;
+  /* background-color: red; */
   mix-blend-mode: screen;
   background-color: ${(props) => props.color};
 `;
@@ -41,9 +38,7 @@ function Detail() {
   const [testOpen, setTestOpen] = useState(false);
   const dispatch = useDispatch();
 
-  const getColor = useSelector(
-    (state) => state.Calendar.Calendar?.color?.data[0]
-  );
+  const getColor = useSelector((state) => state.toggle.user.color);
 
   const data = useCallback(async () => {
     const qs = dispatch(getDailyQs());
@@ -88,6 +83,7 @@ function Detail() {
           color={getColor ? getColor.color : "transparent"}
           ref={moon}
         />
+
         <img
           src={
             process.env.PUBLIC_URL + "/image/parallax/mountains_behind11.png"
@@ -97,9 +93,22 @@ function Detail() {
           ref={mountains_behind}
         />
 
-        <Link to="/dailyQuestion" id={styles["btn"]} ref={btn}>
-          Explore
-        </Link>
+        <div
+          ref={btn}
+          style={{
+            zIndex: "11",
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+          }}
+        >
+          <Link to="../dailyQuestion" id={styles["btn"]}>
+            Explore
+          </Link>
+          <Link to="../surveyQuestion" id={styles["btn"]}>
+            OPEN SURVEY
+          </Link>
+        </div>
         <img
           src={process.env.PUBLIC_URL + "/image/parallax/mountains_behind2.png"}
           id={styles["mountains_front"]}
@@ -107,13 +116,7 @@ function Detail() {
           ref={mountains_front}
         />
       </section>
-      <Sec className={styles.sec} id="sec" color={"#0b787f"}>
-        {testOpen ? (
-          <Pal toggle={setTestOpen} />
-        ) : (
-          <button onClick={() => setTestOpen(true)}>OPEN SURVEY</button>
-        )}
-      </Sec>
+      <Sec className={styles.sec} id="sec"></Sec>
     </>
     // </div>
   );

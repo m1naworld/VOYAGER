@@ -1,0 +1,18 @@
+@import "../../assets/styles/mixin";
+
+.kakao {
+  @include snsloginbtn(#fee500);
+  color: #191919;
+  margin-bottom: 10px;
+  & img {
+    @include snsimg;
+  }
+}
+
+.naver {
+  @include snsloginbtn(#03c75a);
+  color: #ffff;
+  & img {
+    @include snsimg;
+  }
+}
