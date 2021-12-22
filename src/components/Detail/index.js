@@ -2,7 +2,6 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { getDailyQs, getSurveyQs } from "../../redux/reducer/DailyQsReducer";
-import ReactFullpage from "@fullpage/react-fullpage";
 import styles from "./Detail.module.scss";
 
 import { useSelector } from "react-redux";
@@ -10,10 +9,11 @@ import styled from "styled-components";
 
 import TestMoon from "./TestMoon";
 import Peed from "./Peed/Peed";
+import { getFeeds } from "../../redux/reducer/FeedReducer";
 
 const Sec = styled.div`
   position: relative;
-  height: 100vh;
+  /* height: 100vh; */
   width: 100vw;
   display: flex;
   flex-direction: column;
@@ -72,13 +72,11 @@ function Detail() {
       mountains_behind.current.style.top = value * 0.5 + "px";
       mountains_front.current.style.top = value * 0 + "px";
       btn.current.style.marginTop = value * 1.5 + "px";
-    } catch (err) {
-      console.log(err);
-    }
+    } catch (err) {}
   }, []);
   useEffect(() => {
     data();
-
+    dispatch(getFeeds(0));
     window.addEventListener("scroll", scrollEvent);
     return () => {
       window.removeEventListener("scroll", scrollEvent);

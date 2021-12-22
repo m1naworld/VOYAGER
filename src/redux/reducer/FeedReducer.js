@@ -4,7 +4,7 @@ import axios from "axios";
 const initialState = {
   feedLoading: false,
   error: "",
-  feeds: {},
+  feeds: null,
   success: false,
 };
 
