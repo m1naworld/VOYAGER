@@ -1,5 +1,5 @@
 import React from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import styled from "styled-components";
 import { editMention } from "../../../../../redux/reducer/CalendarReducer";
 
@@ -11,19 +11,6 @@ const DiaryResults = styled.div`
   overflow: auto;
 `;
 
-const DiaryDelBtn = styled.div`
-  margin: 10px;
-  padding: 10px 20px;
-  border: 2px solid #fff;
-  border-radius: 3px;
-  background: transparent;
-  color: white;
-  font-size: 14px;
-  font-weight: 600;
-  text-decoration: none;
-  display: inline-block;
-  cursor: pointer;
-`;
 export const DiaryBtn = styled.div`
   margin: 10px;
   padding: 10px 20px;

@@ -6,6 +6,7 @@ import { editUser } from "../../redux/reducer/ToggleReducer";
 import Spinner from "../animations/Spinner/Spinner";
 import Router from "../../routes/Router";
 import axios from "axios";
+import AstronautSpinner from "../animations/Spinner/AstronautSpinner";
 // import Calendar from "../Calendarapp/calendar";
 // import ShipSpinner from "../animations/ShipSpinner/ShipSpinner";
 
@@ -43,7 +44,7 @@ function App() {
     // dispatch(checkLoading(false));
   }, [checkToken, dispatch, toggleLogin]);
 
-  return loading ? <Spinner /> : <Router />;
+  return loading ? <AstronautSpinner /> : <Router />;
   // return <ShipSpinner />;
 }
 

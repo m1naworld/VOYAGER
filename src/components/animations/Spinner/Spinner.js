@@ -1,11 +1,11 @@
 import "./spinner.css";
 import styled, { keyframes } from "styled-components";
 
-const text = "LOADING  LOADING  ";
-const txt = text.split("");
-function Spinner() {
+// const text = "LOADING  LOADING  ";
+
+function Spinner({ editStyle }) {
   return (
-    <div className="body" style={{ backgroundColor: "#202020" }}>
+    <div className="body" style={{ backgroundColor: "#202020", ...editStyle }}>
       <Sec image={process.env.PUBLIC_URL + "/image/spinner.png"}>
         <div className="earth"></div>
         <div className="circle">
@@ -41,10 +41,10 @@ const animateText = keyframes`
     }
 `;
 
-const Sp = styled.span`
-  transform: rotateY(calc((${(props) => props.num}) * calc(360deg / 18)))
-    translateZ(180px);
-`;
+// const Sp = styled.span`
+//   transform: rotateY(calc((${(props) => props.num}) * calc(360deg / 18)))
+//     translateZ(180px);
+// `;
 
 const Sec = styled.section`
   @font-face {

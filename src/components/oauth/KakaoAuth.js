@@ -9,7 +9,7 @@ import {
   toggleLogin,
 } from "../../redux/reducer/ToggleReducer";
 import Spinner from "../animations/Spinner/Spinner";
-import myAxios from "../../hooks/myAxios";
+import AstronautSpinner from "../animations/Spinner/AstronautSpinner";
 
 const { Kakao } = window;
 function KakaoAuth() {
@@ -76,7 +76,7 @@ function KakaoAuth() {
   useEffect(() => {
     postParam(param);
   }, [postParam, param]);
-  return <Spinner />;
+  return <AstronautSpinner />;
 }
 
 export default KakaoAuth;

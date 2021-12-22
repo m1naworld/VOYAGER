@@ -19,7 +19,8 @@ function DetailRouter({ login }) {
     if (
       location.pathname.includes("profile") ||
       location.pathname.includes("dailyQuestion") ||
-      location.pathname.includes("surveyQuestion")
+      location.pathname.includes("surveyQuestion") ||
+      location.pathname.includes("calendar")
     ) {
       setBack(true);
     } else {
@@ -36,9 +37,10 @@ function DetailRouter({ login }) {
       <Link to="profile" className={classes.detailRouter__links}>
         <img
           src={
-            process.env.REACT_APP_SERVER_URL +
-            "/" +
-            (user?.img ?? process.env.REACT_APP_DEFAULT_IMG)
+            user?.img ??
+            process.env.REACT_APP_PROFILE_IMG +
+              "/" +
+              process.env.REACT_APP_DEFAULT_IMG
           }
           alt="moon"
           className={classes.detailRouter__img}

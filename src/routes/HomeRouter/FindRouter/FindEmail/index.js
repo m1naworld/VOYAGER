@@ -5,7 +5,6 @@ import { ErrorMessage } from "@hookform/error-message";
 import { Link } from "react-router-dom";
 import DatePick from "../../../../components/Home/Login/DatePick";
 import "./resetInput.css";
-import myAxios from "../../../../hooks/myAxios";
 import axios from "axios";
 let birthResult;
 

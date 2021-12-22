@@ -8,12 +8,13 @@ import {
 import styled from "styled-components";
 import classes from "./DailyQuestion.module.scss";
 import Spinner from "../animations/Spinner/Spinner";
-import { useNavigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
+import { getUser } from "../../redux/reducer/ToggleReducer";
 
 // let width = window.innerWidth;
 // const circleWidth = 3969;
 const circleWidth = 7937;
-const backWidth = 4248;
+// const backWidth = 4248;
 const DailyQuestion = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -21,11 +22,14 @@ const DailyQuestion = () => {
   const [test, setTest] = useState(0);
   const [width, setWidth] = useState(window.innerWidth);
   const [loading, setLoading] = useState(false);
-
+  const getColor = useSelector((state) => state.toggle.user.color);
   const postData = useCallback(() => {
     dispatch(postSurveyQs(dailyQuestions.answer));
-    navigate("../");
+
+    navigate("../../detail");
   }, [dispatch, dailyQuestions]);
+
+  const [move, setMove] = useState(false);
 
   const handleWidth = useCallback(() => {
     setWidth(window.innerWidth);
@@ -38,7 +42,10 @@ const DailyQuestion = () => {
     return () => {
       window.removeEventListener("resize", handleWidth);
     };
-  }, [dispatch]);
+  }, []);
+  if (getColor) {
+    return <Navigate to="../" />;
+  }
   return loading && !dailyQuestions.qsLoading ? (
     <div
       style={{
@@ -70,6 +77,7 @@ const DailyQuestion = () => {
                     dispatch(addAnswer({ index: m.label, answer: 1 }));
                     if (m.label !== 12) {
                       setTest(m.label);
+                      setMove(true);
                     }
                   }}
                 />
@@ -82,29 +90,13 @@ const DailyQuestion = () => {
                     dispatch(addAnswer({ index: m.label, answer: 0 }));
                     if (m.label !== 12) {
                       setTest(m.label);
+                      setMove(true);
                     }
                   }}
                 />
                 <label htmlFor={`${m.label}-0`}>아니요</label>
               </div>
               {m.label === 12 && <button onClick={postData}>보내기</button>}
-              {/* <button
-            style={{ margin: "0 auto" }}
-            onClick={() => {
-              dispatch(addAnswer({ index: m.label, answer: 1 }));
-              setTest(m.label);
-            }}
-          >
-            예
-          </button>
-          <button
-            onClick={() => {
-              dispatch(addAnswer({ index: m.label, answer: 0 }));
-              setTest(m.label);
-            }}
-          >
-            아니오
-          </button> */}
             </div>
           </div>
         ))}
@@ -170,6 +162,12 @@ const DailyQuestion = () => {
           }}
         /> */}
       </MoveSection>
+      {/* <video
+        ref={astro}
+        muted
+        loop
+        src={`${process.env.PUBLIC_URL}/image/astronaut.webm`}
+      /> */}
     </div>
   ) : (
     <Spinner />

@@ -4,7 +4,7 @@ $btnHeight: 28px;
   background-color: #51aabf;
   padding: 2px 20px;
   height: $btnHeight;
-  border-radius: 18px;
+  border-radius: 10px;
   width: 100%;
   font-size: 18px;
   color: #fff;
@@ -156,4 +156,12 @@ $btnHeight: 28px;
 
 @mixin backgroudGradient($left: #31cde2c0, $right: #138eb3) {
   background: linear-gradient($left, $right);
+}
+
+@mixin backgroudGradienttoTop(
+  $position: to top,
+  $left: #31cde2c0,
+  $right: #138eb3
+) {
+  background: linear-gradient($position, $left, $right);
 }
