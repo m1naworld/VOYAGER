@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import "./modal.scss";
 import Flipcard from "./inmodal/card/card";
 import Diary from "./inmodal/diary/diary";

@@ -7,11 +7,7 @@ import {
   getCalendar,
   postDailyDiary,
 } from "../../../../../redux/reducer/CalendarReducer";
-import { useSelector } from "react-redux";
 import { DiaryBtn } from "../diary/diary";
-import axios from "axios";
-// import Diary from './Diary'
-// import './Textarea.css'
 
 export const DiarySaveBtn = styled.div`
   margin: 10px;
@@ -27,6 +23,28 @@ export const DiarySaveBtn = styled.div`
   cursor: pointer;
 `;
 
+const TextBox = styled.textarea`
+  /* border: 8;
+  margin: 6; */
+  resize: none;
+
+  overflow-y: hidden;
+  /* aria-hiddden: true; */
+  background-color: transparent;
+  color: white;
+  text-align: center;
+  font-size: 1.8rem;
+  padding: 110px 0;
+  height: 300px;
+  &::placeholder {
+    font-size: 1.8rem;
+  }
+  @media screen and (max-width: 420px) {
+    height: 200px;
+    padding: 0;
+  }
+`;
+
 function TextArea({ date, currentDiary }) {
   const dispatch = useDispatch();
   const btn = useRef();
@@ -40,6 +58,8 @@ function TextArea({ date, currentDiary }) {
       ariaHidden: "true",
       backgroundColor: "transparent",
       color: "white",
+      fontSize: "2.2rem",
+      height: "100%",
     },
   };
 
@@ -60,14 +80,14 @@ function TextArea({ date, currentDiary }) {
         }}
         onSubmit={handleSubmit(onSubmit)}
       >
-        <textarea
+        <TextBox
           className="input"
           type="text"
-          rows="10"
-          cols="90"
           placeholder="일기(300자 제한)"
-          style={formStyle.textArea}
+          // style={formStyle.textArea}
+
           maxLength="300"
+          // rows="5"
           defaultValue={
             currentDiary !== undefined && currentDiary?.length !== 0
               ? currentDiary[0].diary
@@ -77,16 +97,11 @@ function TextArea({ date, currentDiary }) {
         />
 
         <DiaryBtn
-          style={{ margin: "0 auto" }}
+          style={{ margin: "0 auto", marginTop: "10px" }}
           onClick={() => btn.current.click()}
         >
           SUBMIT
         </DiaryBtn>
-        <button
-          style={{ visibility: "hidden" }}
-          ref={btn}
-          type="submit"
-        ></button>
       </form>
     </>
   );

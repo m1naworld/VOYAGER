@@ -1,13 +1,14 @@
 import axios from "axios";
 import { useCallback, useEffect } from "react";
 import { useNavigate } from "react-router";
-import Spinner from "../animations/Spinner/Spinner";
+
 import { useDispatch } from "react-redux";
 import {
   editError,
   editUser,
   toggleLogin,
 } from "../../redux/reducer/ToggleReducer";
+import AstronautSpinner from "../animations/Spinner/AstronautSpinner";
 
 function NaverAuth() {
   const navigate = useNavigate();
@@ -72,7 +73,7 @@ function NaverAuth() {
     naver();
   }, [naver]);
 
-  return <Spinner />;
+  return <AstronautSpinner />;
 }
 
 export default NaverAuth;

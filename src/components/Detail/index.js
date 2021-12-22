@@ -1,22 +1,34 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useDispatch } from "react-redux";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { getDailyQs, getSurveyQs } from "../../redux/reducer/DailyQsReducer";
 import styles from "./Detail.module.scss";
-import Pal from "./Pal";
+
 import { useSelector } from "react-redux";
 import styled from "styled-components";
 
+import TestMoon from "./TestMoon";
+import Peed from "./Peed/Peed";
+import { getFeeds } from "../../redux/reducer/FeedReducer";
+
 const Sec = styled.div`
   position: relative;
-  padding: 100px;
-  background: ${(props) => props.color};
+  /* height: 100vh; */
+  width: 100vw;
   display: flex;
   flex-direction: column;
   align-items: center;
+  /* &:before {
+    content: "";
+    width: 100%;
+    height: 100px;
+    position: absolute;
+    top: -100px;
+    background: linear-gradient(to top, #0b787f, transparent);
+  } */
 `;
 
-const Moon = styled.img`
+const MoonContainer = styled.div`
   position: absolute;
   top: 0;
   left: 0;
@@ -24,9 +36,9 @@ const Moon = styled.img`
   height: 100%;
   object-fit: cover;
   pointer-events: none;
-  /* background-color: red; */
   mix-blend-mode: screen;
-  background-color: ${(props) => props.color};
+  /* background-color: ${(props) => props.color}; */
+  /* background-color: transparent; */
 `;
 
 function Detail() {
@@ -35,10 +47,14 @@ function Detail() {
   const mountains_behind = useRef();
   const mountains_front = useRef();
   const btn = useRef();
-  const [testOpen, setTestOpen] = useState(false);
+
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const getColor = useSelector((state) => state.toggle.user.color);
+  const getDaily = useSelector((state) => state.toggle.user.daily);
+
+  const [scrollH, setScrollH] = useState(1);
 
   const data = useCallback(async () => {
     const qs = dispatch(getDailyQs());
@@ -48,42 +64,44 @@ function Detail() {
 
   const scrollEvent = useCallback(() => {
     let value = window.scrollY;
+    // setScrollH((window.innerHeight - window.scrollY) / window.innerHeight);
+
     try {
       stars.current.style.left = value * 0.25 + "px";
       moon.current.style.top = value * 1 + "px";
       mountains_behind.current.style.top = value * 0.5 + "px";
       mountains_front.current.style.top = value * 0 + "px";
       btn.current.style.marginTop = value * 1.5 + "px";
-    } catch (err) {
-      console.log(err);
-    }
+    } catch (err) {}
   }, []);
   useEffect(() => {
     data();
-
+    dispatch(getFeeds(0));
     window.addEventListener("scroll", scrollEvent);
     return () => {
       window.removeEventListener("scroll", scrollEvent);
     };
   }, []);
+
   return (
     <>
-      <section className={styles.mainSection}>
+      <section
+        className={styles.mainSection}
+        // style={{ opacity: `${scrollH}` }}
+      >
         <img
           src={process.env.PUBLIC_URL + "/image/parallax/stars.png"}
           id={styles["stars"]}
           alt="stars"
           ref={stars}
         />
-        <Moon
-          src={process.env.PUBLIC_URL + "/image/parallax/moon_fix.png"}
-          // id={styles["moon"]}
+        <MoonContainer
           alt="moon"
-          // style={{ backgroundColor: "red" }}
-          color={getColor ? getColor.color : "transparent"}
           ref={moon}
-        />
-
+          color={getColor ? getColor.color : "transparent"}
+        >
+          <TestMoon currentColor={getColor ? getColor.color : "#1eb599"} />
+        </MoonContainer>
         <img
           src={
             process.env.PUBLIC_URL + "/image/parallax/mountains_behind11.png"
@@ -102,12 +120,20 @@ function Detail() {
             alignItems: "center",
           }}
         >
-          <Link to="../dailyQuestion" id={styles["btn"]}>
-            Explore
-          </Link>
-          <Link to="../surveyQuestion" id={styles["btn"]}>
-            OPEN SURVEY
-          </Link>
+          <button
+            disabled={getColor ?? false}
+            id={getColor ? styles["btn__done"] : styles["btn"]}
+            onClick={() => navigate("../dailyQuestion")}
+          >
+            {getColor ? "완료" : "Color Pick"}
+          </button>
+          <button
+            disabled={getDaily ?? false}
+            id={getDaily ? styles["btn__done"] : styles["btn"]}
+            onClick={() => navigate("../surveyQuestion")}
+          >
+            {getDaily ? "완료" : "Survey"}
+          </button>
         </div>
         <img
           src={process.env.PUBLIC_URL + "/image/parallax/mountains_behind2.png"}
@@ -116,9 +142,11 @@ function Detail() {
           ref={mountains_front}
         />
       </section>
-      <Sec className={styles.sec} id="sec"></Sec>
+
+      <Sec className={styles.sec} id="sec">
+        <Peed />
+      </Sec>
     </>
-    // </div>
   );
 }
 

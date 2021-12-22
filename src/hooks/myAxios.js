@@ -6,7 +6,6 @@ const myAxios = async (
   target = "application/json; charset=utf-8",
   timeout = 10000
 ) => {
-  const targetUrl = process.env.REACT_APP_SERVER_URL + url;
   try {
     if (data) {
       const res = await axios.post(url, data, {

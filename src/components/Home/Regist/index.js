@@ -1,6 +1,5 @@
 import { useRef, useState } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router";
 import { useForm } from "react-hook-form";
 import { ErrorMessage } from "@hookform/error-message";
 import DatePick from "../Login/DatePick";
@@ -27,7 +26,6 @@ function Regist() {
   date.current = watch("birthday");
   emailRef.current = watch("email");
 
-  const navigate = useNavigate();
   const [toggle, setToggle] = useState(false);
   const [birthday, setBirthday] = useState({
     year: null,
@@ -158,7 +156,6 @@ function Regist() {
                   {...register("birthday", {
                     required: "This field required",
                   })}
-                  onChange={(e) => console.log(e)}
                   onClick={() => setToggle(!toggle)}
                   onFocus={() => setToggle(!toggle)}
                 />

@@ -10,7 +10,8 @@ import {
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { postDailyQs } from "../../redux/reducer/DailyQsReducer";
-import { useNavigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
+import { getUser } from "../../redux/reducer/ToggleReducer";
 
 const Container = styled.div`
   width: 100%;
@@ -217,7 +218,7 @@ export default function Slider({ toggle, fetch, setFetch }) {
   const slideRef = useRef(null);
   const dataList = useSelector((state) => state.dailyQuestions.qs);
   const navigate = useNavigate();
-
+  const getDaily = useSelector((state) => state.toggle.user.daily);
   const nextSlide = () => {
     if (currentSlide >= TOTAL_SLIDES) {
       setCurrentSlide(0);
@@ -236,18 +237,19 @@ export default function Slider({ toggle, fetch, setFetch }) {
   };
   const postDaily = useCallback(() => {
     const { question, answer } = dataList;
-    console.log(dataList);
     dispatch(postDailyQs({ question, answer }));
-    navigate(-1);
+    // dispatch(getUser());
+    navigate("../../detail");
   }, [dataList]);
 
   useEffect(() => {
-    console.log(answers);
     if (answers.length === 3) {
       setPostToggle(true);
-      console.log(postToggle);
     }
   }, [postToggle, answers, dataList]);
+  if (getDaily) {
+    return <Navigate to="../" />;
+  }
 
   return (
     <Container>

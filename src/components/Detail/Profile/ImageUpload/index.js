@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React from "react";
 import classes from "./ImageUpload.module.scss";
 
-const ImageUpload = ({ onChange, src }) => {
+const ImageUpload = ({ src, selectImage }) => {
   return (
     <label
       htmlFor="photo-upload"
@@ -18,8 +18,10 @@ const ImageUpload = ({ onChange, src }) => {
       <input
         className={classes.profile_input}
         id="photo-upload"
+        name="image"
         type="file"
-        onChange={onChange}
+        accept="image/*"
+        onChange={selectImage}
       />
     </label>
   );

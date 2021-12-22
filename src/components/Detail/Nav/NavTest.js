@@ -2,7 +2,6 @@ import React, { useCallback, useState } from "react";
 import classes from "./NavTest.module.scss";
 import { MenuItems } from "./MenuItems";
 import { Link } from "react-router-dom";
-import { FaTimes, FaBars } from "react-icons/fa";
 import NavTestBtn from "./NavTestBtn";
 import { useNavigate } from "react-router";
 
@@ -16,14 +15,18 @@ const NavTest = () => {
 
   return (
     <nav className={classes.navbar__Items}>
-      <Link
-        to="/#page-1"
+      <div
         style={{
           display: "flex",
           alignItems: "center",
           textDecorationLine: "none",
           underline: "none",
           color: "#5ddae9",
+          cursor: "pointer",
+        }}
+        onClick={() => {
+          window.location.href = "#page-1";
+          setTimeout(() => navigate("/"), 200);
         }}
       >
         <img
@@ -32,7 +35,7 @@ const NavTest = () => {
           className={classes.navbar__logo}
         />
         <span>VOYAGER</span>
-      </Link>
+      </div>
 
       <ul
         className={
@@ -64,7 +67,14 @@ const NavTest = () => {
           )
         )}
       </ul>
-      <NavTestBtn onClick={() => navigate("login")}>LOG IN</NavTestBtn>
+      <NavTestBtn
+        onClick={() => {
+          window.location.href = "#page-1";
+          setTimeout(() => navigate("login"), 200);
+        }}
+      >
+        LOG IN
+      </NavTestBtn>
     </nav>
   );
 };

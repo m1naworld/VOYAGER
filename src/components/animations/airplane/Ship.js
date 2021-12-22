@@ -1,14 +1,9 @@
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState } from "react";
 import classes from "./Ship.module.scss";
 import { Outlet } from "react-router-dom";
 
 const Ship = () => {
   const [step, setStep] = useState(0);
-  const [login, setLogin] = useState(false);
-
-  const handleClick = useCallback(() => {
-    setLogin(true);
-  }, []);
 
   useEffect(() => {
     setTimeout(() => setStep(true), 1000);
