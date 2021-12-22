@@ -54,8 +54,6 @@ function Detail() {
   const getColor = useSelector((state) => state.toggle.user.color);
   const getDaily = useSelector((state) => state.toggle.user.daily);
 
-  const [scrollH, setScrollH] = useState(1);
-
   const data = useCallback(async () => {
     const qs = dispatch(getDailyQs());
     dispatch(getSurveyQs());
@@ -76,7 +74,7 @@ function Detail() {
   }, []);
   useEffect(() => {
     data();
-    dispatch(getFeeds(0));
+    dispatch(getFeeds(1));
     window.addEventListener("scroll", scrollEvent);
     return () => {
       window.removeEventListener("scroll", scrollEvent);
