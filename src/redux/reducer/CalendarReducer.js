@@ -9,10 +9,8 @@ export const getCalendar = createAsyncThunk(
     let result = date;
     if (typeof date === "object") {
       result = `${date.getFullYear()}-${date.getMonth() + 1}`;
-      console.log(result);
     }
     const res = await axios.post("/api/send/calendar", { date: result });
-    console.log(res);
     return res.data.sendcalendar;
   }
 );
@@ -20,9 +18,7 @@ export const getCalendar = createAsyncThunk(
 export const postDailyDiary = createAsyncThunk(
   "Calendar/postCalendar",
   async (data) => {
-    console.log(data);
     const res = await axios.post("/api/data/addDiary", data);
-    console.log(res);
   }
 );
 
@@ -32,17 +28,12 @@ export const CalendarSlice = createSlice({
   reducers: {
     changeLastDiary: (state, { payload }) => {
       const data = state.lastDiary.filter((m) => {
-        console.log(m.date === payload.date);
         return m.date !== payload.date;
       });
       data.push(payload);
       state.lastDiary = data;
     },
-    // getDiary: (state, { payload }) => {
-    //   const data = state.lastDiary.filter((m) => m.date === payload);
-    // },
     clickedDay: (state, { payload }) => {
-      console.log(payload);
       state.clickedDay = payload;
     },
     editMention: (state, { payload }) => {
@@ -62,7 +53,6 @@ export const CalendarSlice = createSlice({
     },
     [postDailyDiary.rejected]: (state, action) => {
       state.isLoading = false;
-      console.log(action);
       state.error = action.error;
     },
   },
@@ -76,7 +66,6 @@ export const getCalendarList = (state) => {
 };
 
 export const getCurrentDiary = (state, date) => {
-  // return state.Calendar;
   return state.Calendar?.Calendar?.filter(
     (m) => m.date.substring(0, 10) === date
   );

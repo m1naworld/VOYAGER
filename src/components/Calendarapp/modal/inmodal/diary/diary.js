@@ -6,7 +6,6 @@ import { editMention } from "../../../../../redux/reducer/CalendarReducer";
 const DiaryResults = styled.div`
   width: 80%;
   height: 80%;
-  /* border: 2px solid tomato; */
   text-align: left;
   overflow: auto;
   text-align: center;
@@ -63,7 +62,6 @@ function Diary({ currentDiary }) {
           수정
         </DiaryBtn>
         <DiaryBtn>삭제</DiaryBtn>
-        {/* {check && <p>{window.localStorage.getItem('mention')}</p>} */}
       </div>
     </>
   );

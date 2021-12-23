@@ -23,8 +23,6 @@
         infinite;
     }
 
-    // top 150px ~390px
-    // left 20px 180px
     $i: 1;
     @while $i <= 20 {
       $left: 10 + random(80);
@@ -37,33 +35,6 @@
       $i: $i + 1;
     }
 
-    // top -> 0~ 95%
-    // left -> 50%
-    // .logo__stars:nth-child(2) {
-    //   animation-delay: 0.8s;
-    //   left: 58%;
-    //   top: 32%;
-    // }
-    // .logo__stars:nth-child(3) {
-    //   animation-delay: 2s;
-    //   left: 88%;
-    //   top: 60%;
-    // }
-    // .logo__stars:nth-child(4) {
-    //   animation-delay: 2.5s;
-    //   left: 20%;
-    //   top: 20%;
-    // }
-    // .logo__stars:nth-child(5) {
-    //   animation-delay: 2.8s;
-    //   left: 32%;
-    //   top: 10%;
-    // }
-    // .logo__stars:nth-child(6) {
-    //   animation-delay: 3.2s;
-    //   left: 32%;
-    //   top: 10%;
-    // }
   }
   .logo__main {
     position: absolute;
@@ -104,9 +75,6 @@
       top: 0;
     }
 
-    // } @else {
-    //   $i: $i - 1;
-    // }
   }
 }
 @keyframes Starry_mobile {

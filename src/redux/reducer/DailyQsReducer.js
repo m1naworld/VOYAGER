@@ -20,7 +20,6 @@ export const getSurveyQs = createAsyncThunk(
   "dailyQuestions/fetchSurveyQs",
   async () => {
     const res = await axios.get("/api/send/surveyQuestion");
-    console.log(res);
     return res.data.question;
   }
 );
@@ -29,7 +28,6 @@ export const getDailyQs = createAsyncThunk(
   "dailyQuestions/fetchDailyQs",
   async () => {
     const res = await axios.get("/api/send/dailyQuestion");
-    console.log(res);
     return res.data.question;
   }
 );
@@ -71,20 +69,14 @@ export const DailyQsSlice = createSlice({
   initialState,
   reducers: {
     addAnswer: (state, { payload }) => {
-      console.log(payload);
-      state.daily.answer.map((m) => console.log(m));
       const data = state.daily.answer.filter((m) => m.label !== payload.label);
       data.push(payload);
       state.daily.answer = data;
-      // state.daily.qs.push(payload);
     },
     addTextAnswer: (state, { payload }) => {
-      console.log(payload);
-      state.daily.answer.map((m) => console.log(m));
       const data = state.qs.answer.filter((m) => m.index !== payload.index);
       data.push(payload);
       state.qs.answer = data;
-      // state.daily.qs.push(payload);
     },
   },
   extraReducers: {
@@ -124,7 +116,6 @@ export const DailyQsSlice = createSlice({
     },
     [postDailyQs.fulfilled]: (state, { payload }) => {
       state.qsLoading = false;
-      // state.color = payload.data.color;
     },
     [postDailyQs.rejected]: (state, { payload }) => {
       state.qsLoading = false;

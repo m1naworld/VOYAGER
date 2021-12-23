@@ -22,7 +22,6 @@ const NicknameRouter = ({ loggedIn }) => {
       }
       return res;
     } catch (e) {
-      console.log(e);
       return e;
     }
   };

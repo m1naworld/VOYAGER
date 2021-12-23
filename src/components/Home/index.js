@@ -21,7 +21,6 @@ const Home = () => {
   return !loading ? (
     <div className={classes.home__container}>
       <ReactFullpage
-        //fullpage options
         licenseKey={"2E84F30F-B2A14C7F-AA0EA463-F1F631DC"}
         scrollBar={!mobile}
         scrollingSpeed={800}

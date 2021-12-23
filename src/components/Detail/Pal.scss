@@ -28,24 +28,6 @@
     background: linear-gradient(to left, #141316 60%, transparent);
   }
 
-  // > ul {
-  //   --x1: 0.1;
-  //   --y1: 0.67;
-  //   --x2: 0.29;
-  //   --y2: 0.98;
-
-  //   --originalCurve: cubic-bezier(var(--x1), var(--y1), var(--x2), var(--y2));
-  //   --reversedCurve: cubic-bezier(
-  //     calc(1 - var(--x2)),
-  //     calc(1 - var(--y2)),
-  //     calc(1 - var(--x1)),
-  //     calc(1 - var(--y1))
-  //   );
-
-  //   --length: 1300ms;
-  //   animation: slideIn var(--length) forwards var(--originalCurve);
-  // }
-
   .container {
     display: flex;
     width: 100%;
@@ -65,104 +47,6 @@
   }
 }
 
-/* Carousel Variables */
-
-// .Wallop-item {
-//   --x1: 0.1;
-//   --y1: 0.67;
-//   --x2: 0.29;
-//   --y2: 0.98;
-
-//   --originalCurve: cubic-bezier(var(--x1), var(--y1), var(--x2), var(--y2));
-//   --reversedCurve: cubic-bezier(
-//     calc(1 - var(--x2)),
-//     calc(1 - var(--y2)),
-//     calc(1 - var(--x1)),
-//     calc(1 - var(--y1))
-//   );
-
-//   --length: 1300ms;
-
-//   visibility: hidden;
-//   position: absolute;
-//   top: 0;
-//   left: 0;
-//   width: 100%;
-// }
-
-// .Wallop-item--current {
-//   visibility: visible;
-//   position: relative;
-
-//   .slide__heading,
-//   .slide__quote,
-//   .slide__cite {
-//     animation: slideIn var(--length) forwards var(--originalCurve);
-//   }
-// }
-
-// .Wallop-item--showPrevious {
-//   .slide__heading,
-//   .slide__quote,
-//   .slide__cite {
-//     animation: slideOut var(--length) var(--delay) forwards reverse
-//       var(--reversedCurve);
-//   }
-// }
-
-// .Wallop-item--showNext {
-//   .slide__heading,
-//   .slide__quote,
-//   .slide__cite {
-//     animation: slideIn var(--length) var(--delay) forwards var(--originalCurve);
-//   }
-// }
-
-// .Wallop-item--hidePrevious,
-// .Wallop-item--hideNext {
-//   --length: 500ms;
-//   visibility: visible;
-// }
-
-// .Wallop-item--hidePrevious {
-//   .slide__heading,
-//   .slide__quote,
-//   .slide__cite {
-//     animation: slideOut var(--length) forwards var(--originalCurve);
-//   }
-// }
-
-// .Wallop-item--hideNext {
-//   .slide__heading,
-//   .slide__quote,
-//   .slide__cite {
-//     animation: slideIn var(--length) forwards reverse var(--reversedCurve);
-//   }
-// }
-
-// /* Custom keyframe animation */
-
-// @keyframes slideIn {
-//   0% {
-//     transform: translate3d(50%, 0, 0);
-//     opacity: 0;
-//   }
-//   100% {
-//     transform: translate3d(0, 0, 0);
-//     opacity: 1;
-//   }
-// }
-
-// @keyframes slideOut {
-//   0% {
-//     transform: translate3d(0, 0, 0);
-//     opacity: 1;
-//   }
-//   100% {
-//     transform: translate3d(-50%, 0, 0);
-//     opacity: 0;
-//   }
-// }
 @media screen and (max-width: 420px) {
   .wrapper {
     height: 100vh;

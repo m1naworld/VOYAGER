@@ -1,7 +1,6 @@
 import NavTest from "../../components/Detail/Nav/NavTest";
 import { Outlet, Navigate } from "react-router";
 import classes from "./HomeRouter.module.scss";
-// import { useSelector } from "react-redux";
 
 function HomeRouter({ login }) {
   if (!login) {

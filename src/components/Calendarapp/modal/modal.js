@@ -5,8 +5,6 @@ import Diary from "./inmodal/diary/diary";
 import TextArea from "./inmodal/textarea/textarea";
 import { useSelector } from "react-redux";
 
-// import styled from 'styled-components'
-
 function Modal({ date, toggle, calendarList }) {
   const toggleMention = useSelector((state) => state.Calendar.showMention);
   const currentDiary = calendarList?.filter((m) => m.date === date);

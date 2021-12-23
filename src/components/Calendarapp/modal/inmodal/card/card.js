@@ -53,8 +53,6 @@ const Cardview = styled.div`
     width: 300%;
     transition: all 0.5s ease-out;
     transform: ${({ idx }) => `translate(-${idx * 33.3}%,0%)`};
-
-    /* transform: translate(0%, 0%); */
   }
 `;
 
@@ -65,7 +63,6 @@ const Card = styled.div`
   transform-style: preserve-3d;
   transition: all 1s ease;
   border: 2px solid white;
-  /* justify-content: space-around; */
   display: flex;
 
   &:hover {

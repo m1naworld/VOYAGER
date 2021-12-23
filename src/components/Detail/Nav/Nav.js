@@ -7,7 +7,6 @@ import { useDispatch } from "react-redux";
 import { HiArrowCircleLeft } from "react-icons/hi";
 
 const Nav = ({ back }) => {
-  console.log(back);
   const [toggle, setToggle] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -24,7 +23,6 @@ const Nav = ({ back }) => {
       const res = await axios.get("/api/auth/logout");
       dispatch(toggleLogin(false));
       dispatch(editUser(""));
-      console.log(res);
     } catch (err) {}
   }, [dispatch]);
   useEffect(() => {}, [back]);
@@ -33,7 +31,6 @@ const Nav = ({ back }) => {
       style={{
         color: "white",
         fontSize: "2.5rem",
-        // position: "absolute",
         left: "3%",
         top: "4%",
         cursor: "pointer",

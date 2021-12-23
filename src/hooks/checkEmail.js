@@ -7,7 +7,6 @@ export async function checkEmail(email) {
       { email },
       { timeout: 30000 }
     );
-    console.log(result);
     return result.data;
   } catch (err) {
     return err.response.data;

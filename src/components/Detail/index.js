@@ -13,19 +13,10 @@ import { getFeeds } from "../../redux/reducer/FeedReducer";
 
 const Sec = styled.div`
   position: relative;
-  /* height: 100vh; */
   width: 100vw;
   display: flex;
   flex-direction: column;
   align-items: center;
-  /* &:before {
-    content: "";
-    width: 100%;
-    height: 100px;
-    position: absolute;
-    top: -100px;
-    background: linear-gradient(to top, #0b787f, transparent);
-  } */
 `;
 
 export const MoonContainer = styled.div`
@@ -37,8 +28,6 @@ export const MoonContainer = styled.div`
   object-fit: cover;
   pointer-events: none;
   mix-blend-mode: screen;
-  /* background-color: ${(props) => props.color}; */
-  /* background-color: transparent; */
 `;
 
 function Detail() {
@@ -62,7 +51,6 @@ function Detail() {
 
   const scrollEvent = useCallback(() => {
     let value = window.scrollY;
-    // setScrollH((window.innerHeight - window.scrollY) / window.innerHeight);
 
     try {
       stars.current.style.left = value * 0.25 + "px";
@@ -83,10 +71,7 @@ function Detail() {
 
   return (
     <>
-      <section
-        className={styles.mainSection}
-        // style={{ opacity: `${scrollH}` }}
-      >
+      <section className={styles.mainSection}>
         <img
           src={process.env.PUBLIC_URL + "/image/parallax/stars.png"}
           id={styles["stars"]}

@@ -8,7 +8,6 @@ import {
   editUser,
   toggleLogin,
 } from "../../redux/reducer/ToggleReducer";
-import Spinner from "../animations/Spinner/Spinner";
 import AstronautSpinner from "../animations/Spinner/AstronautSpinner";
 
 const { Kakao } = window;
@@ -26,10 +25,6 @@ function KakaoAuth() {
           code: param,
           client_secret: process.env.REACT_APP_KAKAO_SECRET,
         });
-        // const res = await myAxios(
-        //   "https://kauth.kakao.com/oauth/token",
-        //   payload
-        // );
         const res = await axios.post(
           "https://kauth.kakao.com/oauth/token",
           payload
@@ -45,8 +40,6 @@ function KakaoAuth() {
           kakao_account: { email, gender, age_range: age, birthday: birth },
           properties: { nickname: name },
         } = data;
-        console.log(data);
-        // birth = `${birth.substring(0, 2)}-${birth.substring(2, 4)}`;
         const userDate = {
           snsId: String(snsId),
           email,
@@ -60,14 +53,12 @@ function KakaoAuth() {
           ...userDate,
         });
 
-        console.log(result);
         dispatch(editUser(result.data.user));
         dispatch(toggleLogin(true));
         navigate("/");
       } catch (err) {
         dispatch(toggleLogin(err.response.data.success));
         dispatch(editError(err.response.data.message));
-        console.log(err.response);
         navigate("/login");
       }
     },

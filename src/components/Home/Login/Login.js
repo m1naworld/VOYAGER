@@ -48,16 +48,13 @@ function Login() {
         timeout: 3000,
       });
       if (result.status === 204) {
-        console.log(result);
         dispatch(toggleLogin(true));
         navigate("/detail");
       }
       if (result.status === 202) {
-        console.log(result.data);
         setConfirm(result.data);
       }
     } catch (err) {
-      console.log(err.response);
       const {
         data: { success, message },
       } = err.response;
@@ -72,7 +69,6 @@ function Login() {
         <>
           {errorMsg && <h1>{errorMsg}</h1>}
           <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
-            {/* <label htmlFor="email">Email</label> */}
             <input
               placeholder="Email"
               {...register("email", {
@@ -88,7 +84,6 @@ function Login() {
               })}
             />
             <ErrorMessage errors={errors} name="email" />
-            {/* <label htmlFor="password">Password</label> */}
             <input
               placeholder="Password"
               type="password"

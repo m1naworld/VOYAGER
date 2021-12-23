@@ -23,7 +23,6 @@ const Peed = () => {
         flexDirection: "column",
       }}
     >
-      {/* 4 */}
       <div className={cls.peed__nav__wrapper}>
         <div style={{ display: "flex", height: "100px" }}>
           {qs.map((m) => {
@@ -33,7 +32,6 @@ const Peed = () => {
                 className={cls.btn}
                 onClick={() => setSlide(m.index)}
               >
-                {/* {m.qs} */}
                 {slide === m.index ? (
                   <MdDoneAll />
                 ) : (
@@ -50,13 +48,7 @@ const Peed = () => {
           ></div>
         </div>
       </div>
-      <div
-        style={
-          {
-            // flexDirection: "column",
-          }
-        }
-      >
+      <div>
         <div className={cls.peed__title}>{qs[slide]?.qs}</div>
         <div
           style={{
@@ -79,8 +71,6 @@ const Peed = () => {
           )}
         </div>
       </div>
-      {/* </div> */}
-      {/* </div> */}
     </div>
   );
 };

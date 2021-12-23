@@ -8,10 +8,8 @@ export const useFetchUser = async () => {
     const res = await axios.get("/api/auth/user", { timeout: 3000 });
     const re = await axios.get("/api/send/user");
     dispatch(editUser(res.data.user));
-    console.log(re);
     return res.data.user;
   } catch (err) {
-    console.log(err);
     return err;
   }
 };

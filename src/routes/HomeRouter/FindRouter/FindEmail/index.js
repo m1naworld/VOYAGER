@@ -45,7 +45,6 @@ const FindEmail = () => {
     };
     try {
       const res = await axios.post("/api/auth/findEmail", data);
-      console.log(res);
       setOk(res.data);
     } catch (err) {
       setOk(err.response.data);

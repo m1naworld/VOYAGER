@@ -10,11 +10,9 @@ const MainLogo = () => {
         alt="favicon"
       />
       <h1 className={classes.ship__title}>VOYAGER</h1>
-      {/* <button onClick={handleClick} className={classes.ship__btn}> */}
       <Link className={classes.MainLogo__link} to="login">
         LOGIN
       </Link>
-      {/* </button> */}
     </>
   );
 };

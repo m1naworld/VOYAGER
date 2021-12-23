@@ -14,19 +14,14 @@ const FeedSelect = ({ m, slide }) => {
     try {
       const res = await axios.post("/api/data/likeFeed", {
         _id: feedInfo._id,
-        // index: feedInfo.index,
-        // status: !like,
       });
-      console.log(res);
       setLike(!like);
       if (like) {
         setLikeCount((c) => c - 1);
       } else {
         setLikeCount((c) => c + 1);
       }
-    } catch (err) {
-      console.log(err.response);
-    }
+    } catch (err) {}
   };
 
   useEffect(() => {

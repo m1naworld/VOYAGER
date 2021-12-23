@@ -9,16 +9,12 @@ const EmailCheck = () => {
   const dispatch = useDispatch();
   const { search } = useLocation();
   const navigate = useNavigate();
-  console.log("IN");
   const postId = async (id) => {
     try {
       await axios.post("/api/confirm/confirm", { id });
       dispatch(checkLoading(false));
-      console.log("DONE");
       navigate("/");
     } catch (err) {
-      console.log(err.response);
-      console.log("ERROR");
       dispatch(checkLoading(false));
       navigate("/");
     }

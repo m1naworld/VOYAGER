@@ -24,12 +24,9 @@ export const DiarySaveBtn = styled.button`
 `;
 
 const TextBox = styled.textarea`
-  /* border: 8;
-  margin: 6; */
   resize: none;
 
   overflow-y: hidden;
-  /* aria-hiddden: true; */
   background-color: transparent;
   color: white;
   text-align: center;
@@ -47,22 +44,7 @@ const TextBox = styled.textarea`
 
 function TextArea({ date, currentDiary }) {
   const dispatch = useDispatch();
-  const btn = useRef();
   const { register, handleSubmit } = useForm();
-
-  const formStyle = {
-    textArea: {
-      border: 8,
-      margin: 6,
-      resize: "none",
-      ariaHidden: "true",
-      backgroundColor: "transparent",
-      color: "white",
-      fontSize: "2.2rem",
-      height: "100%",
-    },
-  };
-
   const onSubmit = async (e) => {
     dispatch(postDailyDiary({ date, diary: e.text }));
     dispatch(getCalendar(date));
@@ -84,10 +66,7 @@ function TextArea({ date, currentDiary }) {
           className="input"
           type="text"
           placeholder="일기(300자 제한)"
-          // style={formStyle.textArea}
-
           maxLength="300"
-          // rows="5"
           defaultValue={
             currentDiary !== undefined && currentDiary?.length !== 0
               ? currentDiary[0].diary

@@ -30,13 +30,9 @@ const PasswordCheck = () => {
         _id: id,
         password: vConfirm.current,
       });
-      console.log("DONE");
       dispatch(checkLoading(false));
-      window.location.href = "http://raymondubuntu.ddns.net/";
-      // navigate("../../");
+      window.location.href = "https://voyager.or.kr/";
     } catch (err) {
-      console.log(err.response);
-      console.log("ERROR");
       dispatch(checkLoading(false));
       navigate("../../");
     }

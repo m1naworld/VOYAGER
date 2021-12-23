@@ -20,11 +20,6 @@ function NaverAuth() {
       callbackUrl: `${window.location.origin}/oauth/naver`,
       callbackHandle: true,
       isPopup: false,
-      // loginButton: {
-      //   color: "green",
-      //   type: 3,
-      //   height: 10,
-      // },
     });
     login.init();
     login.getLoginStatus(async (status) => {
@@ -54,7 +49,6 @@ function NaverAuth() {
           birthyear,
           phone,
         };
-        console.log(login.user);
         try {
           const result = await axios.post("/api/auth/access", data);
           dispatch(editUser(result.data.user));
