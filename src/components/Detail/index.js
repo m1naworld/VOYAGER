@@ -28,7 +28,7 @@ const Sec = styled.div`
   } */
 `;
 
-const MoonContainer = styled.div`
+export const MoonContainer = styled.div`
   position: absolute;
   top: 0;
   left: 0;

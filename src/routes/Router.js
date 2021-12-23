@@ -14,7 +14,6 @@ import NaverAuth from "../components/oauth/NaverAuth";
 import Detail from "../components/Detail";
 import Profile from "../components/Detail/Profile";
 import Home from "../components/Home";
-import DailyQuestion from "../components/DailyQuestion";
 
 // Utils
 import { useSelector } from "react-redux";
