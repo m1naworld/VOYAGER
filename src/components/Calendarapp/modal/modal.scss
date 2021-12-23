@@ -2,12 +2,12 @@
  */
 
 @font-face {
-  font-family: 'IM_Hyemin-Regular';
-  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2106@1.1/IM_Hyemin-Regular.woff2') format('woff');
+  font-family: "IM_Hyemin-Regular";
+  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2106@1.1/IM_Hyemin-Regular.woff2")
+    format("woff");
   font-weight: normal;
   font-style: normal;
 }
-
 
 .ModalBack {
   visibility: visible;
@@ -17,11 +17,11 @@
   box-sizing: border-box;
   top: 50%;
   left: 50%;
-  transform: translate(-50%,-50%);
+  transform: translate(-50%, -50%);
   width: 80vw;
   height: 85vh;
   background-color: rgb(0, 0, 0);
-  z-index:3;
+  z-index: 3;
   opacity: 1;
   text-align: center;
   padding: 0;
@@ -49,17 +49,17 @@
   width: 100%;
   font-size: 19px;
   align-items: center;
-  border-bottom: 3px solid #FFF;
+  border-bottom: 3px solid #fff;
   background-color: transparent;
 }
 
 .body_card {
-  height:44%;
+  height: 44%;
   width: 100%;
   position: relative;
   padding: 0;
   display: flex;
-  border-bottom: 3px solid #FFF;
+  border-bottom: 3px solid #fff;
 }
 
 .body_textarea {
@@ -70,7 +70,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-
+  overflow-x: hidden;
 }
 
 .body_diary {
@@ -83,7 +83,7 @@
 .saveBtn {
   margin: 10px;
   padding: 10px 20px;
-  border: 2px solid #FFF;
+  border: 2px solid #fff;
   border-radius: 3px;
   background: transparent;
   color: white;
@@ -94,11 +94,10 @@
   cursor: pointer;
 }
 
-
-
 @keyframes hide {
-  0%, 100% {
+  0%,
+  100% {
     -webkit-transform: translateY(-100%);
-            transform: translateY(-100%);
+    transform: translateY(-100%);
   }
 }

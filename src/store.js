@@ -10,7 +10,6 @@ import logger from "redux-logger";
 export const store = configureStore({
   reducer: {
     toggle: ToggleReducer,
-    data: TodayEmotionReducer,
     dailyQuestions: DailyQsReducer,
     Calendar: CalendarReducer,
     Feed: FeedReducer,

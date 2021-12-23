@@ -33,9 +33,7 @@ const Profile = () => {
   const [loading, setLoading] = useState(false);
   const [defaultImage, setDefaultImage] = useState(
     userImage ??
-      process.env.REACT_APP_PROFILE_IMG +
-        "/" +
-        process.env.REACT_APP_DEFAULT_IMG
+      process.env.REACT_APP_PROFILE_IMG + process.env.REACT_APP_DEFAULT_IMG
   );
 
   const { handleSubmit, register } = useForm({
@@ -68,6 +66,7 @@ const Profile = () => {
       //Usage example:
       urltoFile(croppedImage, fileInfo.name, fileInfo.type).then(
         async function (file) {
+          console.log(file);
           await handleImage(file);
         }
       );
@@ -80,14 +79,15 @@ const Profile = () => {
   const handleImage = async (e) => {
     // e.preventDefault();
     // if (e.target.files && e.target.files.length > 0) {
-    const reader = new FileReader();
     // const file = e.target.files[0];
     const file = e;
-    console.log(file);
-    reader.onloadend = () => {
+
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onloadend = async () => {
       setDefaultImage(reader.result);
     };
-    reader.readAsDataURL(file);
+
     const formData = new FormData();
     formData.append("image", file);
     const res = await axios.post("/api/data/userImg", formData, {
@@ -213,6 +213,7 @@ function urltoFile(url, filename, mimeType) {
       return res.arrayBuffer();
     })
     .then(function (buf) {
+      console.log(buf);
       return new File([buf], filename, { type: mimeType });
     });
 }

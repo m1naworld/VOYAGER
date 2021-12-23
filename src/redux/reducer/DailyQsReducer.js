@@ -73,7 +73,7 @@ export const DailyQsSlice = createSlice({
     addAnswer: (state, { payload }) => {
       console.log(payload);
       state.daily.answer.map((m) => console.log(m));
-      const data = state.daily.answer.filter((m) => m.index !== payload.index);
+      const data = state.daily.answer.filter((m) => m.label !== payload.label);
       data.push(payload);
       state.daily.answer = data;
       // state.daily.qs.push(payload);
@@ -92,7 +92,6 @@ export const DailyQsSlice = createSlice({
       state.qsLoading = true;
     },
     [getDailyQs.fulfilled]: (state, { payload }) => {
-      console.log(payload);
       state.qs.question = payload._id;
       state.qs.qsList = payload.data;
       state.qsLoading = false;
@@ -104,7 +103,6 @@ export const DailyQsSlice = createSlice({
       state.qsLoading = true;
     },
     [getSurveyQs.fulfilled]: (state, { payload }) => {
-      console.log(payload);
       state.daily.qs = payload;
       state.qsLoading = false;
     },
@@ -113,29 +111,23 @@ export const DailyQsSlice = createSlice({
     },
     [postSurveyQs.pending]: (state, action) => {
       state.qsLoading = true;
-      console.log(action);
     },
     [postSurveyQs.fulfilled]: (state, { payload }) => {
-      console.log(payload);
       state.qsLoading = false;
       state.color = payload.data.color;
     },
     [postSurveyQs.rejected]: (state, action) => {
       state.qsLoading = false;
-      console.log(action);
     },
     [postDailyQs.pending]: (state, action) => {
       state.qsLoading = true;
-      console.log(action);
     },
     [postDailyQs.fulfilled]: (state, { payload }) => {
-      console.log(payload.data);
       state.qsLoading = false;
       // state.color = payload.data.color;
     },
     [postDailyQs.rejected]: (state, { payload }) => {
       state.qsLoading = false;
-      console.log(payload);
     },
   },
 });

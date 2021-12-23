@@ -9,12 +9,13 @@ const FeedSelect = ({ m, slide }) => {
   });
   const [like, setLike] = useState(m.status);
   const [likeCount, setLikeCount] = useState(m.likeCount);
+
   const postLike = async () => {
     try {
       const res = await axios.post("/api/data/likeFeed", {
         _id: feedInfo._id,
-        index: feedInfo.index,
-        status: !like,
+        // index: feedInfo.index,
+        // status: !like,
       });
       console.log(res);
       setLike(!like);
@@ -29,6 +30,8 @@ const FeedSelect = ({ m, slide }) => {
   };
 
   useEffect(() => {
+    setLikeCount(m.likeCount);
+    setLike(m.status);
     setFeedInfo({
       _id: m._id,
       index: slide,

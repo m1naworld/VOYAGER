@@ -35,6 +35,7 @@ import FindPassword from "./HomeRouter/FindRouter/FindPassword";
 import Calendar from "../components/Calendarapp/calendar";
 import ErrorPage from "../components/404";
 import Slider from "../components/Detail/Pal";
+import Question1 from "../components/DailyQuestion/SurveyPage";
 
 function Router() {
   const loggedIn = useSelector((state) => state.toggle.isLoggedIn);
@@ -67,7 +68,7 @@ function Router() {
               />
             }
           />
-          <Route path="dailyQuestion" element={<DailyQuestion />} />
+          <Route path="dailyQuestion" element={<Question1 />} />
           <Route path="surveyQuestion" element={<Slider />} />
           <Route path="calendar" element={<Calendar />} />
           <Route path="profile" element={<ProfileRouter />}>

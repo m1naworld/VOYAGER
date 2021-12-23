@@ -9,7 +9,7 @@ import {
 } from "../../../../../redux/reducer/CalendarReducer";
 import { DiaryBtn } from "../diary/diary";
 
-export const DiarySaveBtn = styled.div`
+export const DiarySaveBtn = styled.button`
   margin: 10px;
   padding: 10px 20px;
   border: 2px solid #fff;
@@ -96,10 +96,7 @@ function TextArea({ date, currentDiary }) {
           {...register("text")}
         />
 
-        <DiaryBtn
-          style={{ margin: "0 auto", marginTop: "10px" }}
-          onClick={() => btn.current.click()}
-        >
+        <DiaryBtn style={{ margin: "0 auto", marginTop: "10px" }} type="submit">
           SUBMIT
         </DiaryBtn>
       </form>

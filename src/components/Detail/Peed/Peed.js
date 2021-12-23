@@ -6,10 +6,13 @@ import { MdDoneAll } from "react-icons/md";
 import { RiSpaceShipFill } from "react-icons/ri";
 import FeedSelect from "./FeedSelect/FeedSelect";
 import ErrorPage from "../../404";
+import AstronautSpinner from "../../animations/Spinner/AstronautSpinner";
 const Peed = () => {
   const [slide, setSlide] = useState(0);
   const qs = useSelector((state) => state.dailyQuestions.qs.qsList);
   const feeds = useSelector((state) => state.Feed.feeds);
+  const loading = useSelector((state) => state.Feed.feedLoading);
+
   useEffect(() => {}, [slide]);
   return (
     <div
@@ -65,7 +68,9 @@ const Peed = () => {
             justifyContent: "space-evenly",
           }}
         >
-          {feeds && feeds?.length ? (
+          {loading ? (
+            <AstronautSpinner />
+          ) : feeds && feeds?.length ? (
             feeds[slide].map((m, idx) => {
               return <FeedSelect m={m} slide={slide} key={idx} />;
             })

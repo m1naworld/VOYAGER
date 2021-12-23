@@ -9,9 +9,25 @@ const DiaryResults = styled.div`
   /* border: 2px solid tomato; */
   text-align: left;
   overflow: auto;
+  text-align: center;
+  font-size: 1.8rem;
+  padding: 110px 0;
+  height: 300px;
+  overflow-x: hidden;
+  word-wrap: break-word;
+  & span {
+    white-space: pre;
+  }
+  @media screen and (max-width: 420px) {
+    height: 200px;
+    padding: 0;
+    & span {
+      white-space: normal;
+    }
+  }
 `;
 
-export const DiaryBtn = styled.div`
+export const DiaryBtn = styled.button`
   margin: 10px;
   padding: 10px 20px;
   border: 2px solid #fff;
@@ -35,7 +51,7 @@ function Diary({ currentDiary }) {
     <>
       <DiaryResults className="diary-result">
         {currentDiary !== undefined && currentDiary?.length !== 0 && (
-          <pre>{currentDiary[0].diary}</pre>
+          <span>{currentDiary[0].diary}</span>
         )}
       </DiaryResults>
       <div>

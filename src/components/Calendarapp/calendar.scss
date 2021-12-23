@@ -201,7 +201,7 @@ b {
 }
 
 .stars {
-  background: black
+  background: rgba(0, 0, 0, 0.7)
     url(https://s3-us-west-2.amazonaws.com/s.cdpn.io/1231630/stars.png) repeat;
   position: absolute;
   top: 0;
@@ -230,6 +230,27 @@ b {
   -o-animation: move-background 70s linear infinite;
   -webkit-animation: move-background 70s linear infinite;
   animation: move-background 70s linear infinite;
+}
+
+.fc-day-today {
+  background: rgba(12, 114, 248, 0.1) !important;
+}
+
+// .fc-day-today .fc-daygrid-day-number {
+//    background-color: rgb(247, 82, 82);
+//    border-radius: 50%;
+// }
+
+.fc-daygrid-day-frame:hover {
+  background-color: rgb(58, 67, 67);
+  opacity: 0.7;
+}
+
+.fc-daygrid-day-number {
+  font-size: 2vw;
+  @media screen and (max-width: 800px) {
+    font-size: 3vw;
+  }
 }
 
 @media screen and (max-width: 800px) {

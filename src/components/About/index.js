@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import classes from "./index.module.scss";
 import { BsGithub, BsInstagram } from "react-icons/bs";
 import { Link } from "react-router-dom";
+import { SiNaver } from "react-icons/si";
 
 const About = () => {
   const [number, setNumber] = useState(6);
@@ -104,6 +105,13 @@ const About = () => {
                 rel="noreferrer"
               >
                 <BsInstagram />
+              </a>
+              <a
+                href="https://blog.naver.com/m1nna"
+                target="_blank"
+                rel="noreferrer"
+              >
+                <SiNaver />
               </a>
             </div>
           </div>
@@ -225,7 +233,7 @@ const About = () => {
 
           <h1>DOVARD</h1>
           <div className={classes.about__content}>
-            <h2>BACK-END</h2>
+            <h2>FRONT-END</h2>
             <div className={classes.about__link__wrapper}>
               <a
                 href="https://github.com/dovard"

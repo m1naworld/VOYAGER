@@ -98,6 +98,9 @@
     transform: scale(1.3);
     color: red;
   }
+  &:hover {
+    transform: scale(1.2);
+  }
 }
 .red {
   color: red;
