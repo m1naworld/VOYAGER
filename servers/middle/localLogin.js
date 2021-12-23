@@ -24,8 +24,7 @@ module.exports = () => {
               success: false,
               message: "등록되지 않은 이메일 입니다.",
             });
-          }
-          if (users && users.provider === "local") {
+          } else if (users && users.provider === "local") {
             const validate = await bycrypt.compare(password, users.password);
             if (!validate) {
               return done(null, false, {
@@ -43,8 +42,7 @@ module.exports = () => {
               success: true,
               message: "로그인 성공!",
             });
-          }
-          if (users && users.provider !== "local") {
+          } else if (users && users.provider !== "local") {
             return done(null, users.email, {
               success: false,
               message: `${users.provider}로 이미 가입된 유저 입니다.`,

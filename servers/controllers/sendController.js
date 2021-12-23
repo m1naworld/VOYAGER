@@ -4,6 +4,7 @@ import { mydaily } from "../models/myDaily";
 import { mydiary } from "../models/myDiary";
 import { survey } from "../models/survey";
 import { User } from "../models/User";
+import { feed } from "../models/feed";
 import moment from "moment";
 
 require("moment-timezone");
@@ -32,7 +33,7 @@ export const sendDailyQeustion = async (req, res) => {
   try {
     const count = await dailyquestion.count();
 
-    const fixedDay = new Date("2021-11-29").setHours(0, 0, 0, 0);
+    const fixedDay = new Date("2021-12-23").setHours(0, 0, 0, 0);
 
     const today = new Date();
 
@@ -167,6 +168,58 @@ export const sendCalendar = async (req, res) => {
     }
     console.log(sendcalendar);
     return res.status(200).json({ success: true, sendcalendar });
+  } catch (error) {
+    console.log(error);
+    return res.status(400).json({ success: false, error });
+  }
+};
+
+// send feed
+export const sendFeed = async (req, res) => {
+  try {
+    console.log(req.body);
+    const snsId = req.snsId;
+    console.log(snsId);
+    const today = moment().format("YYYY-MM-DD");
+    let page = req.body.count;
+    page *= 9;
+    const onefeed = await feed
+      .find({ date: today, "answer.index": 0 })
+      .sort({ likeCount: -1 })
+      .limit(page);
+    const twofeed = await feed
+      .find({ date: today, "answer.index": 1 })
+      .sort({ likeCount: -1 })
+      .limit(page);
+    const threefeed = await feed
+      .find({ date: today, "answer.index": 2 })
+      .sort({ likeCount: -1 })
+      .limit(page);
+    console.log(onefeed);
+
+    for (let i in onefeed) {
+      console.log("되냐");
+      let post = onefeed[i].user.includes(snsId);
+      console.log(post);
+      onefeed[i].status = post;
+    }
+    for (let i in twofeed) {
+      console.log("되냐");
+      let post = twofeed[i].user.includes(snsId);
+      console.log(post);
+      twofeed[i].status = post;
+    }
+
+    for (let i in threefeed) {
+      console.log("되냐");
+      let post = threefeed[i].user.includes(snsId);
+      console.log(post);
+      threefeed[i].status = post;
+    }
+
+    const sendfeed = [onefeed, twofeed, threefeed];
+
+    return res.status(200).json({ success: true, sendfeed });
   } catch (error) {
     console.log(error);
     return res.status(400).json({ success: false, error });

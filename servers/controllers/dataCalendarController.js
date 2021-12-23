@@ -3,6 +3,8 @@ import { mydaily } from "../models/myDaily";
 import { mydiary } from "../models/myDiary";
 import { resultcolor } from "../models/colors";
 import moment from "moment";
+import { feed } from "../models/feed";
+import { User } from "../models/User";
 
 // 날짜
 require("moment-timezone");
@@ -72,6 +74,7 @@ export const myDaily = async (req, res) => {
     console.log(req.body);
     const date = moment().format("YYYY-MM-DD");
     const { question, answer } = req.body;
+    const user = await User.findOne({ snsId });
     const exist = await mydaily.findOne({ snsId, date });
     if (exist) {
       console.log("myDaily 이미 있음");
@@ -85,6 +88,15 @@ export const myDaily = async (req, res) => {
       question,
       answer,
     });
+
+    for (let i in answer) {
+      await feed.create({
+        date,
+        nickname: user.nickname,
+        img: user.img,
+        answer: answer[i],
+      });
+    }
     return res
       .status(200)
       .json({ data, success: true, message: "myDaily 등록 성공" });

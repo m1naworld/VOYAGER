@@ -19,6 +19,11 @@ const userSchema = new mongoose.Schema(
     phone: String,
     registerdate: { type: String, default: registerDate },
     confirmation: { type: Boolean },
+    img: {
+      type: String,
+      default:
+        "https://res.cloudinary.com/minaworld/image/upload/v1640167928/profiles/default_xoayho.png",
+    },
   },
   { versionKey: false }
 );

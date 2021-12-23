@@ -6,6 +6,15 @@ import { refresh } from "../models/refreshToken";
 
 import fs from "fs";
 
+import cloudinary from "cloudinary";
+
+const cloud = cloudinary.v2;
+cloud.config({
+  cloud_name: process.env.CLOUD_NAME,
+  api_key: process.env.API_KEY,
+  api_secret: process.env.API_SECRET,
+});
+
 export const changeNickname = async (req, res) => {
   try {
     const snsId = req.snsId;
@@ -26,37 +35,41 @@ export const changeNickname = async (req, res) => {
 };
 
 // // 프로필 사진 변경
-// export const changeImage = async (req, res) => {
-//   try {
-//     const snsId = req.snsId;
-//     // console.log(req);
-//     console.log(req.blob);
-//     console.log("====================================");
-//     console.log(req.file);
-//     const img = req.file.path;
-//     console.log("=====================================");
-//     console.log(img);
-//     const user = await User.findOne({ snsId });
-//     if (user.img !== process.env.IMG) {
-//       fs.unlink(user.img, function (error) {
-//         if (error) {
-//           console.log(error);
-//           return res
-//             .status(400)
-//             .json({ success: false, message: "IMG Upload 실패 " });
-//         }
-//       });
-//     }
-//     user.img = img;
-//     user.save();
-//     return res.status(200).json({ success: true, img });
-//   } catch (error) {
-//     console.log(error);
-//     return res
-//       .status(400)
-//       .json({ success: false, message: "image 변경 실패 ", error });
-//   }
-// };
+export const changeImage = async (req, res) => {
+  try {
+    const snsId = req.snsId;
+    console.log(req.file);
+    const img = req.file.path;
+    console.log(img);
+    const user = await User.findOne({ snsId });
+    console.log(user.img);
+    user.ima;
+    if (
+      user.img !==
+      "https://res.cloudinary.com/minaworld/image/upload/v1640167928/profiles/default_xoayho.png"
+    ) {
+      // await cloud.uploader.destroy(user.img, function (error, result) {
+      //   console.log(error);
+      //   console.log(result);
+      // });
+      await cloud.api.delete_derived_resources(
+        "sorgtzmc1ubr4msmuzzm",
+        function (error, result) {
+          console.log(error);
+          console.log(result);
+        }
+      );
+    }
+    user.img = img;
+    user.save();
+    return res.status(200).json({ success: true, img });
+  } catch (error) {
+    console.log(error);
+    return res
+      .status(400)
+      .json({ success: false, message: "image 변경 실패 ", error });
+  }
+};
 
 // 회원 탈퇴
 export const dropOut = async (req, res) => {
@@ -71,18 +84,18 @@ export const dropOut = async (req, res) => {
       res.clearCookie("reAuthorization");
       await User.findOneAndDelete({ snsId });
 
-      // const user = await User.findOneAndDelete({ snsId });
-      // console.log(user.img);
-      // if (user.img !== process.env.IMG) {
-      //   fs.unlink(user.img, function (error) {
-      //     if (error) {
-      //       console.log(error);
-      //       res
-      //         .status(400)
-      //         .json({ success: false, message: "IMG Delete 실패 ", error });
-      //     }
-      //   });
-      // }
+      const user = await User.findOneAndDelete({ snsId });
+      console.log(user.img);
+      if (user.img !== process.env.IMG) {
+        fs.unlink(user.img, function (error) {
+          if (error) {
+            console.log(error);
+            res
+              .status(400)
+              .json({ success: false, message: "IMG Delete 실패 ", error });
+          }
+        });
+      }
       await mydiary.deleteMany({ snsId });
       await mydaily.deleteMany({ snsId });
       await mycolor.deleteMany({ snsId });
