@@ -1,6 +1,4 @@
 import { User } from "../models/User";
-import { mycalendar } from "../models/myCalendar";
-import { addCalendar } from "../controllers/dataCalendarController";
 
 export const social = async (req, res, done) => {
   try {
@@ -11,7 +9,6 @@ export const social = async (req, res, done) => {
       const user = await User.findOne({ snsId });
       console.log(user);
       if (user) {
-        console.log("되냐");
         req.user = user;
         console.log(`onlySnsIdUser: ${user}`);
         return done(null, user, {
@@ -22,7 +19,6 @@ export const social = async (req, res, done) => {
     }
     if (email) {
       const user = await User.findOne({ email });
-      console.log("안되냐");
       if (user) {
         console.log(user);
         if (user.snsId !== snsId) {
@@ -37,14 +33,6 @@ export const social = async (req, res, done) => {
       }
     }
 
-    await mycalendar.registerSnsId({ snsId });
-    const checkCalendar = await mycalendar.findOne({ snsId });
-
-    addCalendar(snsId);
-
-    console.log(`new ${checkCalendar}`);
-    const userCalendar = checkCalendar._id;
-
     const newUser = await User.join({
       provider,
       snsId,
@@ -55,7 +43,6 @@ export const social = async (req, res, done) => {
       birth,
       birthyear,
       phone,
-      userCalendar,
       confirmation: true,
     });
     console.log(`newUser: ${newUser}`);

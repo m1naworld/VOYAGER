@@ -4,7 +4,6 @@ import data from "./data";
 import confirm from "./confirm";
 import send from "./send";
 import update from "./update";
-
 const api = express.Router();
 
 api.use("/auth", router);

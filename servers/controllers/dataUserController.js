@@ -1,11 +1,18 @@
 import { User } from "../models/User";
-import { mycalendar } from "../models/myCalendar";
 import { mycolor } from "../models/myColor";
 import { mydiary } from "../models/myDiary";
 import { mydaily } from "../models/myDaily";
 import { refresh } from "../models/refreshToken";
+import { feed } from "../models/feed";
 
-import fs from "fs";
+import cloudinary from "cloudinary";
+
+const cloud = cloudinary.v2;
+cloud.config({
+  cloud_name: process.env.CLOUD_NAME,
+  api_key: process.env.API_KEY,
+  api_secret: process.env.API_SECRET,
+});
 
 export const changeNickname = async (req, res) => {
   try {
@@ -26,26 +33,24 @@ export const changeNickname = async (req, res) => {
   }
 };
 
-// 프로필 사진 변경
+// // 프로필 사진 변경
 export const changeImage = async (req, res) => {
   try {
     const snsId = req.snsId;
-    // console.log(req);
-    console.log(req.blob);
-    console.log("====================================");
-    console.log(req.file);
     const img = req.file.path;
-    console.log("=====================================");
     console.log(img);
     const user = await User.findOne({ snsId });
-    if (user.img !== process.env.IMG) {
-      fs.unlink(user.img, function (error) {
-        if (error) {
-          console.log(error);
-          return res
-            .status(400)
-            .json({ success: false, message: "IMG Upload 실패 " });
-        }
+    console.log(user.img);
+    if (user.img !== process.env.DEFAULT_IMG) {
+      const regex = /profiles\/\S+\./;
+      let url = regex.exec(user.img)[0];
+      console.log(url);
+      url = url.replace(".", "");
+      console.log(url);
+
+      await cloudinary.v2.api.delete_resources([url], function (error, result) {
+        console.log(error);
+        console.log(result);
       });
     }
     user.img = img;
@@ -72,21 +77,25 @@ export const dropOut = async (req, res) => {
       res.clearCookie("reAuthorization");
       const user = await User.findOneAndDelete({ snsId });
       console.log(user.img);
-      if (user.img !== process.env.IMG) {
-        fs.unlink(user.img, function (error) {
-          if (error) {
+      if (user.img !== process.env.DEFAULT_IMG) {
+        const regex = /profiles\/\S+\./;
+        let url = regex.exec(user.img)[0];
+        url = url.replace(".", "");
+        console.log(url);
+
+        await cloudinary.v2.api.delete_resources(
+          [url],
+          function (error, result) {
             console.log(error);
-            res
-              .status(400)
-              .json({ success: false, message: "IMG Delete 실패 ", error });
+            console.log(result);
           }
-        });
+        );
       }
-      await mydiary.findOneAndDelete({ snsId });
-      await mydaily.findOneAndDelete({ snsId });
-      await mycolor.findOneAndDelete({ snsId });
-      await mycalendar.findOneAndDelete({ snsId });
-      await refresh.findOneAndDelete({ snsId });
+      await mydiary.deleteMany({ snsId });
+      await mydaily.deleteMany({ snsId });
+      await mycolor.deleteMany({ snsId });
+      await refresh.deleteOne({ snsId });
+      await feed.deleteMany({ snsId });
       console.log("탈퇴 성공 ㅠㅠ");
       return res.status(200).json({
         success: true,

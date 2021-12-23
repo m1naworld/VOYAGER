@@ -1,0 +1,19 @@
+@import "../../../../assets/styles/mixin";
+
+.setting__wrapper {
+  @include standardalign;
+  .btn {
+    @include bluebtn;
+  }
+
+  .exit {
+    background-color: rgba(179, 13, 13, 0.797);
+  }
+  .last {
+    background-color: #202363;
+  }
+  & hr {
+    width: 100%;
+    margin: 10px 0;
+  }
+}

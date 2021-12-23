@@ -4,6 +4,7 @@ import express from "express";
 import { social } from "../servers/middle/socialJoin";
 import { tokenError } from "../servers/middle/jwtError";
 import { jwtVerify } from "../servers/middle/jwtVerify";
+import { snsIdCheck } from "../servers/middle/snsIdCheck";
 
 //controller
 import {
@@ -30,7 +31,7 @@ router.post("/access", social, postSocialLogin);
 router.get("/user", tokenError, jwtVerify);
 
 // 로그아웃
-router.get("/logout", logOut);
+router.get("/logout", snsIdCheck, logOut);
 
 // 이메일 찾기
 router.post("/findEmail", findEmail);

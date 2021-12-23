@@ -18,6 +18,7 @@ export const emailCheck = async (req, res) => {
         .json({ success: true, message: "사용 가능한 이메일 입니다." });
     } else {
       return res.status(402).json({
+        find: true,
         success: false,
         message: "이미 존재하는 이메일 입니다.",
       });
@@ -108,7 +109,7 @@ export const sendEmail = async (req, res) => {
 
     let message = {
       from: "VOYAGER",
-      to: "m1nna@naver.com",
+      to: email,
       subject: "VOYAGER 메일 인증",
       html: htmlToSend,
     };

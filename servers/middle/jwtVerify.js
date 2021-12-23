@@ -11,7 +11,7 @@ export const jwtVerify = async (req, res) => {
     console.log({ refreshtoken: refreshtoken });
 
     // DB에 저장된 refresh 가져오기
-    const refreshed = await refresh.findByRefresh({ refreshtoken });
+    const refreshed = await refresh.findOne({ refreshtoken });
     console.log({ refreshed: refreshed });
     let refreshjwt = refreshed.refreshjwt;
     console.log({ dbRefresh: refreshjwt });
@@ -32,14 +32,14 @@ export const jwtVerify = async (req, res) => {
                 const accessToken = jwt.sign(
                   { id: refreshjwt.snsId },
                   process.env.JWT_SECRET,
-                  { expiresIn: process.env.ACCESS_EXPIRE, issuer: "m1na" }
+                  { expiresIn: "6h", issuer: "m1na" }
                 );
                 let snsId = refreshjwt.snsId;
                 let user = await User.findOne({ snsId });
                 console.log(`new accessToken : ${accessToken}`);
                 res.cookie("Authorization", accessToken, {
                   httpOnly: true,
-                  expires: new Date(Date.now() + 1000 * 60 * 60 * 3),
+                  expires: new Date(Date.now() + 1000 * 60 * 60 * 6),
                 });
                 console.log("access 재갱신 성공");
                 return res
@@ -58,7 +58,7 @@ export const jwtVerify = async (req, res) => {
         console.log(decoded);
         let snsId = decoded.id;
         console.log(snsId);
-        const user = await User.findBySnsId({ snsId });
+        const user = await User.findOne({ snsId });
         console.log(user);
         if (user) {
           jwt.verify(
@@ -67,13 +67,13 @@ export const jwtVerify = async (req, res) => {
             async (error, decoded) => {
               console.log(decoded);
               if (error) {
-                await refresh.deleteRefresh({ refreshtoken });
+                await refresh.deleteOne({ refreshjwt: refreshtoken });
                 refreshjwt = jwt.sign({}, process.env.JWT_REFRESH_SECRET, {
-                  expiresIn: process.env.NEW_REFRESH_EXPIRE,
+                  expiresIn: "1h",
                   issuer: "m1na",
                 });
                 console.log(refreshjwt);
-                await refresh.saveRefresh({ snsId, refreshjwt });
+                await refresh.create({ snsId, refreshjwt });
                 res.cookie("reAuthorization", refreshjwt, {
                   httpOnly: true,
                   expires: new Date(Date.now() + 1000 * 60 * 60 * 24),

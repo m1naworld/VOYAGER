@@ -1,0 +1,41 @@
+.ship__logo {
+  transition: all 0.7s ease-out;
+}
+.ship__title {
+  font-family: "Aero";
+  color: #80d8e6;
+  font-size: 2.5rem;
+}
+.MainLogo__link {
+  background-color: #51aabf;
+  padding: 2px 20px;
+  height: 28px;
+  border-radius: 12px;
+  text-decoration: none;
+  font-size: 18px;
+  color: #fff;
+  outline: none;
+  border: none;
+  cursor: pointer;
+  white-space: nowrap;
+  margin: 10px 0;
+  margin-bottom: 0;
+}
+
+@keyframes FadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@media screen and (max-width: 500px) {
+  .ship__logo {
+    width: 150px;
+    transition: all 0.7s ease-out;
+  }
+  .ship__title {
+    font-size: 2rem;
+  }
+}

@@ -8,7 +8,7 @@ dotenv.config();
 mongoose.connect(process.env.DB_URL);
 
 // mongoose의 connection 메소드를 변수 db에 할당
-const db = mongoose.connection;
+const mina = mongoose.connection;
 
 const handleOpen = () => {
   console.log("✅ Connected to DB");
@@ -19,6 +19,6 @@ const handleError = (error) => {
 };
 
 // db연결 성공 시 함수실행
-db.once("open", handleOpen);
+mina.once("open", handleOpen);
 
-db.on("error", handleError);
+mina.on("error", handleError);

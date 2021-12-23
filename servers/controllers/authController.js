@@ -7,10 +7,6 @@ dotenv.config();
 // DB
 import { refresh } from "../models/refreshToken";
 import { User } from "../models/User";
-import { mycalendar } from "../models/myCalendar";
-
-// controller
-import { addCalendar } from "./dataCalendarController";
 
 const issuer = "m1na";
 
@@ -24,12 +20,6 @@ export const postJoin = async (req, res) => {
     const salt = await bcrypt.genSalt(Number(process.env.SALT));
     password = await bcrypt.hash(password, salt);
 
-    await mycalendar.registerSnsId({ snsId });
-    const checkCalendar = await mycalendar.findOne({ snsId });
-    const userCalendar = checkCalendar._id;
-
-    addCalendar(snsId);
-
     // user에 name, email, password 등 값 할당
     let users = new User({
       provider,
@@ -40,13 +30,10 @@ export const postJoin = async (req, res) => {
       birth,
       birthyear,
       phone,
-      userCalendar,
       confirmation: false,
     });
     console.log(users);
-    // password를 암호화 하기
     await users.save(); // db에 user 저장
-
     res
       .status(200)
       .json({ success: true, message: "VOYAGER의 가족이 된 것을 환영합니다!" });
@@ -66,33 +53,37 @@ export const postLogin = async (req, res, next) => {
         console.log("회원가입이 안된 유저");
         return res.status(400).json(msg);
       }
+      if (user.provider !== "local") {
+        return res.status(400).json(msg);
+      }
       if (!user.confirmation) {
         console.log(msg);
         console.log("이메일 인증 안된 유저");
         return res.status(202).json(msg);
       }
+
       req.login(user, { session: false }, async (error) => {
         const snsId = user.snsId;
         if (error) return next(error);
         const accessToken = jwt.sign({ id: snsId }, process.env.JWT_SECRET, {
-          expiresIn: process.env.ACCESS_EXPIRE,
+          expiresIn: "6h",
           issuer,
         });
         const refreshjwt = jwt.sign({}, process.env.JWT_SECRET, {
-          expiresIn: process.env.REFRESH_EXPIRE,
+          expiresIn: "5d",
           issuer,
         });
 
-        const existRefresh = await refresh.findBysnsId({ snsId });
+        const existRefresh = await refresh.findOne({ snsId });
         if (existRefresh) {
-          await refresh.deleteSnsId({ snsId });
+          await refresh.deleteOne({ snsId });
           console.log("refreshDB snsId 중복 제거");
         }
-        await refresh.saveRefresh({ snsId, refreshjwt });
+        await refresh.create({ snsId, refreshjwt });
         console.log("refresh DB 저장 성공!");
         res.cookie("Authorization", accessToken, {
           httpOnly: true,
-          expires: new Date(Date.now() + 1000 * 60 * 60 * 3),
+          expires: new Date(Date.now() + 1000 * 60 * 60 * 6),
         });
         res.cookie("reAuthorization", refreshjwt, {
           httpOnly: true,
@@ -113,24 +104,24 @@ export const postSocialLogin = async (req, res) => {
     const user = req.user;
     const snsId = req.body.snsId;
     const accessToken = jwt.sign({ id: snsId }, process.env.JWT_SECRET, {
-      expiresIn: process.env.ACCESS_EXPIRE,
+      expiresIn: "6h",
       issuer,
     });
     const refreshjwt = jwt.sign({}, process.env.JWT_SECRET, {
-      expiresIn: process.env.REFRESH_EXPIRE,
+      expiresIn: "5d",
       issuer,
     });
     console.log(accessToken, refreshjwt);
-    const existRefresh = await refresh.findBysnsId({ snsId });
+    const existRefresh = await refresh.findOne({ snsId });
     if (existRefresh) {
-      await refresh.deleteSnsId({ snsId });
+      await refresh.deleteOne({ snsId });
       console.log("refreshDB snsId 중복 제거");
     }
-    await refresh.saveRefresh({ snsId, refreshjwt });
+    await refresh.create({ snsId, refreshjwt });
     console.log("refresh DB 저장 성공!");
     res.cookie("Authorization", accessToken, {
       httpOnly: true,
-      expires: new Date(Date.now() + 1000 * 60 * 60 * 3),
+      expires: new Date(Date.now() + 1000 * 60 * 60 * 6),
     });
     res.cookie("reAuthorization", refreshjwt, {
       httpOnly: true,
@@ -150,13 +141,13 @@ export const postSocialLogin = async (req, res) => {
 // 로그아웃
 export const logOut = async (req, res) => {
   try {
-    const refreshtoken = req.cookies.reAuthorization;
+    const snsId = req.snsId;
     res.clearCookie("Authorization");
     res.clearCookie("reAuthorization");
 
-    const refreshed = await refresh.findByRefresh({ refreshtoken });
+    const refreshed = await refresh.findOne({ snsId });
     if (refreshed) {
-      await refresh.deleteRefresh({ refreshtoken });
+      await refresh.deleteOne({ snsId });
     }
     return res.status(200).json({ success: true, message: "로그아웃" });
   } catch (error) {
@@ -170,6 +161,7 @@ export const logOut = async (req, res) => {
 // 이메일 찾기
 export const findEmail = async (req, res) => {
   try {
+    console.log(req.body);
     let { name, birthday, phone } = req.body;
     birthday = birthday.split("-");
     const birthyear = birthday[0];
@@ -192,7 +184,7 @@ export const findEmail = async (req, res) => {
       secret = secret.join("");
       email = secret + "@" + email[1];
       console.log(email);
-      return res.status(200).json({ success: true, email });
+      return res.status(200).json({ success: true, message: email });
     }
     return res
       .status(400)
@@ -201,7 +193,7 @@ export const findEmail = async (req, res) => {
     console.log(error);
     return res
       .status(400)
-      .json({ success: false, message: "이메일 찾기 실패", error });
+      .json({ success: false, message: "다시 시도해주세요.", error });
   }
 };
 
@@ -210,9 +202,7 @@ export const changePassword = async (req, res) => {
   try {
     console.log(req.body);
     let { _id, password } = req.body;
-    // let password = req.body.password;
     const user = await User.findOne({ _id });
-    console.log(user);
     const salt = await bcrypt.genSalt(Number(process.env.SALT));
     password = await bcrypt.hash(password, salt);
     user.password = password;

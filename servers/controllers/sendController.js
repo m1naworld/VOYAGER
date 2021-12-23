@@ -1,13 +1,25 @@
 import { dailyquestion } from "../models/dailyQuestion";
+import { mycolor } from "../models/myColor";
+import { mydaily } from "../models/myDaily";
+import { mydiary } from "../models/myDiary";
 import { survey } from "../models/survey";
 import { User } from "../models/User";
+import { feed } from "../models/feed";
+import moment from "moment";
+
+require("moment-timezone");
+moment.tz.setDefault("Asia/Seoul");
 
 // 유저 정보 보내기
 export const userInformation = async (req, res) => {
   try {
+    const today = moment().format("YYYY-MM-DD");
+    console.log(today);
     const snsId = req.snsId;
     const user = await User.findOne({ snsId });
-    return res.status(200).json({ success: true, user });
+    const daily = await mydaily.findOne({ snsId, date: today });
+    const color = await mycolor.findOne({ snsId, date: today });
+    return res.status(200).json({ success: true, user, color, daily });
   } catch (error) {
     console.log(error);
     return res
@@ -21,14 +33,13 @@ export const sendDailyQeustion = async (req, res) => {
   try {
     const count = await dailyquestion.count();
 
-    const fixedDay = new Date("2021-11-29").setHours(0, 0, 0, 0);
+    const fixedDay = new Date("2021-12-23").setHours(0, 0, 0, 0);
 
     const today = new Date();
 
     const label = parseInt(((today - fixedDay) / (1000 * 3600 * 24)) % count);
 
-    const daily = await dailyquestion.findDailyQ({ label });
-
+    const daily = await dailyquestion.findOne({ label });
     return res.status(200).json({ success: true, question: daily });
   } catch (error) {
     console.log("dailyQuestion Controller 오류");
@@ -50,10 +61,9 @@ function getRandomInt(min, max) {
 // 객관식 프론트로 보내는 함수
 export const sendSurveyQuestion = async (req, res) => {
   try {
-    const id = "61b2e801c28e04f06cbd668a";
-    const emotion = await survey.findById(id);
-    const arr = emotion.emotions;
-
+    const emotion = await survey.find({});
+    const arr = emotion[0].emotions;
+    // console.log(arr);
     const question = [];
     let k = 1;
     for (let a in arr) {
@@ -82,52 +92,52 @@ export const sendSurveyQuestion = async (req, res) => {
 // 캘린더 보내기
 export const sendCalendar = async (req, res) => {
   try {
-    const date = req.body.date;
     const snsId = req.snsId;
+    const date = req.body.date;
+    const startDate = date.substring(0, 7) + "-01";
+    const endDate = date.substring(0, 7) + "-31";
 
-    const user = await User.findBySnsId({ snsId }).populate("userCalendar");
-    const userCalendar = await user.userCalendar.populate("color");
-    await user.userCalendar.populate("daily");
-    await user.userCalendar.populate("diary");
-    await userCalendar.daily.populate("data.question");
+    const color = await mycolor.find({
+      snsId,
+      date: { $gte: startDate, $lte: endDate },
+    });
+    const daily = await mydaily
+      .find({ snsId, date: { $gte: startDate, $lte: endDate } })
+      .populate("question");
 
-    let diary = userCalendar.diary.data;
-    let color = userCalendar.color.data;
-    let daily = userCalendar.daily.data;
+    const diary = await mydiary.find({
+      snsId,
+      date: { $gte: startDate, $lte: endDate },
+    });
+    console.log(daily);
+    console.log(color);
 
     let mycalendar = [];
     let mydate = [];
 
     for (let i in diary) {
       let data = diary[i];
-      if (data.date.substring(0, 7) === date.substring(0, 7)) {
-        mycalendar.push(data);
-        mydate.push(data.date);
-      }
+      mycalendar.push(data);
+      mydate.push(data.date);
     }
 
     for (let i in color) {
       let data = color[i];
-      if (data.date.substring(0, 7) === date.substring(0, 7)) {
-        mycalendar.push(data);
-        mydate.push(data.date);
-      }
+      mycalendar.push(data);
+      mydate.push(data.date);
     }
 
     for (let i in daily) {
       let data = daily[i];
       console.log(data);
       console.log(data.date);
-      if (data.date.substring(0, 7) === date.substring(0, 7)) {
-        let value = {
-          date: data.date,
-          question: data.question.data,
-          answer: data.answer,
-        };
-        console.log(value.question[0]);
-        mycalendar.push(value);
-        mydate.push(data.date);
-      }
+      let value = {
+        date: data.date,
+        question: data.question.data,
+        answer: data.answer,
+      };
+      mycalendar.push(value);
+      mydate.push(data.date);
     }
 
     let sendcalendar = [];
@@ -135,7 +145,7 @@ export const sendCalendar = async (req, res) => {
     mydate = [...set];
 
     // 날짜별로 정렬
-    mycalendar = mycalendar.sort();
+    mydate = mydate.sort();
 
     // 날짜별로 모으기
     for (let i in mydate) {
@@ -160,8 +170,45 @@ export const sendCalendar = async (req, res) => {
     return res.status(200).json({ success: true, sendcalendar });
   } catch (error) {
     console.log(error);
-    return res
-      .status(400)
-      .json({ success: false, message: "sendCalendar 실패", error });
+    return res.status(400).json({ success: false, error });
+  }
+};
+
+// send feed
+export const sendFeed = async (req, res) => {
+  try {
+    const snsId = req.snsId;
+    console.log(snsId);
+    const today = moment().format("YYYY-MM-DD");
+    const onefeed = await feed
+      .find({ date: today, "answer.index": 0 })
+      .sort({ likeCount: -1 });
+    const twofeed = await feed
+      .find({ date: today, "answer.index": 1 })
+      .sort({ likeCount: -1 });
+    const threefeed = await feed
+      .find({ date: today, "answer.index": 2 })
+      .sort({ likeCount: -1 });
+
+    for (let i in onefeed) {
+      let post = onefeed[i].user.includes(snsId);
+      onefeed[i].status = post;
+    }
+    for (let i in twofeed) {
+      let post = twofeed[i].user.includes(snsId);
+      twofeed[i].status = post;
+    }
+
+    for (let i in threefeed) {
+      let post = threefeed[i].user.includes(snsId);
+      threefeed[i].status = post;
+    }
+
+    const sendfeed = [onefeed, twofeed, threefeed];
+    console.log(onefeed);
+    return res.status(200).json({ success: true, sendfeed });
+  } catch (error) {
+    console.log(error);
+    return res.status(400).json({ success: false, error });
   }
 };

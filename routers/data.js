@@ -1,4 +1,6 @@
 import express from "express";
+import CloudinaryStorage from "multer-storage-cloudinary";
+import cloudinary from "cloudinary";
 
 // controller
 import {
@@ -12,12 +14,29 @@ import {
   changeNickname,
   dropOut,
 } from "../servers/controllers/dataUserController";
+import { pushLike } from "../servers/controllers/dataFeedController";
+
 // middle
 import { snsIdCheck } from "../servers/middle/snsIdCheck";
 
 import multer from "multer";
 
-const upload = multer({ dest: "uploads/", limits: 1024 * 1024 });
+const cloud = cloudinary.v2;
+cloud.config({
+  cloud_name: process.env.CLOUD_NAME,
+  api_key: process.env.API_KEY,
+  api_secret: process.env.API_SECRET,
+});
+
+const storage = new CloudinaryStorage({
+  cloudinary: cloud,
+  params: {
+    folder: "profiles",
+  },
+});
+
+const upload = multer({ storage: storage });
+
 const data = express.Router();
 
 data.use(snsIdCheck);
@@ -26,6 +45,9 @@ data.use(snsIdCheck);
 data.post("/addDaily", myDaily);
 data.post("/addDiary", myDiary);
 data.post("/addColor", myColor);
+
+// feed
+data.post("/likeFeed", pushLike);
 
 // diary 삭제
 data.post("/delete/myDiary", deleteMyDiary);

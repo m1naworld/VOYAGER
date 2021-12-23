@@ -1,8 +1,14 @@
-import { mycalendar } from "../models/myCalendar";
 import { mycolor } from "../models/myColor";
 import { mydaily } from "../models/myDaily";
 import { mydiary } from "../models/myDiary";
 import { resultcolor } from "../models/colors";
+import moment from "moment";
+import { feed } from "../models/feed";
+import { User } from "../models/User";
+
+// 날짜
+require("moment-timezone");
+moment.tz.setDefault("Asia/Seoul");
 
 // 랜덤함수
 function getRandomInt(min, max) {
@@ -15,8 +21,7 @@ function getRandomInt(min, max) {
 export const myColor = async (req, res) => {
   try {
     const snsId = req.snsId;
-    console.log(req.body);
-    const date = req.body.date;
+    const date = moment().format("YYYY-MM-DD");
 
     const { happy, sad, joy, anger } = req.body;
     let x = 25 - happy * 7 + sad * 7;
@@ -42,16 +47,18 @@ export const myColor = async (req, res) => {
     const position = [x, y];
     const mycolors = await resultcolor.findOne({ position });
     const color = mycolors.color;
-    const exist = await mycolor.findOne({ snsId, "data.date": date });
+    const exist = await mycolor.findOne({ snsId, date });
     if (exist) {
       console.log("myColor 이미 있음");
       return res
         .status(400)
         .json({ success: false, message: "myColor 중복 저장 오류" });
     }
-    const user = await mycolor.registerColor({ snsId, date, color });
-    console.log(user);
-    return res.status(200).json({ success: true, message: "myColor 등록" });
+    const data = await mycolor.create({ snsId, date, color });
+    console.log(data);
+    return res
+      .status(200)
+      .json({ data, success: true, message: "myColor 등록" });
   } catch (error) {
     console.log(error);
     return res
@@ -64,24 +71,35 @@ export const myColor = async (req, res) => {
 export const myDaily = async (req, res) => {
   try {
     const snsId = req.snsId;
-    const date = req.body.date;
+    console.log(req.body);
+    const date = moment().format("YYYY-MM-DD");
     const { question, answer } = req.body;
-    const exist = await mydaily.findOne({ snsId, "data.date": date });
+    const user = await User.findOne({ snsId });
+    const exist = await mydaily.findOne({ snsId, date });
     if (exist) {
       console.log("myDaily 이미 있음");
       return res
         .status(400)
         .json({ success: false, message: "myDaily 중복 저장 오류" });
     }
-    await mydaily.registerDaily({
+    const data = await mydaily.create({
       snsId,
       date,
       question,
       answer,
     });
+
+    for (let i in answer) {
+      await feed.create({
+        date,
+        nickname: user.nickname,
+        img: user.img,
+        answer: answer[i],
+      });
+    }
     return res
       .status(200)
-      .json({ success: true, message: "myDaily 등록 성공" });
+      .json({ data, success: true, message: "myDaily 등록 성공" });
   } catch (error) {
     console.log(error);
     res.status(400).json({ success: false, message: "myDaily DB 오류" });
@@ -92,29 +110,17 @@ export const myDaily = async (req, res) => {
 export const myDiary = async (req, res) => {
   try {
     const snsId = req.snsId;
+    console.log(req.body);
     const date = req.body.date;
-    console.log(date);
     const diary = req.body.diary;
-    console.log(diary);
-    const user = await mydiary.findOne({ snsId });
-    console.log(user);
-    const data = user.data;
-    console.log(data);
-    const idx = data.findIndex((m) => m.date === date);
-    if (idx === -1) {
-      const newPush = await mydiary.registerDiary({ snsId, date, diary });
-      newPush.data.sort();
-      newPush.save();
-      return res
-        .status(200)
-        .json({ success: true, message: "myDiary 등록 성공" });
-    }
-    data[idx].diary = diary;
-    user.data = data;
-    user.save();
+    const data = await mydiary.findOneAndUpdate(
+      { snsId, date },
+      { snsId, date, diary },
+      { new: true, upsert: true }
+    );
     return res
       .status(200)
-      .json({ success: true, message: "myDiary 수정 성공" });
+      .json({ data, success: true, message: "myDiary 등록 성공" });
   } catch (error) {
     console.log(error);
     return res
@@ -128,47 +134,12 @@ export const deleteMyDiary = async (req, res) => {
   try {
     const snsId = req.snsId;
     const date = req.body.date;
-    const user = await mydiary.findOne({ snsId });
-    const data = user.data;
-    console.log(data);
-    const idx = data.findIndex((m) => m.date === date);
-    console.log(idx);
-    if (idx !== -1) {
-      data.splice(idx, 1);
-      user.data = data;
-      console.log(user.data);
-      user.save();
-    }
+    await mydiary.findOneAndDelete({ snsId, date });
     return res
       .status(200)
       .json({ success: true, message: "MyDiary 삭제 성공" });
   } catch (error) {
     console.log(error);
     res.status(400).json({ success: false, message: "MyDiary 삭제 실패" });
-  }
-};
-
-// 캘린더 참조
-export const addCalendar = async (snsId) => {
-  try {
-    // await mycolor.registerSnsId({ snsId });
-    // await mydiary.registerSnsId({ snsId });
-    // await mydaily.registerSnsId({ snsId });
-
-    await mycolor.create({ snsId });
-    await mydiary.create({ snsId });
-    await mydaily.create({ snsId });
-
-    let color = await mycolor.findOne({ snsId });
-    let diary = await mydiary.findOne({ snsId });
-    let daily = await mydaily.findOne({ snsId });
-
-    color = color._id;
-    diary = diary._id;
-    daily = daily._id;
-
-    await mycalendar.registerData({ snsId, color, diary, daily });
-  } catch (error) {
-    console.log(error);
   }
 };

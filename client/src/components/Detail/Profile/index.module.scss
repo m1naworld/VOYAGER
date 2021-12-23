@@ -1,0 +1,39 @@
+@import "../../../assets/styles/mixin";
+.profile__input {
+  @include blackinput;
+}
+.profile__input:focus {
+  outline: none;
+}
+.profile__label {
+  font-size: 1rem;
+  color: white;
+}
+.profile__btn {
+  @include bluebtn;
+}
+.profile__settings {
+  background-color: #202363;
+}
+.profile__exit {
+  background-color: rgb(187, 34, 34);
+}
+.profile__hr {
+  width: 100%;
+  margin: 10px 0;
+}
+.profile__popup {
+  @include popup_disabled;
+}
+.profile__popup__view {
+  @include popup_enabled;
+}
+.profile__form {
+  display: flex;
+  flex-direction: column;
+}
+@media screen and (max-width: 420px) {
+  .profile__form {
+    // display: block;
+  }
+}
