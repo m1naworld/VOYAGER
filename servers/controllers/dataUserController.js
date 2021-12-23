@@ -3,8 +3,7 @@ import { mycolor } from "../models/myColor";
 import { mydiary } from "../models/myDiary";
 import { mydaily } from "../models/myDaily";
 import { refresh } from "../models/refreshToken";
-
-import fs from "fs";
+import { feed } from "../models/feed";
 
 import cloudinary from "cloudinary";
 
@@ -38,27 +37,21 @@ export const changeNickname = async (req, res) => {
 export const changeImage = async (req, res) => {
   try {
     const snsId = req.snsId;
-    console.log(req.file);
     const img = req.file.path;
     console.log(img);
     const user = await User.findOne({ snsId });
     console.log(user.img);
-    user.ima;
-    if (
-      user.img !==
-      "https://res.cloudinary.com/minaworld/image/upload/v1640167928/profiles/default_xoayho.png"
-    ) {
-      // await cloud.uploader.destroy(user.img, function (error, result) {
-      //   console.log(error);
-      //   console.log(result);
-      // });
-      await cloud.api.delete_derived_resources(
-        "sorgtzmc1ubr4msmuzzm",
-        function (error, result) {
-          console.log(error);
-          console.log(result);
-        }
-      );
+    if (user.img !== process.env.DEFAULT_IMG) {
+      const regex = /profiles\/\S+\./;
+      let url = regex.exec(user.img)[0];
+      console.log(url);
+      url = url.replace(".", "");
+      console.log(url);
+
+      await cloudinary.v2.api.delete_resources([url], function (error, result) {
+        console.log(error);
+        console.log(result);
+      });
     }
     user.img = img;
     user.save();
@@ -82,24 +75,27 @@ export const dropOut = async (req, res) => {
     if (message === MSG) {
       res.clearCookie("Authorization");
       res.clearCookie("reAuthorization");
-      await User.findOneAndDelete({ snsId });
-
       const user = await User.findOneAndDelete({ snsId });
       console.log(user.img);
-      if (user.img !== process.env.IMG) {
-        fs.unlink(user.img, function (error) {
-          if (error) {
+      if (user.img !== process.env.DEFAULT_IMG) {
+        const regex = /profiles\/\S+\./;
+        let url = regex.exec(user.img)[0];
+        url = url.replace(".", "");
+        console.log(url);
+
+        await cloudinary.v2.api.delete_resources(
+          [url],
+          function (error, result) {
             console.log(error);
-            res
-              .status(400)
-              .json({ success: false, message: "IMG Delete 실패 ", error });
+            console.log(result);
           }
-        });
+        );
       }
       await mydiary.deleteMany({ snsId });
       await mydaily.deleteMany({ snsId });
       await mycolor.deleteMany({ snsId });
       await refresh.deleteOne({ snsId });
+      await feed.deleteMany({ snsId });
       console.log("탈퇴 성공 ㅠㅠ");
       return res.status(200).json({
         success: true,

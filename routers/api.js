@@ -11,4 +11,5 @@ api.use("/data", data);
 api.use("/confirm", confirm);
 api.use("/send", send);
 api.use("/update", update);
+
 export default api;

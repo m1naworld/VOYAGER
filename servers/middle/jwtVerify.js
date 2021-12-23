@@ -32,14 +32,14 @@ export const jwtVerify = async (req, res) => {
                 const accessToken = jwt.sign(
                   { id: refreshjwt.snsId },
                   process.env.JWT_SECRET,
-                  { expiresIn: process.env.ACCESS_EXPIRE, issuer: "m1na" }
+                  { expiresIn: "6h", issuer: "m1na" }
                 );
                 let snsId = refreshjwt.snsId;
                 let user = await User.findOne({ snsId });
                 console.log(`new accessToken : ${accessToken}`);
                 res.cookie("Authorization", accessToken, {
                   httpOnly: true,
-                  expires: new Date(Date.now() + 1000 * 60 * 60 * 3),
+                  expires: new Date(Date.now() + 1000 * 60 * 60 * 6),
                 });
                 console.log("access 재갱신 성공");
                 return res
@@ -69,7 +69,7 @@ export const jwtVerify = async (req, res) => {
               if (error) {
                 await refresh.deleteOne({ refreshjwt: refreshtoken });
                 refreshjwt = jwt.sign({}, process.env.JWT_REFRESH_SECRET, {
-                  expiresIn: process.env.NEW_REFRESH_EXPIRE,
+                  expiresIn: "1h",
                   issuer: "m1na",
                 });
                 console.log(refreshjwt);

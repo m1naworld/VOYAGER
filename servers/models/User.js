@@ -21,8 +21,7 @@ const userSchema = new mongoose.Schema(
     confirmation: { type: Boolean },
     img: {
       type: String,
-      default:
-        "https://res.cloudinary.com/minaworld/image/upload/v1640167928/profiles/default_xoayho.png",
+      default: process.env.DEFAULT_IMG,
     },
   },
   { versionKey: false }

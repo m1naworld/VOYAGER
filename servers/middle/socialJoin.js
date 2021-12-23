@@ -9,7 +9,6 @@ export const social = async (req, res, done) => {
       const user = await User.findOne({ snsId });
       console.log(user);
       if (user) {
-        console.log("되냐");
         req.user = user;
         console.log(`onlySnsIdUser: ${user}`);
         return done(null, user, {
@@ -20,7 +19,6 @@ export const social = async (req, res, done) => {
     }
     if (email) {
       const user = await User.findOne({ email });
-      console.log("안되냐");
       if (user) {
         console.log(user);
         if (user.snsId !== snsId) {

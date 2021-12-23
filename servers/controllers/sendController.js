@@ -177,48 +177,35 @@ export const sendCalendar = async (req, res) => {
 // send feed
 export const sendFeed = async (req, res) => {
   try {
-    console.log(req.body);
     const snsId = req.snsId;
     console.log(snsId);
     const today = moment().format("YYYY-MM-DD");
-    let page = req.body.count;
-    page *= 9;
     const onefeed = await feed
       .find({ date: today, "answer.index": 0 })
-      .sort({ likeCount: -1 })
-      .limit(page);
+      .sort({ likeCount: -1 });
     const twofeed = await feed
       .find({ date: today, "answer.index": 1 })
-      .sort({ likeCount: -1 })
-      .limit(page);
+      .sort({ likeCount: -1 });
     const threefeed = await feed
       .find({ date: today, "answer.index": 2 })
-      .sort({ likeCount: -1 })
-      .limit(page);
-    console.log(onefeed);
+      .sort({ likeCount: -1 });
 
     for (let i in onefeed) {
-      console.log("되냐");
       let post = onefeed[i].user.includes(snsId);
-      console.log(post);
       onefeed[i].status = post;
     }
     for (let i in twofeed) {
-      console.log("되냐");
       let post = twofeed[i].user.includes(snsId);
-      console.log(post);
       twofeed[i].status = post;
     }
 
     for (let i in threefeed) {
-      console.log("되냐");
       let post = threefeed[i].user.includes(snsId);
-      console.log(post);
       threefeed[i].status = post;
     }
 
     const sendfeed = [onefeed, twofeed, threefeed];
-
+    console.log(onefeed);
     return res.status(200).json({ success: true, sendfeed });
   } catch (error) {
     console.log(error);

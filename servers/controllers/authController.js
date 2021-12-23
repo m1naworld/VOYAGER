@@ -66,11 +66,11 @@ export const postLogin = async (req, res, next) => {
         const snsId = user.snsId;
         if (error) return next(error);
         const accessToken = jwt.sign({ id: snsId }, process.env.JWT_SECRET, {
-          expiresIn: process.env.ACCESS_EXPIRE,
+          expiresIn: "6h",
           issuer,
         });
         const refreshjwt = jwt.sign({}, process.env.JWT_SECRET, {
-          expiresIn: process.env.REFRESH_EXPIRE,
+          expiresIn: "5d",
           issuer,
         });
 
@@ -83,7 +83,7 @@ export const postLogin = async (req, res, next) => {
         console.log("refresh DB 저장 성공!");
         res.cookie("Authorization", accessToken, {
           httpOnly: true,
-          expires: new Date(Date.now() + 1000 * 60 * 60 * 3),
+          expires: new Date(Date.now() + 1000 * 60 * 60 * 6),
         });
         res.cookie("reAuthorization", refreshjwt, {
           httpOnly: true,
@@ -104,11 +104,11 @@ export const postSocialLogin = async (req, res) => {
     const user = req.user;
     const snsId = req.body.snsId;
     const accessToken = jwt.sign({ id: snsId }, process.env.JWT_SECRET, {
-      expiresIn: process.env.ACCESS_EXPIRE,
+      expiresIn: "6h",
       issuer,
     });
     const refreshjwt = jwt.sign({}, process.env.JWT_SECRET, {
-      expiresIn: process.env.REFRESH_EXPIRE,
+      expiresIn: "5d",
       issuer,
     });
     console.log(accessToken, refreshjwt);
@@ -121,7 +121,7 @@ export const postSocialLogin = async (req, res) => {
     console.log("refresh DB 저장 성공!");
     res.cookie("Authorization", accessToken, {
       httpOnly: true,
-      expires: new Date(Date.now() + 1000 * 60 * 60 * 3),
+      expires: new Date(Date.now() + 1000 * 60 * 60 * 6),
     });
     res.cookie("reAuthorization", refreshjwt, {
       httpOnly: true,

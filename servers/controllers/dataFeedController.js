@@ -2,10 +2,9 @@ import { feed } from "../models/feed";
 
 export const pushLike = async (req, res) => {
   try {
-    console.log(req.body);
     const snsId = req.snsId;
-    const post = req.body._id;
-    const postLike = await feed.findOne({ _id: post });
+    const _id = req.body._id;
+    const postLike = await feed.findOne({ _id });
     console.log(postLike);
     const myLike = postLike.user.includes(snsId);
     console.log(myLike);
