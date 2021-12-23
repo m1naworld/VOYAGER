@@ -11,7 +11,6 @@ import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { postDailyQs } from "../../redux/reducer/DailyQsReducer";
 import { Navigate, useNavigate } from "react-router-dom";
-import { getUser } from "../../redux/reducer/ToggleReducer";
 
 const Container = styled.div`
   width: 100%;
@@ -155,9 +154,6 @@ const SliderContainer = styled.div`
   .now {
     animation: ${FadeIn} 2300ms forwards var(--reversedCurve);
   }
-  /* .hide {
-    animation: ${FadeOut} 1s ease-in-out forwards;
-  } */
   .prev {
     animation: ${Prev} var(--length) forwards var(--originalCurve);
   }
@@ -187,8 +183,6 @@ const SliderContainer = styled.div`
     }
     & textarea {
       flex: 0 0 auto;
-      /* top: 13rem; */
-      /* bottom: -50vh; */
       left: 50%;
       transform: translate(-50%, -50%);
       position: absolute;
@@ -238,7 +232,6 @@ export default function Slider({ toggle, fetch, setFetch }) {
   const postDaily = useCallback(() => {
     const { question, answer } = dataList;
     dispatch(postDailyQs({ question, answer }));
-    // dispatch(getUser());
     navigate("../../detail");
   }, [dataList]);
 
@@ -276,8 +269,6 @@ export default function Slider({ toggle, fetch, setFetch }) {
           onClick={nextSlide}
         ></ButtonRight>
       </div>
-      {/* <button onClick={() => toggle(false)}>CLOSE SURVEY</button> */}
-      {/* <button onClick={() => setFetch(!fetch)}>send</button> */}
     </Container>
   );
 }

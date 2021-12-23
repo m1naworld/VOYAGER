@@ -29,7 +29,6 @@ const FindPassword = () => {
       return;
     }
     setOk({ success: !res.success, message: "존재하지 않는 이메일입니다." });
-    console.log(res.success);
   };
 
   return !ok.success ? (

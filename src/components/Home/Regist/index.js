@@ -66,11 +66,10 @@ function Regist() {
         email,
         target: "email",
       });
-      console.log(res);
       const { success, message } = res.data;
       setSuccess({ success, message });
     } catch (err) {
-      console.log(err.response);
+      console.error(err.response);
     }
   };
 
@@ -103,7 +102,7 @@ function Regist() {
                       checkUrl: async (v) => {
                         let re = await checkEmail(v);
                         re = re.success;
-                        return re || "이미있는이메일";
+                        return re || <h3>가입한 이메일입니다</h3>;
                       },
                     },
                   })}
@@ -167,7 +166,6 @@ function Regist() {
                   setView={setToggle}
                   setBirthday={setBirthday}
                 />
-                {/* <ErrorMessage errors={errors} name="birth" as="error" /> */}
 
                 <input
                   placeholder="Phone-number"
@@ -181,7 +179,7 @@ function Regist() {
                       checkPhone: async (v) => {
                         let re = await checkPhone(v);
                         re = re.success;
-                        return re || "이미있는전화번호";
+                        return re || <h3>가입한 전화번호입니다</h3>;
                       },
                     },
                   })}

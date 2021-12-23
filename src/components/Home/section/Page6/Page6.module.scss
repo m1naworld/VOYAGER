@@ -12,13 +12,11 @@
       width: 100%;
       position: absolute;
       bottom: 0;
-      // transform: translate(0%, 100%);
       transition: all 1s ease-in-out;
     }
 
     .page6__img__active {
       transition: all 1s ease-in-out;
-      // transform: translate(0%, 0%);
     }
     .page6__text {
       display: flex;
@@ -66,11 +64,6 @@
 @media screen and (max-width: 420px) {
   .home__section6 {
     .home__section6__section {
-      .page6__img {
-      }
-
-      .page6__img__active {
-      }
       .page6__text {
         flex-direction: column;
         & h1 {

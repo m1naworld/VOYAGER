@@ -31,7 +31,6 @@ export const FeedSlice = createSlice({
       state.feedLoading = false;
     },
     [getFeeds.rejected]: (state, action) => {
-      // state.error = action.payload.response.data;
       state.feedLoading = false;
     },
   },

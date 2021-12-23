@@ -9,10 +9,6 @@ const NavTest = () => {
   const [clicked, setClicked] = useState(false);
   const navigate = useNavigate();
 
-  const handleClick = useCallback(() => {
-    setClicked(!clicked);
-  }, [clicked]);
-
   return (
     <nav className={classes.navbar__Items}>
       <div

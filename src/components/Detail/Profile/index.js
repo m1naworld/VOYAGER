@@ -15,7 +15,6 @@ import {
 import { Link } from "react-router-dom";
 import myAxios from "../../../hooks/myAxios";
 import Cropper from "react-easy-crop";
-import Spinner from "../../animations/Spinner/Spinner";
 import AstronautSpinner from "../../animations/Spinner/AstronautSpinner";
 
 const Profile = () => {
@@ -66,7 +65,6 @@ const Profile = () => {
       //Usage example:
       urltoFile(croppedImage, fileInfo.name, fileInfo.type).then(
         async function (file) {
-          console.log(file);
           await handleImage(file);
         }
       );
@@ -104,7 +102,6 @@ const Profile = () => {
   const handleNickname = async (e) => {
     const { nickname } = e;
     const res = await myAxios("/api/data/user/modify", { nickname });
-    console.log(res);
     setChangeMessage(res.message);
     dispatch(changeNickname(res.nickname));
   };
@@ -113,7 +110,6 @@ const Profile = () => {
       const res = await axios.get("/api/auth/logout");
       dispatch(toggleLogin(false));
       dispatch(editUser(""));
-      console.log(res);
     } catch (err) {}
   }, [dispatch]);
 
@@ -213,7 +209,6 @@ function urltoFile(url, filename, mimeType) {
       return res.arrayBuffer();
     })
     .then(function (buf) {
-      console.log(buf);
       return new File([buf], filename, { type: mimeType });
     });
 }

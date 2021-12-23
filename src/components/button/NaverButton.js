@@ -17,7 +17,6 @@ function NaverButton() {
       },
     });
     login.init();
-    // login.logout();
   }, []);
   const callNaver = () => {
     btn.current.lastChild.click();
@@ -30,7 +29,6 @@ function NaverButton() {
       <button ref={btn} id="naverIdLogin" style={{ display: "none" }}></button>
       <button className="naver" onClick={callNaver}>
         <img src="image/naver.png" alt="naver" />
-        {/* Login with Naver */}
       </button>
     </>
   );

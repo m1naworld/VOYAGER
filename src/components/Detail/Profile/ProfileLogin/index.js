@@ -17,7 +17,6 @@ const ProfileLogin = () => {
   const onSubmit = async (e) => {
     try {
       const res = await axios.post("/api/confirm/checkUser", e);
-      console.log(res.data.success);
       setOk(res.data);
     } catch (err) {
       setOk(err.response.data);

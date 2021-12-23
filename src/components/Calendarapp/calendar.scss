@@ -15,7 +15,6 @@
 html,
 body,
 body > div {
-  /* the react root */
   margin: 0;
   padding: 0;
   height: 100%;
@@ -37,17 +36,14 @@ li {
 }
 
 b {
-  /* used for event dates/times */
   margin-right: 3px;
 }
 
 .calendarmain {
   display: flex;
   min-height: 100vh;
-  /* color: white; */
   font-size: 14px;
   overflow: hidden;
-  // touch-action: none;
   align-items: center;
   * {
     font-family: "IM_Hyemin-Regular";
@@ -61,15 +57,12 @@ b {
   margin-top: 20px;
   flex-grow: 1;
   padding: 3em;
-  /* background: #444; */
   color: white;
   z-index: 2;
-  // touch-action: none;
   overflow: hidden;
 }
 
 .fc {
-  /* the calendar root */
   max-width: 1100px;
   margin: 0 auto;
 }
@@ -78,11 +71,7 @@ b {
   background-color: rgb(58, 67, 67);
   opacity: 0.7;
 }
-/* 
-.fc-view-harnes {
-  width: 50vw;
-  height: 100vh;
-} */
+
 .fc .fc-button {
   display: inline-block;
   font-weight: 400;
@@ -103,14 +92,6 @@ b {
 .fc .fc-bg-event {
   background-color: transparent;
 }
-
-// .fc-daygrid-day-events {
-//   position: absolute;
-//   height: 100%;
-//   width: 100%;
-//   left: 0%;
-//   top: 0;
-// }
 
 #fc-dom-2 {
   font-size: 1em;
@@ -143,42 +124,6 @@ b {
   }
 }
 
-/* @keyframes move-background {
-  from {
-		-webkit-transform: translate3d(0px, 0px, 0px);
-	}
-	to { 
-		-webkit-transform: translate3d(1000px, 0px, 0px);
-	}
-}
-@-webkit-keyframes move-background {
-  from {
-		-webkit-transform: translate3d(0px, 0px, 0px);
-	}
-	to { 
-		-webkit-transform: translate3d(1000px, 0px, 0px);
-	}
-}
-
-@-moz-keyframes move-background {    
-	from {
-		-webkit-transform: translate3d(0px, 0px, 0px);
-	}
-	to { 
-		-webkit-transform: translate3d(1000px, 0px, 0px);
-	}
-}
-
-    @-webkit-keyframes move-background {
-	from {
-		-webkit-transform: translate3d(0px, 0px, 0px);
-	}
-	to { 
-		-webkit-transform: translate3d(1000px, 0px, 0px);
-	}
-}
-
-*/
 .background-container {
   position: fixed;
   top: 0;
@@ -212,34 +157,9 @@ b {
   z-index: -1;
 }
 
-.twinkling {
-  width: 10000px;
-  height: 100%;
-  background: transparent
-    url("https://s3-us-west-2.amazonaws.com/s.cdpn.io/1231630/twinkling.png")
-    repeat;
-  background-size: 1000px 1000px;
-  position: absolute;
-  right: 0;
-  top: 0;
-  bottom: 0;
-  z-index: 2;
-
-  -moz-animation: move-background 70s linear infinite;
-  -ms-animation: move-background 70s linear infinite;
-  -o-animation: move-background 70s linear infinite;
-  -webkit-animation: move-background 70s linear infinite;
-  animation: move-background 70s linear infinite;
-}
-
 .fc-day-today {
   background: rgba(12, 114, 248, 0.1) !important;
 }
-
-// .fc-day-today .fc-daygrid-day-number {
-//    background-color: rgb(247, 82, 82);
-//    border-radius: 50%;
-// }
 
 .fc-daygrid-day-frame:hover {
   background-color: rgb(58, 67, 67);

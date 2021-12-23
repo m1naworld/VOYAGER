@@ -1,5 +1,4 @@
 import { configureStore } from "@reduxjs/toolkit";
-import TodayEmotionReducer from "./redux/reducer/TodayEmotion";
 import ToggleReducer from "./redux/reducer/ToggleReducer";
 import DailyQsReducer from "./redux/reducer/DailyQsReducer";
 import CalendarReducer from "./redux/reducer/CalendarReducer";

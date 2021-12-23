@@ -12,9 +12,6 @@ function DetailRouter({ login }) {
   const nickname = useSelector((state) => state.toggle.user?.nickname);
   const location = useLocation();
 
-  // Object.keys(user).length
-  // user ?? Object.keys(user).length
-  console.log(location.pathname);
   useEffect(() => {
     if (
       location.pathname.includes("profile") ||

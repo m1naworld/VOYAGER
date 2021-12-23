@@ -77,8 +77,6 @@ function Calendar() {
               let weekList = ["일", "월", "화", "수", "목", "금", "토"];
               return weekList[date.dow];
             }}
-            // editable={true}
-            // selectable={true}
             dateClick={handleDateSelect}
             eventDisplay="background"
             events={calendarList?.map((m) => {

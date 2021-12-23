@@ -42,7 +42,6 @@ export const ToggleSlice = createSlice({
       state.isLoading = action.payload;
     },
     checkStart: (state, action) => {
-      console.log(action.payload);
       state.isStart = action.payload;
     },
     changeImage: (state, { payload }) => {
@@ -57,7 +56,6 @@ export const ToggleSlice = createSlice({
   },
   extraReducers: {
     [getUser.fulfilled]: (state, { payload }) => {
-      console.log(payload);
       state.user = payload.user;
       state.user.color = payload.color;
       state.user.daily = payload.daily;
@@ -67,11 +65,9 @@ export const ToggleSlice = createSlice({
     },
     [authUser.fulfilled]: (state, action) => {
       state.isLoading = false;
-      console.log(action);
     },
     [authUser.rejected]: (state, action) => {
       state.isLoading = false;
-      console.log(action);
     },
   },
 });
