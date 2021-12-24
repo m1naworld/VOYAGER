@@ -1,5 +1,6 @@
-From node:16.13.0
-MAINTAINER mina
+FROM node:16.13.0
+LABEL contributers="Team Harbor"
+LABEL version="1.0"
 
 # # Working Directory 지정
 WORKDIR /usr/src/app
