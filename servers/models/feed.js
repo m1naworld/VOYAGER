@@ -3,6 +3,7 @@ import mongoose from "mongoose";
 const feedSchema = new mongoose.Schema(
   {
     date: String,
+    snsId: String,
     nickname: String,
     img: String,
     answer: Object,

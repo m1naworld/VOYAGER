@@ -12,8 +12,6 @@ const userSchema = new mongoose.Schema(
     password: String,
     nickname: { type: String, default: null },
     name: String,
-    gender: String,
-    age: String,
     birth: String,
     birthyear: String,
     phone: String,

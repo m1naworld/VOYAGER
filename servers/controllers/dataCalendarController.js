@@ -92,6 +92,7 @@ export const myDaily = async (req, res) => {
     for (let i in answer) {
       await feed.create({
         date,
+        snsId,
         nickname: user.nickname,
         img: user.img,
         answer: answer[i],
