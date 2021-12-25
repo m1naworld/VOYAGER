@@ -1,0 +1,20 @@
+version: '3'
+services:
+  backend:
+    build: ./
+    restart : always
+    ports:
+      - "4000"
+    tty: true
+    stdin_open: true
+  nginx:
+    build: client/
+    restart : always
+    ports:
+      - "80:80"
+      - "443:443"
+    depends_on:
+      - backend
+    tty: true
+    stdin_open: true
+  
