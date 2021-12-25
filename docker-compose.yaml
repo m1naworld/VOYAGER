@@ -1,17 +1,10 @@
 version: '3'
 services:
-  backend_1:
+  backend:
     build: ./
     restart : always
     ports:
-      - "4001:4000"
-    tty: true
-    stdin_open: true
-  backend_2:
-    build: ./
-    restart : always
-    ports:
-      - "4002:4000"
+      - "4000"
     tty: true
     stdin_open: true
   nginx:
@@ -21,8 +14,7 @@ services:
       - "80:80"
       - "443:443"
     depends_on:
-      - backend_1
-      - backend_2
+      - backend
     tty: true
     stdin_open: true
   
