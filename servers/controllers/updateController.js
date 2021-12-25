@@ -46,6 +46,7 @@ export const surveyRegister = async (req, res) => {
 // development
 export const colorRegister = async (req, res) => {
   try {
+    console.log("ON");
     for (let i = 0; i < data.colors.length; i++) {
       let colors = data.colors[i];
       let position = colors.position;

@@ -58,7 +58,7 @@ export const myColor = async (req, res) => {
     console.log(data);
     return res
       .status(200)
-      .json({ data, success: true, message: "myColor 등록" });
+      .json({ data, success: true, color, message: "myColor 등록" });
   } catch (error) {
     console.log(error);
     return res
