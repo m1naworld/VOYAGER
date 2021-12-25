@@ -156,10 +156,14 @@ b {
   display: inline;
   z-index: -1;
 }
-
 .fc-day-today {
   background: rgba(12, 114, 248, 0.1) !important;
 }
+
+// .fc-day-today .fc-daygrid-day-number {
+//   background-color: rgb(247, 82, 82);
+//   border-radius: 50%;
+// }
 
 .fc-daygrid-day-frame:hover {
   background-color: rgb(58, 67, 67);
@@ -168,6 +172,7 @@ b {
 
 .fc-daygrid-day-number {
   font-size: 2vw;
+
   @media screen and (max-width: 800px) {
     font-size: 3vw;
   }

@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { toggleLogin, checkLoading } from "../../redux/reducer/ToggleReducer";
 import { editUser } from "../../redux/reducer/ToggleReducer";
 
+import Calendar from "../Calendarapp/calendar";
 import Router from "../../routes/Router";
 import axios from "axios";
 import AstronautSpinner from "../animations/Spinner/AstronautSpinner";
@@ -16,9 +17,10 @@ function App() {
       dispatch(editUser(res.data.user));
       dispatch(checkLoading(false));
       dispatch(toggleLogin(res.data.success));
-
+      console.log(res);
       return res.data;
     } catch (err) {
+      console.log(err);
       if (err.code === "ECONNABORTED") {
         dispatch(toggleLogin(false));
         return "TIMEOUT ERROR";
