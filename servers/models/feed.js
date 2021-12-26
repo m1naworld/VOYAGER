@@ -9,7 +9,6 @@ const feedSchema = new mongoose.Schema(
     answer: Object,
     likeCount: { type: Number, default: 0 },
     user: [],
-    status: Boolean,
   },
   { versionKey: false }
 );

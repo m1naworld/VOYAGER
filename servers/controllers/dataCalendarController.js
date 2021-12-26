@@ -90,13 +90,25 @@ export const myDaily = async (req, res) => {
     });
 
     for (let i in answer) {
-      await feed.create({
-        date,
-        snsId,
-        nickname: user.nickname,
-        img: user.img,
-        answer: answer[i],
-      });
+      if (answer[i].status) {
+        console.log(answer[i].status);
+        console.log(answer[i]);
+        await feed.create({
+          date,
+          snsId,
+          nickname: null,
+          img: process.env.DEFAULT_IMG,
+          answer: answer[i],
+        });
+      } else {
+        await feed.create({
+          date,
+          snsId,
+          nickname: user.nickname,
+          img: user.img,
+          answer: answer[i],
+        });
+      }
     }
     return res
       .status(200)
