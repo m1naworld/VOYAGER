@@ -78,7 +78,7 @@ export const myColor = async (req, res) => {
       color = { head, body, footer, color };
     } else {
       const head = "오늘 ";
-      const body = "다채로운 ";
+      const body = ["다채로운 "];
       const footer = "감정의 색이 공존하고 있어요! 감정이 많이 복잡하신가요?? ";
       color = { head, body, footer, color };
     }
