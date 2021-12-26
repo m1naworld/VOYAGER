@@ -12,9 +12,9 @@ moment.tz.setDefault("Asia/Seoul");
 
 // 랜덤함수
 function getRandomInt(min, max) {
-  min = Math.ceil(min);
+  min = Math.floor(min);
   max = Math.floor(max);
-  return Math.floor(Math.random() * (max - min)) + min;
+  return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
 // 객관식 질문 저장
@@ -22,8 +22,9 @@ export const myColor = async (req, res) => {
   try {
     const snsId = req.snsId;
     const date = moment().format("YYYY-MM-DD");
-    const emotion = ["행복", "슬픔", "즐거움", "분노"];
     const { happy, sad, joy, anger } = req.body;
+
+    const emotion = ["행복", "슬픔", "즐거움", "분노"];
     let arr = Object.values(req.body);
     let result = [];
     const maxValue = Math.max(...arr);
@@ -38,15 +39,15 @@ export const myColor = async (req, res) => {
     let y = 25 - anger * 7 + joy * 7;
 
     if (x <= 0) {
-      x = 0;
+      x = 3;
     } else if (x >= 50) {
-      x = 50;
+      x = 46;
     }
 
     if (y <= 0) {
-      y = 0;
+      y = 3;
     } else if (y >= 50) {
-      y = 50;
+      y = 46;
     }
 
     x = getRandomInt(x - 3, x + 4);

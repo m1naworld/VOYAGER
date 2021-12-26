@@ -55,9 +55,9 @@ export const sendDailyQeustion = async (req, res) => {
 
 // 랜덤 함수
 function getRandomInt(min, max) {
-  min = Math.ceil(min);
+  min = Math.floor(min);
   max = Math.floor(max);
-  return Math.floor(Math.random() * (max - min)) + min;
+  return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
 // 객관식 프론트로 보내는 함수
@@ -68,19 +68,22 @@ export const sendSurveyQuestion = async (req, res) => {
     // console.log(arr);
     const question = [];
     let k = 1;
+    let numberArray = [];
     for (let a in arr) {
       let num;
       for (let j = 0; j < 3; j++) {
         let random = getRandomInt(0, 90);
-        if (random === num) {
+        if (numberArray.includes(random)) {
           --j;
           continue;
         }
         let element = arr[a].data[random].qs;
         num = random;
+        numberArray.push(num);
         question.push({ label: k, qs: element });
         k += 1;
       }
+      numberArray = [];
     }
     return res.status(200).json({ success: true, question });
   } catch (error) {
