@@ -34,6 +34,8 @@ export const myColor = async (req, res) => {
       }
     });
     result = result.map((m) => emotion[m]);
+    console.log("result : ", result);
+    console.log("body : ", body);
 
     let x = 25 - happy * 7 + sad * 7;
     let y = 25 - anger * 7 + joy * 7;
