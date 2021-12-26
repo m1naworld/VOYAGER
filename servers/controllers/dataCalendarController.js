@@ -22,8 +22,18 @@ export const myColor = async (req, res) => {
   try {
     const snsId = req.snsId;
     const date = moment().format("YYYY-MM-DD");
-
+    const emotion = ["행복", "슬픔", "즐거움", "분노"];
     const { happy, sad, joy, anger } = req.body;
+    let arr = Object.values(req.body);
+    let result = [];
+    const maxValue = Math.max(...arr);
+    arr.forEach((m, idx) => {
+      if (m === maxValue) {
+        result.push(idx);
+      }
+    });
+    result = result.map((m) => emotion[m]);
+
     let x = 25 - happy * 7 + sad * 7;
     let y = 25 - anger * 7 + joy * 7;
 
@@ -45,8 +55,9 @@ export const myColor = async (req, res) => {
     console.log(x, y);
 
     const position = [x, y];
+    const user = await User.findOne({ snsId });
     const mycolors = await resultcolor.findOne({ position });
-    const color = mycolors.color;
+    let color = mycolors.color;
     const exist = await mycolor.findOne({ snsId, date });
     if (exist) {
       console.log("myColor 이미 있음");
@@ -56,6 +67,17 @@ export const myColor = async (req, res) => {
     }
     const data = await mycolor.create({ snsId, date, color });
     console.log(data);
+
+    if (result.length == 1) {
+      const title = `오늘 ${result[0]}의 감정색이 높은 ${user.nickname}님!`;
+      color = { title, color };
+    } else if (result.length == 2) {
+      const title = `오늘 ${result[0]}과 ${result[1]}의 감정의 색이 공존하는 ${user.nickname}님!`;
+      color = { title, color };
+    } else {
+      const title = `오늘 남들과 유달리 다채로운 감정의 색이 공존하는 ${user.nickname}님!`;
+      color = { title, color };
+    }
     return res
       .status(200)
       .json({ data, success: true, color, message: "myColor 등록" });
@@ -91,8 +113,6 @@ export const myDaily = async (req, res) => {
 
     for (let i in answer) {
       if (answer[i].status) {
-        console.log(answer[i].status);
-        console.log(answer[i]);
         await feed.create({
           date,
           snsId,
