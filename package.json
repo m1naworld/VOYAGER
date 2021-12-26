@@ -18,7 +18,6 @@
     "cookie-parser": "^1.4.6",
     "dotenv": "^10.0.0",
     "express": "^4.17.2",
-    "express-jwt": "^6.1.0",
     "fs": "^0.0.1-security",
     "handlebars": "^4.7.7",
     "jsonwebtoken": "^8.5.1",
@@ -33,9 +32,7 @@
     "nodemon": "^2.0.15",
     "passport": "^0.5.0",
     "passport-jwt": "^4.0.0",
-    "passport-local": "^1.0.0",
-    "redis": "^3.1.2",
-    "server": "^1.0.36"
+    "passport-local": "^1.0.0"
   },
   "presets": [
     "@babel/preset-env"
