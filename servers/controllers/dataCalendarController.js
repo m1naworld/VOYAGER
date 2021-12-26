@@ -68,17 +68,17 @@ export const myColor = async (req, res) => {
     console.log(data);
     if (result.length == 1) {
       const head = "오늘 당신의 행성은 ";
-      const body = [result[0]];
+      const body = result[0];
       const footer = "의 감정의 색이 강하네요.";
       color = { head, body, footer, color };
     } else if (result.length == 2) {
       const head = "오늘 당신의 행성은";
-      const body = [result[0], result[1]];
+      const body = `${result[0]}과 ${result[1]}`;
       const footer = "의 감정의 색이 강하게 공존하고 있어요.";
       color = { head, body, footer, color };
     } else {
       const head = "오늘 ";
-      const body = ["다채로운 "];
+      const body = "다채로운 ";
       const footer = "감정의 색이 공존하고 있어요! 감정이 많이 복잡하신가요?? ";
       color = { head, body, footer, color };
     }
