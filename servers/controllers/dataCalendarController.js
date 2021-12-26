@@ -55,7 +55,6 @@ export const myColor = async (req, res) => {
     console.log(x, y);
 
     const position = [x, y];
-    const user = await User.findOne({ snsId });
     const mycolors = await resultcolor.findOne({ position });
     let color = mycolors.color;
     const exist = await mycolor.findOne({ snsId, date });
@@ -67,16 +66,15 @@ export const myColor = async (req, res) => {
     }
     const data = await mycolor.create({ snsId, date, color });
     console.log(data);
-    const nickname = `${user.nickname} 님!`;
     if (result.length == 1) {
       const title = `오늘 당신의 행성은 ${result[0]}의 감정의 색이 강하네요.`;
-      color = { nickname, title, color };
+      color = { title, color };
     } else if (result.length == 2) {
       const title = `오늘 당신의 행성은 ${result[0]}과 ${result[1]}의 감정의 색이 강하게 공존하고 있어요.`;
-      color = { nickname, title, color };
+      color = { title, color };
     } else {
       const title = `오늘 다채로운 감정의 색이 공존하고 있어요! 감정이 많이 복잡하신가요?? `;
-      color = { nickname, title, color };
+      color = { title, color };
     }
     return res
       .status(200)
