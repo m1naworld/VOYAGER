@@ -35,7 +35,9 @@ export const sendDailyQeustion = async (req, res) => {
 
     const fixedDay = new Date("2021-12-23").setHours(0, 0, 0, 0);
 
-    const today = new Date();
+    let today = moment().format("YYYY-MM-DD");
+
+    today = new Date(today).setHours(0, 0, 0, 0);
 
     const label = parseInt(((today - fixedDay) / (1000 * 3600 * 24)) % count);
 
