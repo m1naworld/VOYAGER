@@ -21,8 +21,7 @@ function getRandomInt(min, max) {
 export const myColor = async (req, res) => {
   try {
     const snsId = req.snsId;
-    // const date = moment().format("YYYY-MM-DD");
-    const date = req.body.date;
+    const date = moment().format("YYYY-MM-DD");
     const { happy, sad, joy, anger } = req.body;
 
     const emotion = ["행복", "슬픔", "즐거움", "분노"];
