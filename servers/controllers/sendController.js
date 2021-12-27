@@ -217,3 +217,15 @@ export const sendFeed = async (req, res) => {
     return res.status(400).json({ success: false, error });
   }
 };
+
+// admin
+export const admin = async (req, res) => {
+  try {
+    const user = await User.count();
+    const page = await feed.count();
+    return res.status(200).json({ success: true, user, page });
+  } catch (error) {
+    console.log(error);
+    return res.status(400).json({ success: false, error });
+  }
+};
