@@ -72,7 +72,7 @@ export const sendSurveyQuestion = async (req, res) => {
     for (let a in arr) {
       let num;
       for (let j = 0; j < 3; j++) {
-        let random = getRandomInt(0, 90);
+        let random = getRandomInt(0, 89);
         if (numberArray.includes(random)) {
           --j;
           continue;
