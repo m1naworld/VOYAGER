@@ -21,7 +21,8 @@ function getRandomInt(min, max) {
 export const myColor = async (req, res) => {
   try {
     const snsId = req.snsId;
-    const date = moment().format("YYYY-MM-DD");
+    // const date = moment().format("YYYY-MM-DD");
+    const date = req.body.date;
     const { happy, sad, joy, anger } = req.body;
 
     const emotion = ["행복", "슬픔", "즐거움", "분노"];
@@ -70,12 +71,12 @@ export const myColor = async (req, res) => {
     if (result.length == 1) {
       const head = "오늘 당신의 행성은 ";
       const body = result[0];
-      const footer = "감정의 색이 강하네요.";
+      const footer = "의 감정의 색이 강하네요.";
       color = { head, body, footer, color };
     } else if (result.length == 2) {
       const head = "오늘 당신의 행성은";
       const body = `${result[0]}과 ${result[1]}`;
-      const footer = "감정의 색이 강하게 공존하고 있어요.";
+      const footer = "의 감정의 색이 강하게 공존하고 있어요.";
       color = { head, body, footer, color };
     } else {
       const head = "오늘 ";

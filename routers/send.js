@@ -4,6 +4,7 @@ import {
   sendSurveyQuestion,
   sendCalendar,
   userInformation,
+  admin,
 } from "../servers/controllers/sendController";
 import { sendFeed } from "../servers/controllers/sendController";
 import { snsIdCheck } from "../servers/middle/snsIdCheck";
@@ -20,4 +21,5 @@ send.post("/feed", snsIdCheck, sendFeed);
 // 유저정보 보내기
 send.get("/user", snsIdCheck, userInformation);
 
+send.get("/admin", admin);
 export default send;
