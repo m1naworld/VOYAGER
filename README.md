@@ -44,7 +44,7 @@
 3. [매일 3가지 질문을 통해 나를 알아가기](https://github.com/m1naworld/VOYAGER/blob/master/README.md#%EB%A7%A4%EC%9D%BC-3%EA%B0%80%EC%A7%80-%EC%A7%88%EB%AC%B8%EC%9D%84-%ED%86%B5%ED%95%B4-%EB%82%98%EB%A5%BC-%EC%95%8C%EC%95%84%EA%B0%80%EA%B8%B0)
 4. [피드](https://github.com/m1naworld/VOYAGER/blob/master/README.md#%ED%94%BC%EB%93%9C)
 5. [캘린더](https://github.com/m1naworld/VOYAGER/blob/master/README.md#%EC%BA%98%EB%A6%B0%EB%8D%94)  
-6. [반응형 웹]
+6. [반응형 웹](https://github.com/m1naworld/VOYAGER/blob/master/README.md#6-%EB%B0%98%EC%9D%91%ED%98%95-%EC%9B%B9)
  
 <br/>
 <br/>
@@ -100,7 +100,11 @@
 <br/>
 
 > ### 6. 반응형 웹
+> 모바일 웹 화면 
 
+<img width="709" alt="스크린샷 2022-01-02 오후 3 47 21" src="https://user-images.githubusercontent.com/85235063/147871830-e30603f8-b2c6-4994-8084-7373057bfa06.png">
+<img width="709" alt="스크린샷 2022-01-02 오후 3 47 30" src="https://user-images.githubusercontent.com/85235063/147871824-f1c57df5-3153-46e6-bd0c-37188459f8ee.png">
+<img width="709" alt="스크린샷 2022-01-02 오후 3 47 34" src="https://user-images.githubusercontent.com/85235063/147871839-5359f0ca-0615-4fc6-95ac-5a33c12f3106.png">
 
 --------
 
