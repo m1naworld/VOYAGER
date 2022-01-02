@@ -16,3 +16,19 @@
 <img width="709" alt="스크린샷 2022-01-02 오후 4 39 09" src="https://user-images.githubusercontent.com/85235063/147869337-8c007418-3155-4e8c-b2e4-750f21976409.png">
 
 --------
+
+> ## 주요 기술
+1. 로그인 및 개인 프로필
+2. 오늘 하루의 감정을 색깔로 
+3. 매일 3가지 질문을 통해 나를 알아가기
+4. 피드
+5. 캘린더
+
+--------
+> ## 개발 및 기획
+- 엽용현 [Raymond](https://github.com/raymondanythings)
+- 송민아 [m1naworld](https://github.com/m1naworld)
+- 김도현 [dovard](https://github.com/dovard)
+- 이경덕 [Kyung-Deok](https://github.com/Kyung-Deok)
+- 김태헌 [yeedacoding](https://github.com/yeedacoding)
+- 최용기 [x86osx](https://github.com/x86osx)
