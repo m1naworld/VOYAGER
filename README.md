@@ -117,7 +117,7 @@
 > ## 🌟 배포 성과
 > Cloudflare web traffic & mongo user 스키마 Chart
 
-<img width="600" alt="스크린샷 2022-01-02 오후 7 02 29" src="https://user-images.githubusercontent.com/85235063/147872650-78237fd8-8b7e-4335-ae6d-f44b9075fd5e.png">
+<img width="600" alt="스크린샷 2022-01-02 오후 7 38 35" src="https://user-images.githubusercontent.com/85235063/147873207-45332b0d-dce9-4b71-ad6e-c14708bfff7f.png">
 <img width="600" alt="스크린샷 2022-01-02 오후 7 32 12" src="https://user-images.githubusercontent.com/85235063/147873075-46e25a80-d047-450d-836d-3f92c21b0756.png">
 
 <br/>
