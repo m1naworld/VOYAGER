@@ -5,7 +5,6 @@
 3. [메인 페이지](https://github.com/m1naworld/VOYAGER#%EB%A9%94%EC%9D%B8-%ED%8E%98%EC%9D%B4%EC%A7%80)
 4. [주요 기능](https://github.com/m1naworld/VOYAGER#%EC%A3%BC%EC%9A%94-%EA%B8%B0%EB%8A%A5)
 5. [개발 및 기획](https://github.com/m1naworld/VOYAGER#%EA%B0%9C%EB%B0%9C-%EB%B0%8F-%EA%B8%B0%ED%9A%8D)
-
 <br/>
 <br/>
 
@@ -45,7 +44,8 @@
 3. [매일 3가지 질문을 통해 나를 알아가기](https://github.com/m1naworld/VOYAGER/blob/master/README.md#%EB%A7%A4%EC%9D%BC-3%EA%B0%80%EC%A7%80-%EC%A7%88%EB%AC%B8%EC%9D%84-%ED%86%B5%ED%95%B4-%EB%82%98%EB%A5%BC-%EC%95%8C%EC%95%84%EA%B0%80%EA%B8%B0)
 4. [피드](https://github.com/m1naworld/VOYAGER/blob/master/README.md#%ED%94%BC%EB%93%9C)
 5. [캘린더](https://github.com/m1naworld/VOYAGER/blob/master/README.md#%EC%BA%98%EB%A6%B0%EB%8D%94)  
-
+6. [반응형 웹]
+ 
 <br/>
 <br/>
 
@@ -97,6 +97,10 @@
 <img width="709" alt="스크린샷 2022-01-02 오후 5 48 41" src="https://user-images.githubusercontent.com/85235063/147871084-3bc6b643-bceb-431e-acba-f7aa9f3ffbc5.png">
 
 <br/>
+<br/>
+
+> ### 6. 반응형 웹
+
 
 --------
 
