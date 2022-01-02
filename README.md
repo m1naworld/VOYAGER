@@ -86,9 +86,8 @@
 > ### 4. 피드 
 > 좋아요 기능 및 게시글은 좋아요 순으로 정렬되도록 구현
 
-![스크린샷 2021-12-27 오후 10 34 19](https://user-images.githubusercontent.com/85235063/147871210-59e90bb2-d27c-4213-a283-a764b2d1f344.png)
-
-![스크린샷 2021-12-27 오후 10 30 26](https://user-images.githubusercontent.com/85235063/147871222-2bbdb603-30f5-4d29-a62e-07024a0a0907.png)
+<img width="600" alt="스크린샷 2021-12-27 오후 10 30 26" src="https://user-images.githubusercontent.com/85235063/147872222-c238bb57-0df1-4dae-a138-12f7bc3b6fcf.png">
+<img width="600" alt="스크린샷 2021-12-27 오후 10 30 26" src="https://user-images.githubusercontent.com/85235063/147871222-2bbdb603-30f5-4d29-a62e-07024a0a0907.png">
 
 <br/>
 <br/>
