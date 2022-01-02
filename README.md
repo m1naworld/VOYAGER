@@ -6,6 +6,8 @@
 3. [메인 페이지](https://github.com/m1naworld/VOYAGER#-%EB%A9%94%EC%9D%B8-%ED%8E%98%EC%9D%B4%EC%A7%80)
 4. [주요 기능](https://github.com/m1naworld/VOYAGER#-%EC%A3%BC%EC%9A%94-%EA%B8%B0%EB%8A%A5)
 5. [개발 및 기획](https://github.com/m1naworld/VOYAGER#-%EA%B0%9C%EB%B0%9C-%EB%B0%8F-%EA%B8%B0%ED%9A%8D)
+6. 배포 성과
+
 
 <br/>
 <br/>
@@ -108,8 +110,15 @@
 <img width="600" alt="스크린샷 2022-01-02 오후 3 47 30" src="https://user-images.githubusercontent.com/85235063/147871824-f1c57df5-3153-46e6-bd0c-37188459f8ee.png">
 <img width="600" alt="스크린샷 2022-01-02 오후 3 47 34" src="https://user-images.githubusercontent.com/85235063/147871839-5359f0ca-0615-4fc6-95ac-5a33c12f3106.png">
 
---------
+<br/>
 
+--------
+> ## 🌟 배포 성과
+<img width="600" alt="스크린샷 2022-01-02 오후 7 02 29" src="https://user-images.githubusercontent.com/85235063/147872650-78237fd8-8b7e-4335-ae6d-f44b9075fd5e.png">
+<img width="600" alt="스크린샷 2022-01-02 오후 7 26 24" src="https://user-images.githubusercontent.com/85235063/147872959-e37b1da8-e912-4d64-8579-2d7bc69883f2.png">
+
+<br/>
+--------
 <br/>
 
 > ## 🌟 개발 및 기획
