@@ -24,7 +24,7 @@
 
 > ## 주요 기술
 1. [로그인 및 개인 프로필](https://github.com/m1naworld/VOYAGER/blob/master/README.md#%EB%A1%9C%EA%B7%B8%EC%9D%B8-%EB%B0%8F-%EA%B0%9C%EC%9D%B8-%ED%94%84%EB%A1%9C%ED%95%84)
-2. 오늘 하루의 감정을 색깔로 
+2. [오늘 하루의 감정을 색깔로](https://github.com/m1naworld/VOYAGER/blob/master/README.md#%EC%98%A4%EB%8A%98-%ED%95%98%EB%A3%A8%EC%9D%98-%EA%B0%90%EC%A0%95%EC%9D%84-%EC%83%89%EA%B9%94%EB%A1%9C) 
 3. 매일 3가지 질문을 통해 나를 알아가기
 4. 피드
 5. 캘린더
