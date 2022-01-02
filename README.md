@@ -27,7 +27,7 @@
 2. [오늘 하루의 감정을 색깔로](https://github.com/m1naworld/VOYAGER/blob/master/README.md#%EC%98%A4%EB%8A%98-%ED%95%98%EB%A3%A8%EC%9D%98-%EA%B0%90%EC%A0%95%EC%9D%84-%EC%83%89%EA%B9%94%EB%A1%9C) 
 3. [매일 3가지 질문을 통해 나를 알아가기](https://github.com/m1naworld/VOYAGER/blob/master/README.md#%EB%A7%A4%EC%9D%BC-3%EA%B0%80%EC%A7%80-%EC%A7%88%EB%AC%B8%EC%9D%84-%ED%86%B5%ED%95%B4-%EB%82%98%EB%A5%BC-%EC%95%8C%EC%95%84%EA%B0%80%EA%B8%B0)
 4. [피드](https://github.com/m1naworld/VOYAGER/blob/master/README.md#%ED%94%BC%EB%93%9C)
-5. [캘린더](https://github.com/m1naworld/VOYAGER/blob/master/README.md#%EC%BA%98%EB%A6%B0%EB%8D%94)
+5. [캘린더](https://github.com/m1naworld/VOYAGER/blob/master/README.md#%EC%BA%98%EB%A6%B0%EB%8D%94)  
 
 <br/>
 
@@ -61,6 +61,11 @@
 
 > ### 피드 
 > 좋아요 기능 및 게시글은 좋아요 순으로 정렬되도록 구현
+
+![스크린샷 2021-12-27 오후 10 34 19](https://user-images.githubusercontent.com/85235063/147871210-59e90bb2-d27c-4213-a283-a764b2d1f344.png)
+
+![스크린샷 2021-12-27 오후 10 30 26](https://user-images.githubusercontent.com/85235063/147871222-2bbdb603-30f5-4d29-a62e-07024a0a0907.png)
+
 
 <br/>
 
