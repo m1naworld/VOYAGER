@@ -47,7 +47,7 @@
 
 > 오늘의 감정색 결과에 따라 메인 페이지 행성색 또한 변하도록 구현 
 
-<img width="1518" alt="스크린샷 2022-01-02 오후 5 19 29" src="https://user-images.githubusercontent.com/85235063/147870301-6be4b646-dfbb-4e6c-ac6b-92d2bf0388b6.png">
+<img width="709" alt="스크린샷 2022-01-02 오후 5 19 29" src="https://user-images.githubusercontent.com/85235063/147870301-6be4b646-dfbb-4e6c-ac6b-92d2bf0388b6.png">
 
 <br/>
 
@@ -74,7 +74,6 @@
 <img width="709" alt="스크린샷 2022-01-02 오후 5 46 21" src="https://user-images.githubusercontent.com/85235063/147871049-68f7052d-7a56-4a25-afc8-48161ff434c1.png">
 <img width="709" alt="스크린샷 2022-01-02 오후 5 47 41" src="https://user-images.githubusercontent.com/85235063/147871082-3c822aa7-556f-40cb-b03c-3aaddd3792cc.png">
 <img width="709" alt="스크린샷 2022-01-02 오후 5 48 41" src="https://user-images.githubusercontent.com/85235063/147871084-3bc6b643-bceb-431e-acba-f7aa9f3ffbc5.png">
-
 
 --------
 
