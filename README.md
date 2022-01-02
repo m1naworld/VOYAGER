@@ -1,10 +1,12 @@
 # ✅ Click >> [VOYAGER](https://www.voyager.or.kr/)
 ## - 목차 
+
 1. [기획의도](https://github.com/m1naworld/VOYAGER#%EA%B8%B0%ED%9A%8D-%EC%9D%98%EB%8F%84) 
 2. [사용된 기술 및 배포 구조](https://github.com/m1naworld/VOYAGER#%EC%82%AC%EC%9A%A9%EB%90%9C-%EA%B8%B0%EC%88%A0-%EB%B0%8F-%EB%B0%B0%ED%8F%AC-%EA%B5%AC%EC%A1%B0)
 3. [메인 페이지](https://github.com/m1naworld/VOYAGER#%EB%A9%94%EC%9D%B8-%ED%8E%98%EC%9D%B4%EC%A7%80)
 4. [주요 기능](https://github.com/m1naworld/VOYAGER#%EC%A3%BC%EC%9A%94-%EA%B8%B0%EB%8A%A5)
 5. [개발 및 기획](https://github.com/m1naworld/VOYAGER#%EA%B0%9C%EB%B0%9C-%EB%B0%8F-%EA%B8%B0%ED%9A%8D)
+
 <br/>
 <br/>
 
@@ -39,6 +41,7 @@
 <br/>
 
 > ## 🌟 주요 기능
+
 1. [로그인 및 개인 프로필](https://github.com/m1naworld/VOYAGER/blob/master/README.md#%EB%A1%9C%EA%B7%B8%EC%9D%B8-%EB%B0%8F-%EA%B0%9C%EC%9D%B8-%ED%94%84%EB%A1%9C%ED%95%84)
 2. [오늘 하루의 감정을 색깔로](https://github.com/m1naworld/VOYAGER/blob/master/README.md#%EC%98%A4%EB%8A%98-%ED%95%98%EB%A3%A8%EC%9D%98-%EA%B0%90%EC%A0%95%EC%9D%84-%EC%83%89%EA%B9%94%EB%A1%9C) 
 3. [매일 3가지 질문을 통해 나를 알아가기](https://github.com/m1naworld/VOYAGER/blob/master/README.md#%EB%A7%A4%EC%9D%BC-3%EA%B0%80%EC%A7%80-%EC%A7%88%EB%AC%B8%EC%9D%84-%ED%86%B5%ED%95%B4-%EB%82%98%EB%A5%BC-%EC%95%8C%EC%95%84%EA%B0%80%EA%B8%B0)
