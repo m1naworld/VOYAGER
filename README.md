@@ -3,7 +3,7 @@
 1. [기획의도](https://github.com/m1naworld/VOYAGER#%EA%B8%B0%ED%9A%8D-%EC%9D%98%EB%8F%84) 
 2. [사용된 기술 및 배포 구조](https://github.com/m1naworld/VOYAGER#%EC%82%AC%EC%9A%A9%EB%90%9C-%EA%B8%B0%EC%88%A0-%EB%B0%8F-%EB%B0%B0%ED%8F%AC-%EA%B5%AC%EC%A1%B0)
 3. [메인 페이지](https://github.com/m1naworld/VOYAGER#%EB%A9%94%EC%9D%B8-%ED%8E%98%EC%9D%B4%EC%A7%80)
-4. [주요 기능](https://github.com/m1naworld/VOYAGER#%EC%A3%BC%EC%9A%94-%EA%B8%B0%EC%88%A0)
+4. [주요 기능](https://github.com/m1naworld/VOYAGER#%EC%A3%BC%EC%9A%94-%EA%B8%B0%EB%8A%A5)
 5. [개발 및 기획](https://github.com/m1naworld/VOYAGER#%EA%B0%9C%EB%B0%9C-%EB%B0%8F-%EA%B8%B0%ED%9A%8D)
 
 <br/>
