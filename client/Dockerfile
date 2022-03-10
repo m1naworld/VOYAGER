@@ -16,5 +16,4 @@ COPY live/. /etc/live/.
 EXPOSE 80
 EXPOSE 443
 
-RUN npm i -g npm@8.3.0
 CMD ["nginx","-g","daemon off;"]
