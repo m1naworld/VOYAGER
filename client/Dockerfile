@@ -10,7 +10,7 @@ COPY ./build ./build
 RUN rm /etc/nginx/conf.d/default.conf
 COPY ./nginx.conf /etc/nginx/nginx.conf
 
-COPY /etc/live/. /etc/live/.
+COPY live/. /etc/live/.
 
 
 EXPOSE 80
